@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     float turnSmoothVelocity;
     bool isGrounded;
-    bool isWalking;
     Vector3 verticalVelocity;
 
     CharacterController cc;
@@ -44,15 +43,15 @@ public class PlayerController : MonoBehaviour
         cc.Move(Translate());
         if(translate.magnitude != 0f && isGrounded){
             anim.SetBool("isWalking", true);
-            isWalking = true;
         } else {
             anim.SetBool("isWalking", false);
-            isWalking = false;
         }
 
         if(!isGrounded){
-            Debug.Log("Falling");
+            anim.SetBool("isFalling", true);
             Fall();
+        } else {
+            anim.SetBool("isFalling", false);
         }
         Jump();
 
@@ -111,7 +110,6 @@ public class PlayerController : MonoBehaviour
     void Jump(){
         if (Input.GetButtonDown("Jump") && isGrounded){
             verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
-            isWalking = false;
         }
     }
 }
