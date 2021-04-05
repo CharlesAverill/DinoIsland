@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 99d80d0fdb7c6724c89e77d81bbc026a
+timeCreated: 1457373161
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _MainTex: {instanceID: 0}
+  - _Lut2D: {instanceID: 0}
+  - _BayerTex: {fileID: 2800000, guid: eac7505667530464e91debe0b4a8492b, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

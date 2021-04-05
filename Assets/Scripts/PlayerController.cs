@@ -10,14 +10,19 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
 
     public float walkSpeed;
-    public float jumpHeight;
-    public float fallSpeed;
     public float turnSmoothTime;
     public float rotateSpeed;
+
+    public float pushPower;
+
+    public float jumpHeight;
+    public float fallSpeed;
+    public float maxFallSpeed;
     public float groundDistance;
     public LayerMask groundMask;
 
     float turnSmoothVelocity;
+    float tempStepOffset;
     bool isGrounded;
     Vector3 verticalVelocity;
 
@@ -27,12 +32,19 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        tempStepOffset = cc.stepOffset;
         verticalVelocity = Vector3.zero;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
+
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
         isGrounded = checkGround();
 
         if (isGrounded && verticalVelocity.y < 0){
@@ -49,23 +61,30 @@ public class PlayerController : MonoBehaviour
 
         if(!isGrounded){
             anim.SetBool("isFalling", true);
+            cc.stepOffset = 0f;
             Fall();
         } else {
             anim.SetBool("isFalling", false);
+            cc.stepOffset = tempStepOffset;
         }
         Jump();
+
+        if(verticalVelocity.magnitude > maxFallSpeed){
+            verticalVelocity = verticalVelocity.normalized * maxFallSpeed;
+        }
+        Debug.Log(verticalVelocity.magnitude);
 
         cc.Move(verticalVelocity * Time.deltaTime);
     }
 
     bool checkGround(){
-        bool output = false;
+        int numGrounded = 0;
         foreach(Transform groundCheck in groundChecks){
-            output = output || Physics.CheckSphere(groundCheck.position,
-                                                   groundDistance,
-                                                   groundMask);
+            numGrounded += Physics.CheckSphere(groundCheck.position,
+                                          groundDistance,
+                                          groundMask) ? 1 : 0;
         }
-        return output;
+        return numGrounded > 1;
     }
 
     void Fall(){

@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &2100305534696296284
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206412199108302764}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7, y: 2.4913912, z: 3.91888}
+  m_Center: {x: 0, y: 3.7543936, z: 0.5058856}
 --- !u!1 &1016752609498507079
 GameObject:
   m_ObjectHideFlags: 0
@@ -52,7 +65,7 @@ CharacterController:
   m_StepOffset: 1.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: -0.92, z: 0}
+  m_Center: {x: 0, y: -0.92, z: 0.15}
 --- !u!114 &1016752609498507076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1148,7 +1161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016752611511940886}
   m_LocalRotation: {x: 0.033591073, y: -0.93460757, z: 0.091801025, w: 0.34198385}
-  m_LocalPosition: {x: 0.000009536743, y: 0, z: 0.00000667572}
+  m_LocalPosition: {x: 0.0000047683716, y: 0, z: 0.0000038146973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1016752611156753923}
@@ -1300,6 +1313,12 @@ Animator:
 --- !u!4 &690882949051583766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e45447dcba0ef59a9da5878de04fdd8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1016752610698685181}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &206412199108302764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0e45447dcba0ef59a9da5878de04fdd8,
     type: 3}
   m_PrefabInstance: {fileID: 1016752610698685181}
   m_PrefabAsset: {fileID: 0}
