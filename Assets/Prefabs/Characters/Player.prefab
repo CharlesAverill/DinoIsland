@@ -399,6 +399,9 @@ MonoBehaviour:
   - {fileID: 3467617223316573421}
   - {fileID: 3467617225215884548}
   anim: {fileID: 7022773009159072329}
+  verticalVelocity: {x: 0, y: 0, z: 0}
+  horizontalVelocity: {x: 0, y: 0, z: 0}
+  isGrounded: 0
   walkSpeed: 25
   turnSmoothTime: 0.25
   rotateSpeed: 7.5
@@ -409,7 +412,7 @@ MonoBehaviour:
   groundDistance: 0.5
   groundMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
 --- !u!1 &3467617225139919146
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         if(!isGrounded){
             anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
-            horizontalVelocity *= 0.5f;
+            //horizontalVelocity *= 0.5f;
             Fall();
         } else {
             anim.SetBool("isFalling", false);
