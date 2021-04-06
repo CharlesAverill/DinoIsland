@@ -18,8 +18,11 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnimatorStateTransitionInspector
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -656,7 +659,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: 43e4a22ac515e9da4b4cb6acce90d75a
+      Hash: d4ae49e2ba293403c56cb86544e5132d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -903,4 +906,4 @@ ScriptsOnlyBuild:
   platform: 24
   scenePathNames:
   - Assets/Scenes/Testing.unity
-  playerPath: /home/charlesaverill/UnityProjects/Platformer/Builds/DinoIsland.x86_64
+  playerPath: /home/charlesaverill/UnityProjects/Platformer/Builds/Linux/DinoIsland.x86_64
