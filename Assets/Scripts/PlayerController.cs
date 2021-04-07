@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
         FromBehind
     }
 
+    private enum ButtonState {
+        Released,
+        Held
+    };
+
     List<CameraMode> camModes = new List<CameraMode>(){
         CameraMode.FreeLook,
         CameraMode.FromBehind
@@ -41,7 +46,25 @@ public class PlayerController : MonoBehaviour
     public float pushPower;
 
     public float jumpHeight;
+    public float highJumpMultiplier;
     public float fallSpeed;
+    public float jumpTimer;
+
+    public bool CanJump {
+        get
+        {
+            return isGrounded && previousJumpButtonState == ButtonState.Released;
+        }
+    }
+
+    public bool CanContinueJump
+    {
+        get
+        {
+            return jumpElapsedTime <= jumpTimer && !isGrounded;
+        }
+    }
+
     public float maxFallSpeed;
     public float groundDistance;
     public LayerMask groundMask;
@@ -54,6 +77,9 @@ public class PlayerController : MonoBehaviour
     private float interactDelaySeconds;
 
     private GlobalsController gc;
+
+    private float jumpElapsedTime;
+    private ButtonState previousJumpButtonState;
 
     // Start is called before the first frame update
     void Start()
@@ -83,19 +109,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey("escape"))
         {
             Application.Quit();
-        } else if (Input.GetKeyDown("c")){
+        }
+        else if (Input.GetKeyDown("c"))
+        {
             camModeIndex += 1;
-            if(camModeIndex >= camModes.Count){
+            if(camModeIndex >= camModes.Count)
+            {
                 camModeIndex = 0;
             }
             camMode = camModes[camModeIndex];
-        } else if (!lockMovement && isInteracting()){
+        }
+        else if (!lockMovement && isInteracting())
+        {
             RaycastHit objectHit;
             if(isGrounded && Physics.Raycast(transform.position,
                                              transform.forward,
                                              out objectHit,
-                                             7f)){
-                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER){
+                                             7f))
+            {
+                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER)
+                {
                     NPC other = objectHit.transform.gameObject.GetComponent<NPC>();
                     anim.SetBool("isWalking", false);
                     other.Activate();
@@ -105,8 +138,10 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool isInteracting(){
-        if(interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY){
-            if(Input.GetButtonDown("Interact")){
+        if(interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
+        {
+            if(Input.GetButtonDown("Interact"))
+            {
                 interactDelaySeconds = 0f;
                 return true;
             }
@@ -118,36 +153,45 @@ public class PlayerController : MonoBehaviour
     void Movement(){
         isGrounded = checkGround();
 
-        if (isGrounded && verticalVelocity.y < 0){
+        if (isGrounded)
+        {
             verticalVelocity.y = 0f;
+            jumpElapsedTime = 0f;
         }
 
         horizontalVelocity = Translate();
 
-        if(horizontalVelocity.magnitude != 0f && isGrounded){
+        if(horizontalVelocity.magnitude != 0f && isGrounded)
+        {
             anim.SetBool("isWalking", true);
-        } else {
+        }
+        else
+        {
             anim.SetBool("isWalking", false);
         }
 
-        if(!isGrounded){
+        if(!isGrounded)
+        {
             anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
-            //horizontalVelocity *= 0.5f;
             Fall();
-        } else {
+        }
+        else
+        {
             anim.SetBool("isFalling", false);
             cc.stepOffset = tempStepOffset;
         }
         Jump();
 
-        if(verticalVelocity.magnitude > maxFallSpeed){
+        if(verticalVelocity.magnitude > maxFallSpeed)
+        {
             verticalVelocity = verticalVelocity.normalized * maxFallSpeed;
         }
 
         cc.Move(horizontalVelocity + (verticalVelocity * Time.deltaTime));
 
-        if(camMode == CameraMode.FromBehind){
+        if(camMode == CameraMode.FromBehind)
+        {
             Vector3 currentAngle = transform.eulerAngles;
             Vector3 targetAngle = mainCamera.transform.eulerAngles;
 
@@ -163,7 +207,8 @@ public class PlayerController : MonoBehaviour
 
     bool checkGround(){
         int numGrounded = 0;
-        foreach(Transform groundCheck in groundChecks){
+        foreach(Transform groundCheck in groundChecks)
+        {
             numGrounded += Physics.CheckSphere(groundCheck.position,
                                           groundDistance,
                                           groundMask) ? 1 : 0;
@@ -187,20 +232,27 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDirection = Vector3.zero;
 
-        if(vertical.magnitude > 0.1f && horizontal.magnitude > 0.1f){
+        if(vertical.magnitude > 0.1f && horizontal.magnitude > 0.1f)
+        {
             moveDirection = Vector3.Slerp(vertical, horizontal, 0.5f);
-        } else if(vertical.magnitude > 0.1f){
+        }
+        else if(vertical.magnitude > 0.1f)
+        {
             moveDirection = vertical;
-        } else if(horizontal.magnitude > 0.1f){
+        }
+        else if(horizontal.magnitude > 0.1f)
+        {
             moveDirection = horizontal;
         }
         moveDirection.y = 0f;
 
-        if(camMode == CameraMode.FreeLook && horizontal.magnitude > 0.1f && moveDirection.magnitude < 0.1f){
+        if(camMode == CameraMode.FreeLook && horizontal.magnitude > 0.1f && moveDirection.magnitude < 0.1f)
+        {
             transform.RotateAround(transform.position, transform.up, rotateSpeed);
         }
 
-        if(moveDirection.magnitude > 0.1f){
+        if(moveDirection.magnitude > 0.1f)
+        {
             float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) *
                                             Mathf.Rad2Deg;
             targetAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y,
@@ -208,7 +260,8 @@ public class PlayerController : MonoBehaviour
                                                 ref turnSmoothVelocity,
                                                 turnSmoothTime);
 
-            if(camMode == CameraMode.FromBehind){
+            if(camMode == CameraMode.FromBehind)
+            {
                 // Strafe Mode
                 targetAngle = transform.eulerAngles.y;
             }
@@ -220,8 +273,19 @@ public class PlayerController : MonoBehaviour
     }
 
     void Jump(){
-        if (Input.GetButtonDown("Jump") && isGrounded){
-            verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+        bool jumpButtonPressed = Input.GetButton("Jump");
+        if (jumpButtonPressed)
+        {
+            if(CanJump)
+            {
+                verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+            }
+            else if(CanContinueJump)
+            {
+                verticalVelocity.y += jumpHeight * highJumpMultiplier;
+            }
+            jumpElapsedTime += Time.deltaTime;
         }
+        previousJumpButtonState = jumpButtonPressed ? ButtonState.Held : ButtonState.Released;
     }
 }
