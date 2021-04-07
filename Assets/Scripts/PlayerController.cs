@@ -46,24 +46,76 @@ public class PlayerController : MonoBehaviour
     public float groundDistance;
     public LayerMask groundMask;
 
-    float turnSmoothVelocity;
-    float tempStepOffset;
+    public bool lockMovement;
+
+    private float turnSmoothVelocity;
+    private float tempStepOffset;
+
+    private float interactDelaySeconds;
+
+    private GlobalsController gc;
 
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        gc = GlobalsController.Instance;
+
         tempStepOffset = cc.stepOffset;
         verticalVelocity = Vector3.zero;
-        Cursor.lockState = CursorLockMode.Locked;
+
+        interactDelaySeconds = 0f;
+
         camModeIndex = camModes.IndexOf(camMode);
     }
 
     void Update()
     {
+        interactDelaySeconds += Time.deltaTime;
 
-        KeyboardInput();
+        MiscInput();
+        if(!lockMovement){
+            Movement();
+        }
+    }
 
+    void MiscInput(){
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        } else if (Input.GetKeyDown("c")){
+            camModeIndex += 1;
+            if(camModeIndex >= camModes.Count){
+                camModeIndex = 0;
+            }
+            camMode = camModes[camModeIndex];
+        } else if (!lockMovement && isInteracting()){
+            RaycastHit objectHit;
+            if(isGrounded && Physics.Raycast(transform.position,
+                                             transform.forward,
+                                             out objectHit,
+                                             7f)){
+                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER){
+                    NPC other = objectHit.transform.gameObject.GetComponent<NPC>();
+                    anim.SetBool("isWalking", false);
+                    other.Activate();
+                }
+            }
+        }
+    }
+
+    public bool isInteracting(){
+        if(interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY){
+            if(Input.GetButtonDown("Interact")){
+                interactDelaySeconds = 0f;
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    void Movement(){
         isGrounded = checkGround();
 
         if (isGrounded && verticalVelocity.y < 0){
@@ -106,20 +158,6 @@ public class PlayerController : MonoBehaviour
             );
 
             transform.eulerAngles = newAngle;
-        }
-    }
-
-    void KeyboardInput(){
-        if (Input.GetKey("escape"))
-        {
-            Application.Quit();
-        }
-        if (Input.GetKeyDown("c")){
-            camModeIndex += 1;
-            if(camModeIndex >= camModes.Count){
-                camModeIndex = 0;
-            }
-            camMode = camModes[camModeIndex];
         }
     }
 

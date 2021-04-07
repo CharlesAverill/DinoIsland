@@ -1,10 +1,19 @@
 ScriptsOnlyBuild:
   usedScripts:
+    Assembly-CSharp-Editor.dll:
+    - QuantumTek.QuantumDialogue.Editor.QD_DialogueEditor
     Assembly-CSharp.dll:
+    - DebugUIHandler
     - FPSController
+    - GlobalsController
     - GroundCheck
+    - NPC
     - Picturesque.Darkbringer.DarkbringerEffect
     - PlayerController
+    - QuantumTek.QuantumDialogue.QD_Dialogue
+    - QuantumTek.QuantumDialogue.QD_DialogueHandler
+    - QuantumTek.QuantumUI.QUI_Bar
+    - QuantumTek.QuantumUI.QUI_Menu
     Cinemachine.dll:
     - Cinemachine.CinemachineBrain
     - Cinemachine.CinemachineCollider
@@ -15,6 +24,12 @@ ScriptsOnlyBuild:
     - Cinemachine.CinemachineVirtualCamera
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    Unity.TextMeshPro.dll:
+    - TMPro.TMP_FontAsset
+    - TMPro.TMP_Settings
+    - TMPro.TMP_SpriteAsset
+    - TMPro.TMP_StyleSheet
+    - TMPro.TextMeshProUGUI
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
@@ -27,6 +42,11 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
+    UnityEngine.UI.dll:
+    - UnityEngine.UI.CanvasScaler
+    - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.Image
+    - UnityEngine.UI.Mask
   sceneClasses:
     Assets/Scenes/Testing.unity:
     - Class: 1
@@ -48,6 +68,8 @@ ScriptsOnlyBuild:
     - Class: 45
       Script: {instanceID: 0}
     - Class: 48
+      Script: {instanceID: 0}
+    - Class: 49
       Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
@@ -72,30 +94,66 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 12002}
+      Script: {instanceID: 11320}
     - Class: 114
-      Script: {instanceID: 12026}
+      Script: {instanceID: 11326}
     - Class: 114
-      Script: {instanceID: 12428}
+      Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 12442}
+      Script: {instanceID: 12056}
     - Class: 114
-      Script: {instanceID: 12528}
+      Script: {instanceID: 12068}
     - Class: 114
-      Script: {instanceID: 12640}
+      Script: {instanceID: 12092}
     - Class: 114
-      Script: {instanceID: 13222}
+      Script: {instanceID: 12316}
     - Class: 114
-      Script: {instanceID: 13226}
+      Script: {instanceID: 12418}
     - Class: 114
-      Script: {instanceID: 13358}
+      Script: {instanceID: 12522}
     - Class: 114
-      Script: {instanceID: 14020}
+      Script: {instanceID: 12540}
     - Class: 114
-      Script: {instanceID: 14132}
+      Script: {instanceID: 12626}
+    - Class: 114
+      Script: {instanceID: 12754}
+    - Class: 114
+      Script: {instanceID: 13022}
+    - Class: 114
+      Script: {instanceID: 13264}
+    - Class: 114
+      Script: {instanceID: 13284}
+    - Class: 114
+      Script: {instanceID: 13308}
+    - Class: 114
+      Script: {instanceID: 13366}
+    - Class: 114
+      Script: {instanceID: 13370}
+    - Class: 114
+      Script: {instanceID: 13512}
+    - Class: 114
+      Script: {instanceID: 13594}
+    - Class: 114
+      Script: {instanceID: 13684}
+    - Class: 114
+      Script: {instanceID: 13696}
+    - Class: 114
+      Script: {instanceID: 13924}
+    - Class: 114
+      Script: {instanceID: 13944}
+    - Class: 114
+      Script: {instanceID: 14184}
+    - Class: 114
+      Script: {instanceID: 14206}
+    - Class: 114
+      Script: {instanceID: 14322}
     - Class: 115
       Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
     - Class: 135
+      Script: {instanceID: 0}
+    - Class: 136
       Script: {instanceID: 0}
     - Class: 143
       Script: {instanceID: 0}
@@ -103,13 +161,63 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 196
       Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 5f1752ed2092162f016c19510c28a8b9
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Button
+  - hash:
+      serializedVersion: 2
+      Hash: 7072231382eb3c4871b3dd75ad0227e1
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Slider
+  - hash:
+      serializedVersion: 2
+      Hash: 89f9a1b4c64db9559e39f4a2e3bfaadd
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Image
+  - hash:
+      serializedVersion: 2
+      Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: ScrollRect
+  - hash:
+      serializedVersion: 2
+      Hash: aa88ae22474df55295327e4ee99e5a24
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Toggle
+  - hash:
+      serializedVersion: 2
+      Hash: aba7b2852ef61d175dd9602e7723d5e5
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Mask
   - hash:
       serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: CanvasScaler
+  - hash:
+      serializedVersion: 2
+      Hash: 5611871a5c7d7c75e5d1e17623e14abf
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_SceneTransition
   - hash:
       serializedVersion: 2
       Hash: 23d669c8bf2983ca4a3df160658318a6
@@ -172,6 +280,12 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
+      Hash: 8a7bc6342f1b7f2882d8b023fa918bfb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: RotaryHeart.Lib
+    className: DataBaseExample
+  - hash:
+      serializedVersion: 2
       Hash: a5781dc71a671b1ad2b38de19f24b71f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -220,12 +334,6 @@ ScriptsOnlyBuild:
     className: CinemachineCollisionImpulseSource
   - hash:
       serializedVersion: 2
-      Hash: 89f9a1b4c64db9559e39f4a2e3bfaadd
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Image
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
@@ -260,6 +368,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineStoryboard
+  - hash:
+      serializedVersion: 2
+      Hash: aaf9fcdddbc82b9995bf0fe9f4c42fc1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_Window
   - hash:
       serializedVersion: 2
       Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
@@ -310,6 +424,12 @@ ScriptsOnlyBuild:
     className: AspectRatioFitter
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CONSTANTS
+  - hash:
+      serializedVersion: 2
       Hash: ef5c43f921427d03730f6ea4c848f07d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -320,6 +440,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
+  - hash:
+      serializedVersion: 2
+      Hash: 890775a1734e5756a67caf4c57e223fa
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumDialogue
+    className: QD_DialogueHandler
   - hash:
       serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
@@ -346,12 +472,6 @@ ScriptsOnlyBuild:
     className: BezierShape
   - hash:
       serializedVersion: 2
-      Hash: aba7b2852ef61d175dd9602e7723d5e5
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Mask
-  - hash:
-      serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -368,6 +488,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: NoiseSettings
+  - hash:
+      serializedVersion: 2
+      Hash: 6b594516dda2dcdb46a0de686133e0cc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_ElementAudio
   - hash:
       serializedVersion: 2
       Hash: 5f170942ee57c7a568f5bcfc7521adea
@@ -424,22 +550,34 @@ ScriptsOnlyBuild:
     className: CinemachinePOV
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_Menu
+  - hash:
+      serializedVersion: 2
+      Hash: 548fef78b40a06715770a477e5e2f67d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_ElementAudioPreset
+  - hash:
+      serializedVersion: 2
       Hash: f6f1cec1bfa40f2501c6e261319cb705
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FPSController
   - hash:
       serializedVersion: 2
+      Hash: aaf9fcdddbc82b9995bf0fe9f4c42fc1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_Tab
+  - hash:
+      serializedVersion: 2
       Hash: 2ce2187bbae6f802011f568630bd3d1f
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineOrbitalTransposer
-  - hash:
-      serializedVersion: 2
-      Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: ScrollRect
   - hash:
       serializedVersion: 2
       Hash: 7ca765ad7969aae95e8011264b9c4046
@@ -470,6 +608,18 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineComposer
+  - hash:
+      serializedVersion: 2
+      Hash: 566b3fd8f13f8214ca6d70e8b47b0047
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_SwitchToggle
+  - hash:
+      serializedVersion: 2
+      Hash: f62ddde1beeb5b545c3e9c6c2abbc6fe
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_TabGroup
   - hash:
       serializedVersion: 2
       Hash: 15882a52798c275361cd0a3ada984ec5
@@ -526,12 +676,6 @@ ScriptsOnlyBuild:
     className: DarkbringerUIPreview
   - hash:
       serializedVersion: 2
-      Hash: 5f1752ed2092162f016c19510c28a8b9
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Button
-  - hash:
-      serializedVersion: 2
       Hash: f84d945e5e1ca985698660fc26e9657f
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -542,6 +686,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineTargetGroup
+  - hash:
+      serializedVersion: 2
+      Hash: c44cb0840e5ca1d5042e8c57e5bd054c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: NPC
   - hash:
       serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
@@ -560,6 +710,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineImpulseListener
+  - hash:
+      serializedVersion: 2
+      Hash: 62c3748d20ea5128c4dca002057da067
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_TabWindow
   - hash:
       serializedVersion: 2
       Hash: d6a8e9bec3160a152b9b2710593d3caa
@@ -646,6 +802,18 @@ ScriptsOnlyBuild:
     className: Physics2DRaycaster
   - hash:
       serializedVersion: 2
+      Hash: ba8f62a5b51967220a9a142e5f8a7c79
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: RotaryHeart.Lib
+    className: NestedDB
+  - hash:
+      serializedVersion: 2
+      Hash: a7b080ddfcf35fb585aecc44bf0f13cc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GlobalsController
+  - hash:
+      serializedVersion: 2
       Hash: 1e3d6222ff533d213aab144eb854a53b
     assemblyName: Cinemachine.dll
     namespaceName: 
@@ -658,7 +826,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: d4ae49e2ba293403c56cb86544e5132d
+      Hash: dca99d694acb3bc3fb0d5c6b72036683
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -668,6 +836,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
+  - hash:
+      serializedVersion: 2
+      Hash: a1d4955116bd68eee5beb34d46580853
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_OptionList
   - hash:
       serializedVersion: 2
       Hash: 301f4da7cc3b301c161d089f9d22efed
@@ -706,6 +880,12 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
+      Hash: 16549ee051e95942197601156e5a883e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: RotaryHeart.Lib.SerializableDictionary
+    className: RequiredReferences
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine.PostFX
@@ -722,6 +902,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: GraphicRaycaster
+  - hash:
+      serializedVersion: 2
+      Hash: 2a448b21d47e8670129d2e2928c97ce6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_Bar
   - hash:
       serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
@@ -748,6 +934,12 @@ ScriptsOnlyBuild:
     className: CinemachineInputProvider
   - hash:
       serializedVersion: 2
+      Hash: 790442c015a4dbcdf9903595fc3f131e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_ElementAnimationPreset
+  - hash:
+      serializedVersion: 2
       Hash: ffd3ed4fcd23b3e7745287c99a637247
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
@@ -758,6 +950,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
+  - hash:
+      serializedVersion: 2
+      Hash: ca4a0f17ecf5db852c917861997268cb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DebugUIHandler
   - hash:
       serializedVersion: 2
       Hash: 5e84370a36252d6aa37d6a7bd37710f7
@@ -814,6 +1012,12 @@ ScriptsOnlyBuild:
     className: EventTrigger
   - hash:
       serializedVersion: 2
+      Hash: 3bf8c7e2865fc2abd196e372392e026a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumDialogue
+    className: QD_Dialogue
+  - hash:
+      serializedVersion: 2
       Hash: 5dea360fb0b147724ac344e6f399c2f3
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -862,28 +1066,22 @@ ScriptsOnlyBuild:
     className: CinemachineBasicMultiChannelPerlin
   - hash:
       serializedVersion: 2
-      Hash: aa88ae22474df55295327e4ee99e5a24
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Toggle
-  - hash:
-      serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalEmitter
   - hash:
       serializedVersion: 2
+      Hash: 575d7dcc18aad705af08468ac3184f95
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumUI
+    className: QUI_ElementAnimator
+  - hash:
+      serializedVersion: 2
       Hash: 2792936179724025482dc04d68a47ca7
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineClearShot
-  - hash:
-      serializedVersion: 2
-      Hash: 7072231382eb3c4871b3dd75ad0227e1
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Slider
   - hash:
       serializedVersion: 2
       Hash: 0fd6822f6177297bd0eb4d83cc7a9030
@@ -898,10 +1096,22 @@ ScriptsOnlyBuild:
     className: GroundCheck
   - hash:
       serializedVersion: 2
+      Hash: 0b15f080917d629b7cd20051d447fa24
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumDialogue.Demo
+    className: QD_DialogueDemo
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: e2b983978d771f3942f759fd404b7b52
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.QuantumDialogue.Demo
+    className: QD_ChoiceButton
   platform: 19
   scenePathNames:
   - Assets/Scenes/Testing.unity
