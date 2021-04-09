@@ -16,10 +16,16 @@ MonoBehaviour:
   - ID: 0
     Name: Debug_Moneybags
     FirstMessage: 1
+  - ID: 4
+    Name: Debug_LazyDino
+    FirstMessage: 6
   Speakers:
   - ID: 2
     Name: Mr. Moneybags
     Icon: {fileID: 21300000, guid: e5acc1126d22ca6e68a5e6e01cb37a9c, type: 3}
+  - ID: 5
+    Name: Lazy Dino
+    Icon: {fileID: 21300000, guid: 19e2ca271ba8af2f3b51411c7f7b8519, type: 3}
   Messages:
   - ID: 1
     Speaker: 2
@@ -34,5 +40,19 @@ MonoBehaviour:
     PreviousMessage: 1
     NextMessage: -1
     MessageText: Thanks for playing this demo! I luv you <3
+    Clip: {fileID: 0}
+  - ID: 6
+    Speaker: 5
+    SpeakerName: Lazy Dino
+    PreviousMessage: -1
+    NextMessage: 7
+    MessageText: So.... Sleepy....
+    Clip: {fileID: 0}
+  - ID: 7
+    Speaker: 5
+    SpeakerName: Lazy Dino
+    PreviousMessage: 6
+    NextMessage: -1
+    MessageText: Zzzzzz.....
     Clip: {fileID: 0}
   Choices: []

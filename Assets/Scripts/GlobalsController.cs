@@ -24,25 +24,71 @@ public class GlobalsController : MonoBehaviour {
 
     QD_DialogueHandler dialogueHandler;
 
+    public bool loadingTheLoadingScreen;
+    public bool loadingNextScene;
+
+    public string sceneToLoad;
+
     private void Awake()
     {
+        // Only want 1 GlobalsController instance per scene
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         } else {
             _instance = this;
         }
+
+        // Persist between scenes
+        DontDestroyOnLoad (transform.gameObject);
+
+        // Call OnSceneLoaded when Scenes are loaded
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        //Screen.SetResolution(640, 480, false);
     }
 
-    public void Start(){
-        dialogueObject.SetActive(false);
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+        if(loadingNextScene){ // Successfully loaded new Scene
+            loadingTheLoadingScreen = false;
+            loadingNextScene = false;
+            sceneToLoad = null;
+        }
+        else if(loadingTheLoadingScreen){ // Currently in Loading Scene
+            loadingTheLoadingScreen = false;
+            loadingNextScene = true;
+            StartCoroutine(LoadSceneHelper());
+        }
+
+        // Collect and deactivate Dialogue objects if they exist
+        try{
+            dialogueObject = GameObject.FindWithTag("DialogueObject");
+            dialogueBar = GameObject.FindWithTag("DialogueBar").GetComponent<QUI_Bar>();
+            dialogueText = GameObject.FindWithTag("DialogueText").GetComponent<TMP_Text>();
+            speakerName = GameObject.FindWithTag("SpeakerName").GetComponent<TMP_Text>();
+            speakerImage = GameObject.FindWithTag("SpeakerIcon").GetComponent<Image>();
+
+            dialogueObject.SetActive(false);
+        } catch {
+            Debug.Log("There are no Dialogue objects in this Scene");
+        }
+
         dialogueHandler = null;
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-
-        Screen.SetResolution(640, 480, false);
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void LoadScene(string SceneName){
+        loadingTheLoadingScreen = true;
+        loadingNextScene = false;
+        sceneToLoad = SceneName;
+        SceneManager.LoadScene("Loading");
+    }
+
+    private IEnumerator LoadSceneHelper(){
+        yield return new WaitForSeconds(1f); // We always want to see the cute Dino
+        SceneManager.LoadSceneAsync(sceneToLoad);
+    }
+
+    // Cache the dialogueHandler object
     public QuantumTek.QuantumDialogue.QD_DialogueHandler getDialogueHandler(){
         if(dialogueHandler == null){
             dialogueHandler = GameObject.FindWithTag("DialogueHandler").GetComponent<QD_DialogueHandler>();
