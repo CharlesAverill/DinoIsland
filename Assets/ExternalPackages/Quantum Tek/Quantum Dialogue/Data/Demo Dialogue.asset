@@ -19,7 +19,7 @@ MonoBehaviour:
   Speakers:
   - ID: 0
     Name: Bob
-    Icon: {fileID: 21300000, guid: 9933a3b8f6b6243229059924b14bc48c, type: 3}
+    Icon: {fileID: 0}
   Messages:
   - ID: 1
     Speaker: 0

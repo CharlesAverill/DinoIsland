@@ -1,4 +1,7 @@
 Temp/*
+Library/*
+Logs/*
+Packages/*
 Builds/Windows/*
 Builds/Linux/*
 Builds/Mac/*

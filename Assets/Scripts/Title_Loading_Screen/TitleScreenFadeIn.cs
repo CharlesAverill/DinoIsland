@@ -50,6 +50,7 @@ public class TitleScreenFadeIn : MonoBehaviour
             fadeText.color = new Color32(255, 255, 255, (byte)(255 * i / 2));
             yield return null;
         }
+        fadeScreen.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 }

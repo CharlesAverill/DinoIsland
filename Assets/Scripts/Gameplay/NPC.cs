@@ -35,6 +35,7 @@ public class NPC : MonoBehaviour
         }
 
         if(rotateToPlayer){
+            Debug.Log("Rotating");
             Vector3 destination = new Vector3(
                 gc.player.transform.position.x,
                 transform.position.y,
@@ -44,6 +45,8 @@ public class NPC : MonoBehaviour
             Quaternion prevRotation = transform.rotation;
             transform.LookAt(destination);
             Quaternion newRotation = transform.rotation;
+
+            Debug.Log(prevRotation + " " + newRotation);
 
             transform.rotation = Quaternion.Lerp(prevRotation,
                                                  newRotation,

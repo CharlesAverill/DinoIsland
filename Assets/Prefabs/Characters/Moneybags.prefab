@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1508062013979233931}
+  - component: {fileID: 3009007726762944006}
   - component: {fileID: 1398102789022379785}
   m_Layer: 10
   m_Name: Moneybags
@@ -521,6 +522,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3009007726762944006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2280623261778596913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30892439e79d8517b8d39e76c7e9da2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcName: Mr. Moneybags
+  conversationName: 
+  isSimple: 0
+  rotateOnTalk: 0
 --- !u!95 &1398102789022379785
 Animator:
   serializedVersion: 3
@@ -1661,8 +1678,8 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 4835078630258379571, guid: c5643188178334717a3e1cf40aed5b52, type: 3}
-  - {fileID: -4245119772211814133, guid: c5643188178334717a3e1cf40aed5b52, type: 3}
-  - {fileID: 3511325375820423461, guid: c5643188178334717a3e1cf40aed5b52, type: 3}
+  - {fileID: 2100000, guid: 441889b96d8fb2f85b0919f3efb4c8a7, type: 2}
+  - {fileID: 2100000, guid: 490bc6310c35df90c83953f613dce9c5, type: 2}
   - {fileID: 2740491068722401411, guid: c5643188178334717a3e1cf40aed5b52, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0

@@ -15,6 +15,7 @@ public class GlobalsController : MonoBehaviour {
     public static GlobalsController Instance { get { return _instance; } }
 
     public PlayerController player;
+    public Camera mainCamera;
 
     public GameObject dialogueObject;
     public QUI_Bar dialogueBar;
@@ -74,6 +75,7 @@ public class GlobalsController : MonoBehaviour {
         }
 
         dialogueHandler = null;
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
     }
 
     public void LoadScene(string SceneName){
