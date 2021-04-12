@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695343741182}
-  m_LocalRotation: {x: 0.0000000040522066, y: 0.9967351, z: -0.080741234, w: 0.00000005002372}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0000000034992544, y: 0.9971418, z: -0.07555366, w: 0.000000046182457}
+  m_LocalPosition: {x: 0, y: 0.0000019073486, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654697459298878}
@@ -177,8 +177,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695494914193}
-  m_LocalRotation: {x: 0.0000000063171153, y: 0.99487317, z: -0.10113071, w: 0.000000062144615}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.009194559, y: 0.99080545, z: -0.095511, w: -0.09538189}
+  m_LocalPosition: {x: 4.910115, y: 0.0000019073486, z: -0.47267914}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695616654293}
@@ -445,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695541727768}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.061568, y: 9.362629, z: 55.21785}
+  m_LocalPosition: {x: -6.061568, y: 9.071497, z: 55.156754}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695494914195}
@@ -496,7 +496,7 @@ MonoBehaviour:
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: 
-    m_InputAxisValue: 0
+    m_InputAxisValue: -5.345215
     m_InvertInput: 1
     m_MinValue: 0
     m_MaxValue: 1
@@ -521,7 +521,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: 
     m_InputAxisValue: 0
-    m_InvertInput: 1
+    m_InvertInput: 0
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
@@ -657,8 +657,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695566611886}
-  m_LocalRotation: {x: 0.060386244, y: -0.000000108348, z: 0.0000000065546906, w: 0.9981751}
-  m_LocalPosition: {x: 0.0000023841858, y: 0, z: -51.6}
+  m_LocalRotation: {x: 0.0000000025775337, y: 0.9984758, z: -0.05519146, w: 0.000000036641236}
+  m_LocalPosition: {x: 0, y: 0.0000019073486, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695665616500}
@@ -2595,7 +2595,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424646baaae576228ba99878aecc3175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
   mainCamera: {fileID: 4134654696268451545}
+  freeLook: {fileID: 4134654695541727771}
   camMode: 0
   groundChecks:
   - {fileID: 4134654696038544584}
@@ -2650,7 +2652,18 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4503821738984368717}
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: InvertXAxisOnControlChange
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []

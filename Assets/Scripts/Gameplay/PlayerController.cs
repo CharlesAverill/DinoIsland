@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInput controls;
+    public InputActions controls;
+    public PlayerInput playerInput;
 
     public enum CameraMode {
         FreeLook,
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     int camModeIndex;
 
     public Transform mainCamera;
+    public CinemachineFreeLook freeLook;
     public CameraMode camMode;
     public List<Transform> groundChecks;
     public Animator anim;
@@ -88,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private ButtonState previousJumpButtonState;
 
     void Awake(){
-        controls = new PlayerInput();
+        controls = new InputActions();
 
         controls.Player.Pause.performed += _ => Pause();
         controls.Player.Interact.performed += _ => Interact();
@@ -103,6 +106,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
 
         tempStepOffset = cc.stepOffset;
         verticalVelocity = Vector3.zero;
@@ -146,6 +150,11 @@ public class PlayerController : MonoBehaviour
         VerticalMovement();
 
         CameraMovement();
+    }
+
+    void InvertXAxisOnControlChange(){
+        bool invert = playerInput.currentControlScheme == "Gamepad";
+        freeLook.m_XAxis.m_InvertInput = invert;
     }
 
     void Interact(){
@@ -224,7 +233,7 @@ public class PlayerController : MonoBehaviour
 
             isJumping = false;
         }
-        
+
         Jump(triedJump);
 
         if(verticalVelocity.magnitude > maxFallSpeed)
@@ -347,7 +356,6 @@ public class PlayerController : MonoBehaviour
     void Jump(bool jumpButtonPressed){
         if (jumpButtonPressed)
         {
-            Debug.Log(CanJump);
             if(CanJump)
             {
                 verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
