@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerInput controls;
 
     public enum CameraMode {
         FreeLook,
@@ -26,22 +28,23 @@ public class PlayerController : MonoBehaviour
     public List<Transform> groundChecks;
     public Animator anim;
 
-    [HideInInspector]
-    public CharacterController cc{
-        get; private set;
-    }
+    public CharacterController cc { get; private set; }
 
-    [HideInInspector]
+    Vector2 stickInput;
     public Vector3 verticalVelocity;
-    [HideInInspector]
     public Vector3 horizontalVelocity;
 
     [HideInInspector]
     public bool isGrounded;
+    [HideInInspector]
+    public bool isJumping;
 
     public float walkSpeed;
     public float turnSmoothTime;
     public float rotateSpeed;
+
+    public float groundSnapForce;
+    public float groundSnapDistance = 1f;
 
     public float pushPower;
 
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
     public float highJumpMultiplier;
     public float fallSpeed;
     public float jumpTimer;
+    bool triedJump;
 
     public bool CanJump {
         get
@@ -74,12 +78,26 @@ public class PlayerController : MonoBehaviour
     private float turnSmoothVelocity;
     private float tempStepOffset;
 
+    public bool isInteracting;
     private float interactDelaySeconds;
+    public NPC interactingWith;
 
     private GlobalsController gc;
 
     private float jumpElapsedTime;
     private ButtonState previousJumpButtonState;
+
+    void Awake(){
+        controls = new PlayerInput();
+
+        controls.Player.Pause.performed += _ => Pause();
+        controls.Player.Interact.performed += _ => Interact();
+        controls.Player.CameraMode_Increment.performed += _ => IncrementCameraMode();
+        controls.Player.CameraMode_FreeLook.performed += _ => SetCameraMode(0);
+        controls.Player.CameraMode_FromBehind.performed += _ => SetCameraMode(1);
+
+        controls.Enable();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -92,40 +110,52 @@ public class PlayerController : MonoBehaviour
         interactDelaySeconds = 0f;
 
         camModeIndex = camModes.IndexOf(camMode);
+
+        gc = GlobalsController.Instance;
+        gc.player = this;
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 
     void OnEnable(){
-        gc = GlobalsController.Instance;
-        gc.player = this;
-        Cursor.lockState = CursorLockMode.Locked;
+        controls.Enable();
+    }
+
+    void OnDisable(){
+        controls.Disable();
     }
 
     void Update()
     {
         interactDelaySeconds += Time.deltaTime;
 
-        MiscInput();
-        if(!lockMovement){
-            Movement();
+        stickInput = controls.Player.Move.ReadValue<Vector2>();
+        triedJump = controls.Player.Jump.ReadValueAsObject() != null;
+
+        if(stickInput != Vector2.zero){
+            if(isGrounded){
+                anim.SetBool("isWalking", true);
+            }
+            HorizontalMovement();
+        } else {
+            anim.SetBool("isWalking", false);
+            horizontalVelocity = Vector2.zero;
         }
+
+        VerticalMovement();
+
+        CameraMovement();
     }
 
-    void MiscInput(){
-        if (Input.GetKey("escape"))
-        {
-            Application.Quit();
+    void Interact(){
+        if(isInteracting && interactingWith != null && interactingWith.isTalking){
+            interactingWith.Next();
         }
-        else if (Input.GetKeyDown("c"))
+        else if(!lockMovement && interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
         {
-            camModeIndex += 1;
-            if(camModeIndex >= camModes.Count)
-            {
-                camModeIndex = 0;
-            }
-            camMode = camModes[camModeIndex];
-        }
-        else if (!lockMovement && isInteracting())
-        {
+            interactDelaySeconds = 0f;
+
             RaycastHit objectHit;
             if(isGrounded && Physics.Raycast(transform.position,
                                              transform.forward,
@@ -134,46 +164,49 @@ public class PlayerController : MonoBehaviour
             {
                 if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER)
                 {
-                    NPC other = objectHit.transform.parent.gameObject.GetComponent<NPC>();
+                    isInteracting = true;
+
+                    interactingWith = objectHit.transform.parent.gameObject.GetComponent<NPC>();
+                    interactingWith.Activate();
+
                     anim.SetBool("isWalking", false);
-                    other.Activate();
                 }
             }
         }
     }
 
-    public bool isInteracting(){
-        if(interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
-        {
-            if(Input.GetButtonDown("Interact"))
-            {
-                interactDelaySeconds = 0f;
-                return true;
-            }
-            return false;
-        }
-        return false;
+    void SetCameraMode(int index){
+        camModeIndex = index;
+        camMode = camModes[camModeIndex];
     }
 
-    void Movement(){
-        isGrounded = checkGround();
-
-        if (isGrounded)
+    void IncrementCameraMode(){
+        camModeIndex += 1;
+        if(camModeIndex >= camModes.Count)
         {
-            verticalVelocity.y = 0f;
-            jumpElapsedTime = 0f;
+            camModeIndex = 0;
+        }
+        camMode = camModes[camModeIndex];
+    }
+
+    void Pause(){
+        Debug.Log("Quitting application");
+        Application.Quit();
+    }
+
+    void HorizontalMovement(){
+        if(lockMovement){
+            return;
         }
 
         horizontalVelocity = Translate();
 
-        if(horizontalVelocity.magnitude != 0f && isGrounded)
-        {
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
+        // Move character controller
+        cc.Move(horizontalVelocity);
+    }
+
+    void VerticalMovement(){
+        isGrounded = checkGround();
 
         if(!isGrounded)
         {
@@ -185,16 +218,30 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isFalling", false);
             cc.stepOffset = tempStepOffset;
+
+            verticalVelocity.y = 0f;
+            jumpElapsedTime = 0f;
+
+            isJumping = false;
         }
-        Jump();
+        
+        Jump(triedJump);
 
         if(verticalVelocity.magnitude > maxFallSpeed)
         {
             verticalVelocity = verticalVelocity.normalized * maxFallSpeed;
         }
 
-        cc.Move(horizontalVelocity + (verticalVelocity * Time.deltaTime));
+        // Ground snap stuff
+        if((horizontalVelocity + verticalVelocity).magnitude != 0 && onSlope()){
+            verticalVelocity.y += cc.height / 2 * groundSnapForce * Time.deltaTime;
+        }
 
+        cc.Move(verticalVelocity * Time.deltaTime);
+    }
+
+    void CameraMovement(){
+        // Camera stuff
         if(camMode == CameraMode.FromBehind)
         {
             Vector3 currentAngle = transform.eulerAngles;
@@ -215,10 +262,29 @@ public class PlayerController : MonoBehaviour
         foreach(Transform groundCheck in groundChecks)
         {
             numGrounded += Physics.CheckSphere(groundCheck.position,
-                                          groundDistance,
-                                          groundMask) ? 1 : 0;
+                                               groundDistance,
+                                               groundMask) ? 1 : 0;
         }
         return numGrounded > 1;
+    }
+
+    bool onSlope(){
+        if(isJumping){
+            return false;
+        }
+
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,
+                           Vector3.down,
+                           out hit,
+                           cc.height / 2 * groundSnapDistance,
+                           groundMask)){
+            if(hit.normal != Vector3.up){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void Fall(){
@@ -229,8 +295,9 @@ public class PlayerController : MonoBehaviour
         float hInput, vInput;
         Vector3 horizontal, vertical;
 
-        hInput = Input.GetAxisRaw("Horizontal");
-        vInput = Input.GetAxisRaw("Vertical");
+        // These values should be either -1f, 0f, or 1f
+        hInput = 1f * Mathf.Abs(stickInput.x) / stickInput.x;
+        vInput = 1f * Mathf.Abs(stickInput.y) / stickInput.y;
 
         horizontal = mainCamera.right * hInput;
         vertical = mainCamera.forward * vInput;
@@ -277,17 +344,19 @@ public class PlayerController : MonoBehaviour
         return moveDirection.normalized * Time.deltaTime * walkSpeed;
     }
 
-    void Jump(){
-        bool jumpButtonPressed = Input.GetButton("Jump");
+    void Jump(bool jumpButtonPressed){
         if (jumpButtonPressed)
         {
+            Debug.Log(CanJump);
             if(CanJump)
             {
                 verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                isJumping = true;
             }
             else if(CanContinueJump)
             {
                 verticalVelocity.y += jumpHeight * highJumpMultiplier;
+                isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
         }

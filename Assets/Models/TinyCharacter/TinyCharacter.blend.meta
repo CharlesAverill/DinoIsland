@@ -50,6 +50,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Green.002
+    second: {fileID: 2100000, guid: cc6006318b5a77b409256cfeb1594c90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Green.003
+    second: {fileID: 2100000, guid: cc6006318b5a77b409256cfeb1594c90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Hair
     second: {fileID: 2100000, guid: 2d07b49052a98a6dcbc0be28cae01661, type: 2}
   - first:
@@ -86,6 +96,11 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Pants.001
+    second: {fileID: 2100000, guid: eb54d829da5f3a441a9ab2cf481fc4da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pants.002
     second: {fileID: 2100000, guid: eb54d829da5f3a441a9ab2cf481fc4da, type: 2}
   - first:
       type: UnityEngine:Material

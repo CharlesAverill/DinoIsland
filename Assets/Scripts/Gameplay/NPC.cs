@@ -14,8 +14,8 @@ public class NPC : MonoBehaviour
 
     QD_DialogueHandler handler;
 
-    bool isActivated;
-    bool isTalking;
+    public bool isActivated;
+    public bool isTalking;
     bool ended;
 
     bool rotateToPlayer;
@@ -46,15 +46,9 @@ public class NPC : MonoBehaviour
             transform.LookAt(destination);
             Quaternion newRotation = transform.rotation;
 
-            Debug.Log(prevRotation + " " + newRotation);
-
             transform.rotation = Quaternion.Lerp(prevRotation,
                                                  newRotation,
                                                  CONSTANTS.NPC_ROTATE_SPEED);
-        }
-
-        if(isTalking && gc.player.isInteracting()){
-            Next();
         }
     }
 
@@ -131,6 +125,9 @@ public class NPC : MonoBehaviour
             if(isSimple){
                 isActivated = false;
                 ended = false;
+
+                gc.player.isInteracting = false;
+
                 handler.SetConversation(conversationName); // Simple NPCs repeat dialogue
             }
 
