@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695343741182}
-  m_LocalRotation: {x: 0.0000000034992544, y: 0.9971418, z: -0.07555366, w: 0.000000046182457}
-  m_LocalPosition: {x: 0, y: 0.0000019073486, z: 0}
+  m_LocalRotation: {x: 0.000000003979839, y: 0.9967351, z: -0.080741234, w: 0.000000049130357}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654697459298878}
@@ -177,8 +177,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695494914193}
-  m_LocalRotation: {x: -0.009194559, y: 0.99080545, z: -0.095511, w: -0.09538189}
-  m_LocalPosition: {x: 4.910115, y: 0.0000019073486, z: -0.47267914}
+  m_LocalRotation: {x: 0.0000000025601967, y: 0.99487317, z: -0.10113068, w: 0.000000025185942}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695616654293}
@@ -445,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695541727768}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.061568, y: 9.071497, z: 55.156754}
+  m_LocalPosition: {x: -6.061568, y: 9.362629, z: 55.21785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695494914195}
@@ -496,7 +496,7 @@ MonoBehaviour:
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: 
-    m_InputAxisValue: -5.345215
+    m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: 0
     m_MaxValue: 1
@@ -657,8 +657,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654695566611886}
-  m_LocalRotation: {x: 0.0000000025775337, y: 0.9984758, z: -0.05519146, w: 0.000000036641236}
-  m_LocalPosition: {x: 0, y: 0.0000019073486, z: 0}
+  m_LocalRotation: {x: 0.0000000015727769, y: 0.9981751, z: -0.06038624, w: 0.000000025997757}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4134654695665616500}
@@ -2617,7 +2617,7 @@ MonoBehaviour:
   groundSnapDistance: 1.6
   pushPower: 2
   jumpHeight: 40
-  highJumpMultiplier: 0.05
+  highJumpMultiplier: 0.04
   fallSpeed: 10
   jumpTimer: 0.35
   maxFallSpeed: 50

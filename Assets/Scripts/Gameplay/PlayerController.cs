@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
     public float maxFallSpeed;
     public float groundDistance;
     public LayerMask groundMask;
+    bool lastGroundInitialized;
+    Transform lastGroundTransform;
+    Vector3 lastGroundPosition;
 
     public bool lockMovement;
 
@@ -137,7 +140,7 @@ public class PlayerController : MonoBehaviour
         stickInput = controls.Player.Move.ReadValue<Vector2>();
         triedJump = controls.Player.Jump.ReadValueAsObject() != null;
 
-        if(stickInput != Vector2.zero){
+        if(!lockMovement && stickInput != Vector2.zero){
             if(isGrounded){
                 anim.SetBool("isWalking", true);
             }
@@ -148,6 +151,8 @@ public class PlayerController : MonoBehaviour
         }
 
         VerticalMovement();
+
+        GroundMovement();
 
         CameraMovement();
     }
@@ -201,6 +206,30 @@ public class PlayerController : MonoBehaviour
     void Pause(){
         Debug.Log("Quitting application");
         Application.Quit();
+    }
+
+    void GroundMovement(){
+        if(isGrounded){
+            Transform groundTransform = getGround();
+
+            if(groundTransform == null){
+                return;
+            }
+
+            if(!lastGroundInitialized || groundTransform != lastGroundTransform){
+                lastGroundTransform = groundTransform;
+                lastGroundPosition = groundTransform.position;
+                lastGroundInitialized = true;
+            }
+
+            Vector3 deltaGroundPosition = groundTransform.position - lastGroundPosition;
+            lastGroundTransform = groundTransform;
+            lastGroundPosition = groundTransform.position;
+
+            transform.position = transform.position + deltaGroundPosition;
+        } else {
+            lastGroundInitialized = false;
+        }
     }
 
     void HorizontalMovement(){
@@ -275,6 +304,18 @@ public class PlayerController : MonoBehaviour
                                                groundMask) ? 1 : 0;
         }
         return numGrounded > 1;
+    }
+
+    Transform getGround(){
+        RaycastHit hit;
+        if(Physics.Raycast(transform.position,
+                           Vector3.down,
+                           out hit,
+                           cc.height / 2 * groundSnapDistance,
+                           groundMask)){
+            return hit.transform;
+        }
+        return null;
     }
 
     bool onSlope(){
@@ -369,5 +410,12 @@ public class PlayerController : MonoBehaviour
             jumpElapsedTime += Time.deltaTime;
         }
         previousJumpButtonState = jumpButtonPressed ? ButtonState.Held : ButtonState.Released;
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit collision){
+        if(collision.gameObject.layer == 11 && // Ceiling layer
+           verticalVelocity.y > 0f){
+            verticalVelocity.y = 0f;
+        }
     }
 }
