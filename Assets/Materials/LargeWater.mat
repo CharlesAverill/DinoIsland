@@ -83,7 +83,7 @@ Material:
     - _DistortStrength: -0.21
     - _DstBlend: 0
     - _ExtraHeight: -0.21
-    - _FadeLimit: 0.052
+    - _FadeLimit: 0.209
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -96,14 +96,14 @@ Material:
     - _Parallax: 0.02
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
-    - _Softness: 0.647
+    - _Softness: 0.07
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TimeMultU: 2.26
     - _TimeMultV: 2.33
     - _TimeUMult: 79
     - _TimeVMult: 50
-    - _UDepth: 28
+    - _UDepth: 17
     - _UMovement: 0.42
     - _UScaler: 0.0558
     - _UVSec: 0
@@ -111,9 +111,9 @@ Material:
     - _VMovement: 0.48
     - _VScaler: 0.0558
     - _WaterSineAmount: 5.78
-    - _WaveAmp: 0.106
+    - _WaveAmp: 0.098
     - _WaveOffset: 1.57
-    - _WaveSpeed: 0.4
+    - _WaveSpeed: 1.4
     - _ZWrite: 1
     m_Colors:
     - _BlendColor: {r: 1, g: 1, b: 1, a: 1}

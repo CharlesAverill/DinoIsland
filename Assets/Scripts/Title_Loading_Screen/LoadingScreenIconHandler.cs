@@ -32,7 +32,6 @@ public class LoadingScreenIconHandler : MonoBehaviour
         velocity += bounceGravity * Time.deltaTime;
 
         if(loadingImage.position.y + velocity < initialPosition.y){
-            Debug.Log(initialPosition.y);
             velocity = initialPosition.y - loadingImage.position.y;
         }
 

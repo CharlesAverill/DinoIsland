@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
     private GlobalsController gc;
 
     private float jumpElapsedTime;
+    private float slowDownTime;
     private ButtonState previousJumpButtonState;
 
     void Awake(){
@@ -176,11 +177,12 @@ public class PlayerController : MonoBehaviour
                                              out objectHit,
                                              7f))
             {
-                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER)
+                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
+                   || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER)
                 {
                     isInteracting = true;
 
-                    interactingWith = objectHit.transform.parent.gameObject.GetComponent<NPC>();
+                    interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
                     interactingWith.Activate();
 
                     anim.SetBool("isWalking", false);
@@ -238,6 +240,14 @@ public class PlayerController : MonoBehaviour
         }
 
         horizontalVelocity = Translate();
+        Transform ground = getGround();
+        Debug.Log(ground);
+        if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
+            slowDownTime += Time.deltaTime;
+            horizontalVelocity = horizontalVelocity * (1f / slowDownTime);
+        } else {
+            slowDownTime = 1f;
+        }
 
         // Move character controller
         cc.Move(horizontalVelocity);
@@ -280,7 +290,7 @@ public class PlayerController : MonoBehaviour
 
     void CameraMovement(){
         // Camera stuff
-        if(camMode == CameraMode.FromBehind)
+        if(camMode == CameraMode.FromBehind && !lockMovement)
         {
             Vector3 currentAngle = transform.eulerAngles;
             Vector3 targetAngle = mainCamera.transform.eulerAngles;
