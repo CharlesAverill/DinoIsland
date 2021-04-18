@@ -6,6 +6,7 @@ public class CONSTANTS : MonoBehaviour
 {
     public const int PUSHABLE_LAYER = 9;
     public const int NPC_LAYER = 10;
+    public const int CEILING_LAYER = (1 << 11) | (1 << 14);
     public const int INTERACT_LAYER = 12;
     public const int SLOW_DOWN_LAYER = 13;
 

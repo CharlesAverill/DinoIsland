@@ -6,56 +6,62 @@ using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
-    public InputActions controls;
-    public PlayerInput playerInput;
-
+    // Stores various Camera modes
     public enum CameraMode {
         FreeLook,
         FromBehind
     }
 
+    // Stores state of a given button
     private enum ButtonState {
         Released,
         Held
     };
+
+    // Globals
+    private GlobalsController gc;
+
+    [Header("Camera and Animation")]
+    public Transform mainCamera;
+    public CinemachineFreeLook freeLook;
+    public CameraMode camMode;
+
+    private float turnSmoothVelocity;
+
+    public Animator anim;
 
     List<CameraMode> camModes = new List<CameraMode>(){
         CameraMode.FreeLook,
         CameraMode.FromBehind
     };
     int camModeIndex;
+    [Space(5)]
 
-    public Transform mainCamera;
-    public CinemachineFreeLook freeLook;
-    public CameraMode camMode;
-    public List<Transform> groundChecks;
-    public Animator anim;
+    [Header("Player Input")]
+    public CharacterController cc;
 
-    public CharacterController cc { get; private set; }
+    public InputActions controls;
+    public PlayerInput playerInput;
 
     Vector2 stickInput;
     public Vector3 verticalVelocity;
     public Vector3 horizontalVelocity;
+    [Space(5)]
 
-    [HideInInspector]
+    [Header("Jump, Falling Physics")]
     public bool isGrounded;
-    [HideInInspector]
     public bool isJumping;
-
-    public float walkSpeed;
-    public float turnSmoothTime;
-    public float rotateSpeed;
-
-    public float groundSnapForce;
-    public float groundSnapDistance = 1f;
-
-    public float pushPower;
 
     public float jumpHeight;
     public float highJumpMultiplier;
     public float fallSpeed;
     public float jumpTimer;
     bool triedJump;
+
+    private float jumpElapsedTime;
+    private ButtonState previousJumpButtonState;
+
+    private float tempStepOffset;
 
     public bool CanJump {
         get
@@ -71,28 +77,40 @@ public class PlayerController : MonoBehaviour
             return jumpElapsedTime <= jumpTimer && !isGrounded;
         }
     }
+    [Space(5)]
+
+    [Header("Translation Physics")]
+    public float walkSpeed;
+    public float turnSmoothTime;
+    public float rotateSpeed;
+
+    public float pushPower;
+    private float slowDownTime;
+    [Space(5)]
+
+    [Header("Gravitational Physics")]
+    public List<Transform> groundChecks;
+    public float groundSnapForce;
+    public float groundSnapDistance = 1f;
 
     public float maxFallSpeed;
     public float groundDistance;
     public LayerMask groundMask;
-    bool lastGroundInitialized;
-    Transform lastGroundTransform;
-    Vector3 lastGroundPosition;
+    [Space(5)]
 
-    public bool lockMovement;
-
-    private float turnSmoothVelocity;
-    private float tempStepOffset;
-
+    [Header("NPC Interaction")]
     public bool isInteracting;
     private float interactDelaySeconds;
     public NPC interactingWith;
 
-    private GlobalsController gc;
+    // For locking movement during NPC chatter, cutscenes, etc.
+    public bool lockMovement;
+    [Space(5)]
 
-    private float jumpElapsedTime;
-    private float slowDownTime;
-    private ButtonState previousJumpButtonState;
+    // Handles moving platforms
+    bool lastGroundInitialized;
+    Transform lastGroundTransform;
+    Vector3 lastGroundPosition;
 
     void Awake(){
         controls = new InputActions();
@@ -122,7 +140,7 @@ public class PlayerController : MonoBehaviour
         gc = GlobalsController.Instance;
         gc.player = this;
 
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
     }
 
@@ -241,7 +259,6 @@ public class PlayerController : MonoBehaviour
 
         horizontalVelocity = Translate();
         Transform ground = getGround();
-        Debug.Log(ground);
         if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
             slowDownTime += Time.deltaTime;
             horizontalVelocity = horizontalVelocity * (1f / slowDownTime);
@@ -351,6 +368,16 @@ public class PlayerController : MonoBehaviour
         verticalVelocity.y += Physics.gravity.y * Time.deltaTime * fallSpeed;
     }
 
+    void LedgeGrab(){
+        RaycastHit objectHit;
+        if(Physics.Raycast(transform.position,
+                           transform.forward,
+                           out objectHit,
+                           7f)){
+            Debug.Log("Lol");
+        }
+    }
+
     Vector3 Translate(){
         float hInput, vInput;
         Vector3 horizontal, vertical;
@@ -423,7 +450,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnControllerColliderHit(ControllerColliderHit collision){
-        if(collision.gameObject.layer == 11 && // Ceiling layer
+        if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
            verticalVelocity.y > 0f){
             verticalVelocity.y = 0f;
         }

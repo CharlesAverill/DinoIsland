@@ -34167,7 +34167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loop_start_seconds: 3.7
-  loop_end_seconds: 92.348
+  loop_end_seconds: 92.3
 --- !u!82 &1120484267
 AudioSource:
   m_ObjectHideFlags: 0

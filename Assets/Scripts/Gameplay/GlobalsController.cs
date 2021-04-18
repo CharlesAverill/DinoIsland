@@ -98,4 +98,8 @@ public class GlobalsController : MonoBehaviour {
         return dialogueHandler;
     }
 
+    public bool layerInMask(int layer, int mask){
+        return mask == (mask | (1 << layer));
+    }
+
 }

@@ -30,3 +30,20 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: AlphaPlaneTree
+  - gameObject: {fileID: 5723136061959312176, guid: e612e46f30c78e7ed88689e7ffc03c9e,
+      type: 3}
+    settings:
+      m_Strength: 27.1
+      m_RotationRangeMin: {x: -42.5, y: -100, z: 92}
+      m_RotationRangeMax: {x: -42.6, y: -99, z: 93}
+      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
+      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
+      m_UniformScale: {x: 1, y: 2}
+      m_UniformBool: 1
+      m_XRotationBool: 1
+      m_YRotationBool: 1
+      m_ZRotationBool: 1
+      m_XScaleBool: 0
+      m_YScaleBool: 0
+      m_ZScaleBool: 0
+    name: PalmTree
