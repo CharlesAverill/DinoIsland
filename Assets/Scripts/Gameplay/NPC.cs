@@ -101,6 +101,12 @@ public class NPC : MonoBehaviour
             gc.dialogueText.SetText(message.MessageText);
             gc.dialogueText.gameObject.SetActive(true);
 
+            if(message.Clip != null){
+                gc.audioSource.Pause();
+                gc.audioSource.clip = message.Clip;
+                gc.audioSource.Play();
+            }
+
             Sprite speakerSprite = handler.dialogue.GetSpeaker(npcName).Icon;
             gc.speakerImage.sprite = speakerSprite;
         }
@@ -125,6 +131,8 @@ public class NPC : MonoBehaviour
             if(isSimple){
                 isActivated = false;
                 ended = false;
+
+                StartCoroutine(gc.PlayReverseAudio());
 
                 gc.player.isInteracting = false;
 

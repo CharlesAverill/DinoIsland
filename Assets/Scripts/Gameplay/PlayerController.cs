@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
 
-    List<CameraMode> camModes = new List<CameraMode>(){
+    private List<CameraMode> camModes = new List<CameraMode>(){
         CameraMode.FreeLook,
         CameraMode.FromBehind
     };
-    int camModeIndex;
+    private int camModeIndex;
     [Space(5)]
 
     [Header("Player Input")]
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public InputActions controls;
     public PlayerInput playerInput;
 
-    Vector2 stickInput;
+    private Vector2 stickInput;
     public Vector3 verticalVelocity;
     public Vector3 horizontalVelocity;
     [Space(5)]
@@ -56,17 +56,20 @@ public class PlayerController : MonoBehaviour
     public float highJumpMultiplier;
     public float fallSpeed;
     public float jumpTimer;
-    bool triedJump;
+    private bool triedJump;
 
     private float jumpElapsedTime;
     private ButtonState previousJumpButtonState;
+
+    private bool heldJumpInAir;
 
     private float tempStepOffset;
 
     public bool CanJump {
         get
         {
-            return isGrounded && previousJumpButtonState == ButtonState.Released;
+            return isGrounded &&
+                   previousJumpButtonState == ButtonState.Released;
         }
     }
 
@@ -74,7 +77,9 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return jumpElapsedTime <= jumpTimer && !isGrounded;
+            return !isGrounded &&
+                   heldJumpInAir &&
+                   jumpElapsedTime <= jumpTimer;
         }
     }
     [Space(5)]
@@ -107,10 +112,16 @@ public class PlayerController : MonoBehaviour
     public bool lockMovement;
     [Space(5)]
 
+    [Header("Audio")]
+    public AudioSource playerAudioSource;
+    public AudioClip footstepClip;
+    public AudioClip defaultFootstepClip;
+    [Space(5)]
+
     // Handles moving platforms
-    bool lastGroundInitialized;
-    Transform lastGroundTransform;
-    Vector3 lastGroundPosition;
+    private bool lastGroundInitialized;
+    private Transform lastGroundTransform;
+    private Vector3 lastGroundPosition;
 
     void Awake(){
         controls = new InputActions();
@@ -140,7 +151,7 @@ public class PlayerController : MonoBehaviour
         gc = GlobalsController.Instance;
         gc.player = this;
 
-        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
@@ -170,62 +181,10 @@ public class PlayerController : MonoBehaviour
         }
 
         VerticalMovement();
-
         GroundMovement();
-
         CameraMovement();
-    }
 
-    void InvertXAxisOnControlChange(){
-        bool invert = playerInput.currentControlScheme == "Gamepad";
-        freeLook.m_XAxis.m_InvertInput = invert;
-    }
-
-    void Interact(){
-        if(isInteracting && interactingWith != null && interactingWith.isTalking){
-            interactingWith.Next();
-        }
-        else if(!lockMovement && interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
-        {
-            interactDelaySeconds = 0f;
-
-            RaycastHit objectHit;
-            if(isGrounded && Physics.Raycast(transform.position,
-                                             transform.forward,
-                                             out objectHit,
-                                             7f))
-            {
-                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
-                   || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER)
-                {
-                    isInteracting = true;
-
-                    interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
-                    interactingWith.Activate();
-
-                    anim.SetBool("isWalking", false);
-                }
-            }
-        }
-    }
-
-    void SetCameraMode(int index){
-        camModeIndex = index;
-        camMode = camModes[camModeIndex];
-    }
-
-    void IncrementCameraMode(){
-        camModeIndex += 1;
-        if(camModeIndex >= camModes.Count)
-        {
-            camModeIndex = 0;
-        }
-        camMode = camModes[camModeIndex];
-    }
-
-    void Pause(){
-        Debug.Log("Quitting application");
-        Application.Quit();
+        PlayerAudio();
     }
 
     void GroundMovement(){
@@ -240,6 +199,9 @@ public class PlayerController : MonoBehaviour
                 lastGroundTransform = groundTransform;
                 lastGroundPosition = groundTransform.position;
                 lastGroundInitialized = true;
+                SetFootstepClip(groundTransform);
+            } else if(footstepClip == null){
+                SetFootstepClip(groundTransform);
             }
 
             Vector3 deltaGroundPosition = groundTransform.position - lastGroundPosition;
@@ -249,6 +211,14 @@ public class PlayerController : MonoBehaviour
             transform.position = transform.position + deltaGroundPosition;
         } else {
             lastGroundInitialized = false;
+        }
+    }
+
+    void SetFootstepClip(Transform groundTransform){
+        try {
+            footstepClip = groundTransform.parent.GetComponent<Ground>().footstepClip;
+        } catch {
+            footstepClip = defaultFootstepClip;
         }
     }
 
@@ -277,6 +247,7 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
+            footstepClip = null;
             Fall();
         }
         else
@@ -319,6 +290,14 @@ public class PlayerController : MonoBehaviour
             );
 
             transform.eulerAngles = newAngle;
+        }
+    }
+
+    void PlayerAudio(){
+        // Walking
+        if(isGrounded && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
+            playerAudioSource.clip = footstepClip;
+            playerAudioSource.Play();
         }
     }
 
@@ -437,7 +416,9 @@ public class PlayerController : MonoBehaviour
             if(CanJump)
             {
                 verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+
                 isJumping = true;
+                heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
@@ -445,6 +426,8 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
+        } else {
+            heldJumpInAir = false;
         }
         previousJumpButtonState = jumpButtonPressed ? ButtonState.Held : ButtonState.Released;
     }
@@ -454,5 +437,59 @@ public class PlayerController : MonoBehaviour
            verticalVelocity.y > 0f){
             verticalVelocity.y = 0f;
         }
+    }
+
+
+
+    void InvertXAxisOnControlChange(){
+        bool invert = playerInput.currentControlScheme == "Gamepad";
+        freeLook.m_XAxis.m_InvertInput = invert;
+    }
+
+    void Interact(){
+        if(isInteracting && interactingWith != null && interactingWith.isTalking){
+            interactingWith.Next();
+        }
+        else if(!lockMovement && interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
+        {
+            interactDelaySeconds = 0f;
+
+            RaycastHit objectHit;
+            if(isGrounded && Physics.Raycast(transform.position,
+                                             transform.forward,
+                                             out objectHit,
+                                             7f))
+            {
+                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
+                   || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER)
+                {
+                    isInteracting = true;
+
+                    interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
+                    interactingWith.Activate();
+
+                    anim.SetBool("isWalking", false);
+                }
+            }
+        }
+    }
+
+    void SetCameraMode(int index){
+        camModeIndex = index;
+        camMode = camModes[camModeIndex];
+    }
+
+    void IncrementCameraMode(){
+        camModeIndex += 1;
+        if(camModeIndex >= camModes.Count)
+        {
+            camModeIndex = 0;
+        }
+        camMode = camModes[camModeIndex];
+    }
+
+    void Pause(){
+        Debug.Log("Quitting application");
+        Application.Quit();
     }
 }

@@ -17,6 +17,8 @@ public class GlobalsController : MonoBehaviour {
     public PlayerController player;
     public Camera mainCamera;
 
+    public AudioSource audioSource;
+
     public GameObject dialogueObject;
     public QUI_Bar dialogueBar;
     public TMP_Text dialogueText;
@@ -100,6 +102,20 @@ public class GlobalsController : MonoBehaviour {
 
     public bool layerInMask(int layer, int mask){
         return mask == (mask | (1 << layer));
+    }
+
+    public IEnumerator PlayReverseAudio(){
+        audioSource.time = audioSource.clip.length - 0.01f;
+        audioSource.pitch = -1;
+
+        audioSource.Play();
+
+        while(audioSource.isPlaying){
+            yield return null;
+        }
+
+        audioSource.time = 0f;
+        audioSource.pitch = 1;
     }
 
 }

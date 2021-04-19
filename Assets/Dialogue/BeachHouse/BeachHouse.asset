@@ -27,5 +27,5 @@ MonoBehaviour:
     PreviousMessage: -1
     NextMessage: -1
     MessageText: Some day, I'll take you all across the island!
-    Clip: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
   Choices: []

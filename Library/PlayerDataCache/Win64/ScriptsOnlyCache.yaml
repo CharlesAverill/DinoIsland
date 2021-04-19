@@ -6,6 +6,7 @@ ScriptsOnlyBuild:
     - DebugUIHandler
     - FPSController
     - GlobalsController
+    - Ground
     - IntroLoop
     - LoadingScreenIconHandler
     - NPC
@@ -182,6 +183,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14988}
     - Class: 114
       Script: {instanceID: 15014}
+    - Class: 114
+      Script: {instanceID: 517448}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 135
@@ -293,6 +296,10 @@ ScriptsOnlyBuild:
     - Class: 74
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
       Script: {instanceID: 0}
     - Class: 89
       Script: {instanceID: 0}
@@ -410,6 +417,8 @@ ScriptsOnlyBuild:
     - Class: 82
       Script: {instanceID: 0}
     - Class: 83
+      Script: {instanceID: 0}
+    - Class: 89
       Script: {instanceID: 0}
     - Class: 91
       Script: {instanceID: 0}
@@ -1338,7 +1347,7 @@ ScriptsOnlyBuild:
     className: NestedDB
   - hash:
       serializedVersion: 2
-      Hash: cbe81d5741fcea74f2d974744f71b377
+      Hash: dfad225197d9f9509e37c22cab2fe5d0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GlobalsController
@@ -1356,7 +1365,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: a968ee7dddfc0335ac01276409862cdc
+      Hash: 58706151bd9aa229f34a71cd2ff2ace2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1678,6 +1687,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: QuantumTek.QuantumDialogue.Demo
     className: QD_ChoiceButton
+  - hash:
+      serializedVersion: 2
+      Hash: e55c2e147b654fc67bdeb15929308fec
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Ground
   platform: 19
   scenePathNames:
   - Assets/Scenes/Title.unity
@@ -1685,4 +1700,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/BeachHouse.unity
   - Assets/Scenes/Testing.unity
   playerPath: /home/charlesaverill/UnityProjects/Platformer/Builds/Windows/Dinosaur
-    Island/Dinosaur Island.exe
+    Island.exe
