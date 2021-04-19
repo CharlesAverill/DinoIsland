@@ -490,6 +490,6 @@ public class PlayerController : MonoBehaviour
 
     void Pause(){
         Debug.Log("Quitting application");
-        Application.Quit();
+        gc.Quit();
     }
 }

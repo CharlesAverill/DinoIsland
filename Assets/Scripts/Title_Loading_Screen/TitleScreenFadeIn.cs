@@ -11,6 +11,7 @@ public class TitleScreenFadeIn : MonoBehaviour
     public TMP_Text fadeText;
 
     public GameObject IslandObject;
+    public GameObject MainMenuObject;
 
     public float startFadeSeconds;
     public float endFadeSeconds;
@@ -23,6 +24,7 @@ public class TitleScreenFadeIn : MonoBehaviour
         timer = 0;
         fadeText.color = new Color32(255, 255, 255, 0);
         IslandObject.SetActive(false);
+        MainMenuObject.SetActive(false);
         StartCoroutine(FadeTextIn());
     }
 
@@ -32,6 +34,7 @@ public class TitleScreenFadeIn : MonoBehaviour
         timer += Time.deltaTime;
         if(endFadeSeconds > timer && timer > startFadeSeconds){
             IslandObject.SetActive(true);
+            MainMenuObject.SetActive(true);
             StartCoroutine(FadeAllOut());
         }
     }

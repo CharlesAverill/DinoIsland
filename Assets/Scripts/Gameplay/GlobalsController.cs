@@ -51,6 +51,10 @@ public class GlobalsController : MonoBehaviour {
         //Screen.SetResolution(640, 480, false);
     }
 
+    public void Quit(){
+        Application.Quit();
+    }
+
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
         if(loadingNextScene){ // Successfully loaded new Scene
             loadingTheLoadingScreen = false;

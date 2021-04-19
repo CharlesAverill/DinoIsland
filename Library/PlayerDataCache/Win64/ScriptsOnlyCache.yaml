@@ -402,6 +402,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
+    - Class: 29
+      Script: {instanceID: 0}
     - Class: 33
       Script: {instanceID: 0}
     - Class: 43
@@ -515,6 +517,8 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
+      Script: {instanceID: 0}
+    - Class: 363
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -1143,7 +1147,7 @@ ScriptsOnlyBuild:
     className: CinemachinePath
   - hash:
       serializedVersion: 2
-      Hash: 4ccaa128a85f423b755b2478d8748b71
+      Hash: 4eed533aec6d3b0e89f72c0d8e950621
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TitleScreenFadeIn
