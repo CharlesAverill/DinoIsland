@@ -65,7 +65,8 @@ LightmapSettings:
     m_CompAOExponentDirect: 0
     m_ExtractAmbientOcclusion: 0
     m_Padding: 2
-    m_LightmapParameters: {fileID: 0}
+    m_LightmapParameters: {fileID: 15201, guid: 0000000000000000f000000000000000,
+      type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
     m_FinalGather: 0
@@ -98,7 +99,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: d2f0a4d6f13eb28d7a76f9c0e8e6e867,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -10439,7 +10441,7 @@ PrefabInstance:
     - target: {fileID: 1297959611246878864, guid: 14a9e06947ddf416ab7c504ac90e5545,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00015258789
+      value: -0.00018310547
       objectReference: {fileID: 0}
     - target: {fileID: 1297959611246878864, guid: 14a9e06947ddf416ab7c504ac90e5545,
         type: 3}
@@ -12926,6 +12928,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
         type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 1092839958}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
       value: 0.8784314
       objectReference: {fileID: 0}
@@ -12939,6 +12951,11 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.8784314
       objectReference: {fileID: 0}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 1562527759}
     - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -27720,6 +27737,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5100717719199325035, guid: 2dcb22ca5d49921b3b2ac85409b91b9e,
         type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5100717719199325035, guid: 2dcb22ca5d49921b3b2ac85409b91b9e,
+        type: 3}
+      propertyPath: m_LightmapParameters
+      value: 
+      objectReference: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 5100717719199325035, guid: 2dcb22ca5d49921b3b2ac85409b91b9e,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 93bbcb540e18b041f9780e40d9fd9675, type: 2}
@@ -30534,7 +30561,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -33847,6 +33874,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1087518583}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1092839958 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+    type: 3}
+  m_PrefabInstance: {fileID: 6854515367341772929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1095162798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34107,6 +34146,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1098196154}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1103976615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+    type: 3}
+  m_PrefabInstance: {fileID: 359080118}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1108183822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50264,6 +50315,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6854515366938931429}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1562527759 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+    type: 3}
+  m_PrefabInstance: {fileID: 6854515366938931429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562527753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1565776476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73882,6 +73945,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
         type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 1103976615}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
       value: 0.8784314
       objectReference: {fileID: 0}
@@ -73895,6 +73968,11 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.8784314
       objectReference: {fileID: 0}
+    - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 1092839958}
     - target: {fileID: 2814980710607695542, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
         type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b

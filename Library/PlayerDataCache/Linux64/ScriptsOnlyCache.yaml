@@ -3,8 +3,6 @@ ScriptsOnlyBuild:
     Assembly-CSharp-Editor.dll:
     - QuantumTek.QuantumDialogue.Editor.QD_DialogueEditor
     Assembly-CSharp.dll:
-    - DebugUIHandler
-    - FPSController
     - GlobalsController
     - Ground
     - IntroLoop
@@ -44,9 +42,6 @@ ScriptsOnlyBuild:
     - UnityEngine.InputSystem.PlayerInput
     - UnityEngine.InputSystem.RemoteInputPlayerConnection
     - UnityEngine.InputSystem.UI.InputSystemUIInputModule
-    Unity.Polybrush.Editor.dll:
-    - UnityEditor.Polybrush.PrefabPalette
-    - UnityEditor.Polybrush.PrefabPaletteEditor
     Unity.Polybrush.dll:
     - UnityEngine.Polybrush.PolybrushMesh
     Unity.Rider.Editor.dll:
@@ -138,53 +133,53 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11340}
     - Class: 114
-      Script: {instanceID: 12244}
+      Script: {instanceID: 11956}
     - Class: 114
-      Script: {instanceID: 12294}
+      Script: {instanceID: 12258}
     - Class: 114
-      Script: {instanceID: 12706}
+      Script: {instanceID: 12308}
     - Class: 114
-      Script: {instanceID: 12740}
+      Script: {instanceID: 12720}
     - Class: 114
-      Script: {instanceID: 12928}
+      Script: {instanceID: 12754}
     - Class: 114
-      Script: {instanceID: 13042}
+      Script: {instanceID: 12942}
     - Class: 114
-      Script: {instanceID: 13212}
+      Script: {instanceID: 13056}
     - Class: 114
-      Script: {instanceID: 13556}
+      Script: {instanceID: 13226}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 13570}
     - Class: 114
-      Script: {instanceID: 13842}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 13898}
+      Script: {instanceID: 13856}
     - Class: 114
-      Script: {instanceID: 13968}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 13972}
+      Script: {instanceID: 13982}
     - Class: 114
-      Script: {instanceID: 14154}
+      Script: {instanceID: 13986}
     - Class: 114
-      Script: {instanceID: 14188}
+      Script: {instanceID: 14166}
     - Class: 114
-      Script: {instanceID: 14198}
+      Script: {instanceID: 14200}
     - Class: 114
-      Script: {instanceID: 14258}
+      Script: {instanceID: 14210}
     - Class: 114
-      Script: {instanceID: 14376}
+      Script: {instanceID: 14270}
     - Class: 114
-      Script: {instanceID: 14390}
+      Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 14488}
+      Script: {instanceID: 14402}
     - Class: 114
-      Script: {instanceID: 14728}
+      Script: {instanceID: 14500}
     - Class: 114
-      Script: {instanceID: 14988}
+      Script: {instanceID: 14740}
     - Class: 114
-      Script: {instanceID: 15014}
+      Script: {instanceID: 15002}
     - Class: 114
-      Script: {instanceID: 517448}
+      Script: {instanceID: 15028}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 135
@@ -239,19 +234,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11340}
     - Class: 114
-      Script: {instanceID: 12346}
+      Script: {instanceID: 12360}
     - Class: 114
-      Script: {instanceID: 12414}
+      Script: {instanceID: 12428}
     - Class: 114
-      Script: {instanceID: 12542}
+      Script: {instanceID: 12556}
     - Class: 114
-      Script: {instanceID: 12740}
+      Script: {instanceID: 12754}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 14198}
+      Script: {instanceID: 14210}
     - Class: 114
-      Script: {instanceID: 14376}
+      Script: {instanceID: 14388}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -265,129 +260,6 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
-      Script: {instanceID: 0}
-    Assets/Scenes/Testing.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 23
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 33
-      Script: {instanceID: 0}
-    - Class: 43
-      Script: {instanceID: 0}
-    - Class: 45
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 54
-      Script: {instanceID: 0}
-    - Class: 64
-      Script: {instanceID: 0}
-    - Class: 65
-      Script: {instanceID: 0}
-    - Class: 74
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 82
-      Script: {instanceID: 0}
-    - Class: 83
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 90
-      Script: {instanceID: 0}
-    - Class: 91
-      Script: {instanceID: 0}
-    - Class: 95
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 11334}
-    - Class: 114
-      Script: {instanceID: 11338}
-    - Class: 114
-      Script: {instanceID: 11340}
-    - Class: 114
-      Script: {instanceID: 12244}
-    - Class: 114
-      Script: {instanceID: 12294}
-    - Class: 114
-      Script: {instanceID: 12706}
-    - Class: 114
-      Script: {instanceID: 12740}
-    - Class: 114
-      Script: {instanceID: 12908}
-    - Class: 114
-      Script: {instanceID: 12928}
-    - Class: 114
-      Script: {instanceID: 13042}
-    - Class: 114
-      Script: {instanceID: 13212}
-    - Class: 114
-      Script: {instanceID: 13556}
-    - Class: 114
-      Script: {instanceID: 13654}
-    - Class: 114
-      Script: {instanceID: 13842}
-    - Class: 114
-      Script: {instanceID: 13898}
-    - Class: 114
-      Script: {instanceID: 13968}
-    - Class: 114
-      Script: {instanceID: 13972}
-    - Class: 114
-      Script: {instanceID: 14154}
-    - Class: 114
-      Script: {instanceID: 14198}
-    - Class: 114
-      Script: {instanceID: 14258}
-    - Class: 114
-      Script: {instanceID: 14376}
-    - Class: 114
-      Script: {instanceID: 14390}
-    - Class: 114
-      Script: {instanceID: 14488}
-    - Class: 114
-      Script: {instanceID: 14662}
-    - Class: 114
-      Script: {instanceID: 14988}
-    - Class: 114
-      Script: {instanceID: 15014}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 135
-      Script: {instanceID: 0}
-    - Class: 136
-      Script: {instanceID: 0}
-    - Class: 137
-      Script: {instanceID: 0}
-    - Class: 143
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 258
       Script: {instanceID: 0}
     Assets/Scenes/Title.unity:
     - Class: 1
@@ -445,61 +317,61 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11340}
     - Class: 114
-      Script: {instanceID: 11354}
+      Script: {instanceID: 11366}
     - Class: 114
-      Script: {instanceID: 11450}
+      Script: {instanceID: 11462}
     - Class: 114
-      Script: {instanceID: 11708}
+      Script: {instanceID: 11720}
     - Class: 114
-      Script: {instanceID: 12414}
+      Script: {instanceID: 12428}
     - Class: 114
-      Script: {instanceID: 12478}
+      Script: {instanceID: 12492}
     - Class: 114
-      Script: {instanceID: 12542}
+      Script: {instanceID: 12556}
     - Class: 114
-      Script: {instanceID: 12608}
+      Script: {instanceID: 12622}
     - Class: 114
-      Script: {instanceID: 12740}
+      Script: {instanceID: 12754}
     - Class: 114
-      Script: {instanceID: 12916}
+      Script: {instanceID: 12930}
     - Class: 114
-      Script: {instanceID: 13102}
+      Script: {instanceID: 13116}
     - Class: 114
-      Script: {instanceID: 13112}
+      Script: {instanceID: 13126}
     - Class: 114
-      Script: {instanceID: 13286}
+      Script: {instanceID: 13300}
     - Class: 114
-      Script: {instanceID: 13646}
+      Script: {instanceID: 13660}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 13686}
+      Script: {instanceID: 13700}
     - Class: 114
-      Script: {instanceID: 13842}
+      Script: {instanceID: 13856}
     - Class: 114
-      Script: {instanceID: 13864}
+      Script: {instanceID: 13878}
     - Class: 114
-      Script: {instanceID: 13898}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 14012}
+      Script: {instanceID: 14026}
     - Class: 114
-      Script: {instanceID: 14188}
+      Script: {instanceID: 14200}
     - Class: 114
-      Script: {instanceID: 14198}
+      Script: {instanceID: 14210}
     - Class: 114
-      Script: {instanceID: 14258}
+      Script: {instanceID: 14270}
     - Class: 114
-      Script: {instanceID: 14376}
+      Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 14390}
+      Script: {instanceID: 14402}
     - Class: 114
-      Script: {instanceID: 14570}
+      Script: {instanceID: 14582}
     - Class: 114
-      Script: {instanceID: 14688}
+      Script: {instanceID: 14700}
     - Class: 114
-      Script: {instanceID: 14728}
+      Script: {instanceID: 14740}
     - Class: 114
-      Script: {instanceID: 15100}
+      Script: {instanceID: 15114}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -517,6 +389,8 @@ ScriptsOnlyBuild:
     - Class: 223
       Script: {instanceID: 0}
     - Class: 224
+      Script: {instanceID: 0}
+    - Class: 258
       Script: {instanceID: 0}
     - Class: 363
       Script: {instanceID: 0}
@@ -749,6 +623,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineStoryboard
+  - hash:
+      serializedVersion: 2
+      Hash: e55c2e147b654fc67bdeb15929308fec
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Ground
   - hash:
       serializedVersion: 2
       Hash: aaf9fcdddbc82b9995bf0fe9f4c42fc1
@@ -1691,16 +1571,9 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: QuantumTek.QuantumDialogue.Demo
     className: QD_ChoiceButton
-  - hash:
-      serializedVersion: 2
-      Hash: e55c2e147b654fc67bdeb15929308fec
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Ground
   platform: 24
   scenePathNames:
   - Assets/Scenes/Title.unity
   - Assets/Scenes/Loading.unity
   - Assets/Scenes/BeachHouse.unity
-  - Assets/Scenes/Testing.unity
-  playerPath: /home/charlesaverill/UnityProjects/Platformer/Builds/Linux/DinosaurIsland.x86_64
+  playerPath: /home/charlesaverill/UnityProjects/DinoIsland/Builds/Linux/DinosaurIsland.x86_64

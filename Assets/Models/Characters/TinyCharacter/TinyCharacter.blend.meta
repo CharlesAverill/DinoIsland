@@ -5,13 +5,16 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -623603649343465320
-    second: Scene
+    second: TinyCharacterIdle
+  - first:
+      74: -3100369314251171874
+    second: Idle
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Ear
-    second: {fileID: 2100000, guid: 78e6f2376b970bde487d45b0d6dd765c, type: 2}
+    second: {fileID: 2100000, guid: 1b13a5e6ccc190f7b8ac96cd13470119, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -21,7 +24,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Eye
-    second: {fileID: 2100000, guid: 31523d45d468ccf4797dbf23b33eaf59, type: 2}
+    second: {fileID: 2100000, guid: 6ffd0585bc9eed375a2e5d185ba6067f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -31,7 +34,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Glasses_side
-    second: {fileID: 2100000, guid: e8c34bdf9e8ae21218befb4c50748640, type: 2}
+    second: {fileID: 2100000, guid: 6713e566e227cd3bd9e4c666fed9d79b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -41,7 +44,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Green
-    second: {fileID: 2100000, guid: 28a2f270504fd0561b15cc11f63f9ffe, type: 2}
+    second: {fileID: -889481370847912251, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -61,7 +65,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Hair
-    second: {fileID: 2100000, guid: 2d07b49052a98a6dcbc0be28cae01661, type: 2}
+    second: {fileID: 5878094081397827806, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -71,7 +76,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Mouth
-    second: {fileID: 2100000, guid: 5b212538f98b970a0aebecf4b448df18, type: 2}
+    second: {fileID: -2633783761484105626, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -81,7 +87,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Orange
-    second: {fileID: 2100000, guid: 2adccd11331b5646d98d87d4bcf230a1, type: 2}
+    second: {fileID: -5708123466369436382, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -91,7 +98,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Pants
-    second: {fileID: 2100000, guid: 1ed61fdc635dffdffb07064943749f3c, type: 2}
+    second: {fileID: 1962264687043835576, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -106,7 +114,8 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Shoes
-    second: {fileID: 2100000, guid: 7218bd11996019156aaac4b6f48c4e93, type: 2}
+    second: {fileID: -5399930768713578650, guid: 99b2d0b035c5a63119a25e70bb2ecbdf,
+      type: 3}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -116,7 +125,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Skin
-    second: {fileID: 2100000, guid: 2656a690a73d0b501813a5ce54815cc6, type: 2}
+    second: {fileID: 2100000, guid: 17bfe611a0e0b4c7ca067e0d37f6bdb0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -127,6 +136,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Transparent.001
     second: {fileID: 2100000, guid: 5642985f2e7b9fe259b8db3fc14db8c1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 0f62214fe1d7c4f7ca54ae956d70fe11, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -153,36 +167,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Scene
-      takeName: Scene
-      internalID: 0
-      firstFrame: 1
-      lastFrame: 60
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0.96
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -221,7 +206,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -459,13 +444,13 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: LowerBody
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
   additionalBone: 0
