@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,6 +82,8 @@ public class GlobalsController : MonoBehaviour {
 
         dialogueHandler = null;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     public void LoadScene(string SceneName){

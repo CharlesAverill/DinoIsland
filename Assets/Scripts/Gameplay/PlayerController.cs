@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
     // Stores various Camera modes
@@ -100,7 +102,6 @@ public class PlayerController : MonoBehaviour
 
     public float maxFallSpeed;
     public float groundDistance;
-    public LayerMask groundMask;
     [Space(5)]
 
     [Header("NPC Interaction")]
@@ -307,7 +308,7 @@ public class PlayerController : MonoBehaviour
         {
             numGrounded += Physics.CheckSphere(groundCheck.position,
                                                groundDistance,
-                                               groundMask) ? 1 : 0;
+                                               CONSTANTS.groundMask) ? 1 : 0;
         }
         return numGrounded > 1;
     }
@@ -318,7 +319,7 @@ public class PlayerController : MonoBehaviour
                            Vector3.down,
                            out hit,
                            cc.height / 2 * groundSnapDistance,
-                           groundMask)){
+                           CONSTANTS.groundMask)){
             return hit.transform;
         }
         return null;
@@ -334,7 +335,7 @@ public class PlayerController : MonoBehaviour
                            Vector3.down,
                            out hit,
                            cc.height / 2 * groundSnapDistance,
-                           groundMask)){
+                           CONSTANTS.groundMask)){
             if(hit.normal != Vector3.up){
                 return true;
             }
