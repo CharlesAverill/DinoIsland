@@ -37,8 +37,7 @@ public class DebugUIHandler : MonoBehaviour
         }
         position.SetText("Position: " + player.transform.position);
         velocity.SetText("Velocity: {0:2} " + player.cc.velocity.normalized,
-                         (player.horizontalVelocity +
-                             player.verticalVelocity).magnitude);
+                         player.horizontalVelocity.magnitude + player.verticalVelocity);
         rotation.SetText("Rotation: " + player.transform.eulerAngles);
         isGrounded.SetText("Is Grounded: " + player.isGrounded);
         movementLocked.SetText("Movement Locked: " + player.lockMovement);

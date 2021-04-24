@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
 
     private Vector2 stickInput;
-    public Vector3 verticalVelocity;
+    public float verticalVelocity;
     public Vector3 horizontalVelocity;
     [Space(5)]
 
@@ -102,6 +102,8 @@ public class PlayerController : MonoBehaviour
 
     public float maxFallSpeed;
     public float groundDistance;
+
+    public bool isLaunching;
     [Space(5)]
 
     [Header("NPC Interaction")]
@@ -143,7 +145,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         tempStepOffset = cc.stepOffset;
-        verticalVelocity = Vector3.zero;
+        verticalVelocity = 0f;
 
         interactDelaySeconds = 0f;
 
@@ -171,16 +173,11 @@ public class PlayerController : MonoBehaviour
         stickInput = controls.Player.Move.ReadValue<Vector2>();
         triedJump = controls.Player.Jump.ReadValueAsObject() != null;
 
-        if(!lockMovement && stickInput != Vector2.zero){
-            if(isGrounded){
-                anim.SetBool("isWalking", true);
-            }
-            HorizontalMovement();
-        } else {
+        if(!isGrounded || lockMovement || stickInput == Vector2.zero){
             anim.SetBool("isWalking", false);
-            horizontalVelocity = Vector2.zero;
         }
 
+        HorizontalMovement();
         VerticalMovement();
         GroundMovement();
         CameraMovement();
@@ -195,6 +192,8 @@ public class PlayerController : MonoBehaviour
             if(groundTransform == null){
                 return;
             }
+
+            isLaunching = false;
 
             if(!lastGroundInitialized || groundTransform != lastGroundTransform){
                 lastGroundTransform = groundTransform;
@@ -228,23 +227,31 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        horizontalVelocity = Translate();
-        Transform ground = getGround();
-        if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
-            slowDownTime += Time.deltaTime;
-            horizontalVelocity = horizontalVelocity * (1f / slowDownTime);
-        } else {
-            slowDownTime = 1f;
+        float launchSpeedModifier = isLaunching ? Time.deltaTime : 1;
+
+        if(!isLaunching){
+            horizontalVelocity = Translate();
+            Transform ground = getGround();
+            if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
+                slowDownTime += Time.deltaTime;
+                horizontalVelocity = horizontalVelocity * (1f / slowDownTime);
+            } else {
+                slowDownTime = 1f;
+            }
+
+            if(horizontalVelocity.magnitude > 0f){
+                anim.SetBool("isWalking", true);
+            }
         }
 
         // Move character controller
-        cc.Move(horizontalVelocity);
+        cc.Move(horizontalVelocity * launchSpeedModifier);
     }
 
     void VerticalMovement(){
-        isGrounded = checkGround();
+        isGrounded = isLaunching ? getGround() != null : checkGround();
 
-        if(!isGrounded)
+        if(!isGrounded || isLaunching)
         {
             anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
@@ -256,25 +263,26 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isFalling", false);
             cc.stepOffset = tempStepOffset;
 
-            verticalVelocity.y = 0f;
+            verticalVelocity = 0f;
             jumpElapsedTime = 0f;
 
             isJumping = false;
+            isLaunching = false;
         }
 
         Jump(triedJump);
 
-        if(verticalVelocity.magnitude > maxFallSpeed)
+        if(verticalVelocity < maxFallSpeed)
         {
-            verticalVelocity = verticalVelocity.normalized * maxFallSpeed;
+            verticalVelocity = maxFallSpeed;
         }
 
         // Ground snap stuff
-        if((horizontalVelocity + verticalVelocity).magnitude != 0 && onSlope()){
-            verticalVelocity.y += cc.height / 2 * groundSnapForce * Time.deltaTime;
+        if(horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
+            verticalVelocity += cc.height / 2 * groundSnapForce * Time.deltaTime;
         }
 
-        cc.Move(verticalVelocity * Time.deltaTime);
+        cc.Move(new Vector3(0f, verticalVelocity * Time.deltaTime, 0f));
     }
 
     void CameraMovement(){
@@ -326,7 +334,7 @@ public class PlayerController : MonoBehaviour
     }
 
     bool onSlope(){
-        if(isJumping){
+        if(isJumping || isLaunching){
             return false;
         }
 
@@ -345,7 +353,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Fall(){
-        verticalVelocity.y += Physics.gravity.y * Time.deltaTime * fallSpeed;
+        verticalVelocity += Physics.gravity.y * Time.deltaTime * fallSpeed;
     }
 
     void LedgeGrab(){
@@ -416,14 +424,14 @@ public class PlayerController : MonoBehaviour
         {
             if(CanJump)
             {
-                verticalVelocity.y += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                verticalVelocity += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
 
                 isJumping = true;
                 heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
-                verticalVelocity.y += jumpHeight * highJumpMultiplier;
+                verticalVelocity += jumpHeight * highJumpMultiplier;
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
@@ -433,14 +441,18 @@ public class PlayerController : MonoBehaviour
         previousJumpButtonState = jumpButtonPressed ? ButtonState.Held : ButtonState.Released;
     }
 
-    void OnControllerColliderHit(ControllerColliderHit collision){
-        if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
-           verticalVelocity.y > 0f){
-            verticalVelocity.y = 0f;
-        }
+    public void Launch(Vector3 velocity){
+        isLaunching = true;
+        horizontalVelocity = new Vector2(velocity.x, velocity.z);
+        verticalVelocity = velocity.y;
     }
 
-
+    void OnControllerColliderHit(ControllerColliderHit collision){
+        if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
+           verticalVelocity > 0f){
+            verticalVelocity = 0f;
+        }
+    }
 
     void InvertXAxisOnControlChange(){
         bool invert = playerInput.currentControlScheme == "Gamepad";
