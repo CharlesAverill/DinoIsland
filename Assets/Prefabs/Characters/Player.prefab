@@ -1519,8 +1519,10 @@ MonoBehaviour:
   anim: {fileID: 6565313087574927672}
   cc: {fileID: 4134654697038237082}
   playerInput: {fileID: 4503821738984368717}
-  verticalVelocity: {x: 0, y: 0, z: 0}
-  horizontalVelocity: {x: 0, y: 0, z: 0}
+  verticalVelocity: 0
+  horizontalVelocity: {x: 0, y: 0}
+  hitNormal: {x: 0, y: 0, z: 0}
+  slideFriction: 0.3
   isGrounded: 0
   isJumping: 0
   jumpHeight: 50
@@ -1539,11 +1541,11 @@ MonoBehaviour:
   - {fileID: 4134654696038544584}
   groundSnapForce: -1000
   groundSnapDistance: 1.6
+  ignoreCheckGround: 0
+  ignoreCheckGroundFrames: 3
   maxFallSpeed: 50
   groundDistance: 0.5
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 1792
+  isLaunching: 0
   isInteracting: 0
   interactingWith: {fileID: 0}
   lockMovement: 0

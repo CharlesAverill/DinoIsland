@@ -58,10 +58,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -151,40 +149,42 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13220}
     - Class: 114
-      Script: {instanceID: 13564}
+      Script: {instanceID: 13310}
     - Class: 114
-      Script: {instanceID: 13662}
+      Script: {instanceID: 13566}
     - Class: 114
-      Script: {instanceID: 13850}
+      Script: {instanceID: 13664}
     - Class: 114
-      Script: {instanceID: 13906}
+      Script: {instanceID: 13852}
     - Class: 114
-      Script: {instanceID: 13976}
+      Script: {instanceID: 13908}
     - Class: 114
-      Script: {instanceID: 13980}
+      Script: {instanceID: 13978}
     - Class: 114
-      Script: {instanceID: 14160}
+      Script: {instanceID: 13982}
     - Class: 114
-      Script: {instanceID: 14194}
+      Script: {instanceID: 14162}
     - Class: 114
-      Script: {instanceID: 14204}
+      Script: {instanceID: 14196}
     - Class: 114
-      Script: {instanceID: 14264}
+      Script: {instanceID: 14206}
     - Class: 114
-      Script: {instanceID: 14382}
+      Script: {instanceID: 14266}
     - Class: 114
-      Script: {instanceID: 14396}
+      Script: {instanceID: 14384}
     - Class: 114
-      Script: {instanceID: 14494}
+      Script: {instanceID: 14398}
     - Class: 114
-      Script: {instanceID: 14734}
+      Script: {instanceID: 14496}
     - Class: 114
-      Script: {instanceID: 14996}
+      Script: {instanceID: 14736}
     - Class: 114
-      Script: {instanceID: 15022}
+      Script: {instanceID: 14998}
     - Class: 114
-      Script: {instanceID: 109218}
+      Script: {instanceID: 15024}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 134
       Script: {instanceID: 0}
     - Class: 135
       Script: {instanceID: 0}
@@ -252,11 +252,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12746}
     - Class: 114
-      Script: {instanceID: 13662}
+      Script: {instanceID: 13664}
     - Class: 114
-      Script: {instanceID: 14204}
+      Script: {instanceID: 14206}
     - Class: 114
-      Script: {instanceID: 14382}
+      Script: {instanceID: 14384}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -351,37 +351,37 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13294}
     - Class: 114
-      Script: {instanceID: 13654}
+      Script: {instanceID: 13656}
     - Class: 114
-      Script: {instanceID: 13662}
+      Script: {instanceID: 13664}
     - Class: 114
-      Script: {instanceID: 13694}
+      Script: {instanceID: 13696}
     - Class: 114
-      Script: {instanceID: 13850}
+      Script: {instanceID: 13852}
     - Class: 114
-      Script: {instanceID: 13872}
+      Script: {instanceID: 13874}
     - Class: 114
-      Script: {instanceID: 13906}
+      Script: {instanceID: 13908}
     - Class: 114
-      Script: {instanceID: 14020}
+      Script: {instanceID: 14022}
     - Class: 114
-      Script: {instanceID: 14194}
+      Script: {instanceID: 14196}
     - Class: 114
-      Script: {instanceID: 14204}
+      Script: {instanceID: 14206}
     - Class: 114
-      Script: {instanceID: 14264}
+      Script: {instanceID: 14266}
     - Class: 114
-      Script: {instanceID: 14382}
+      Script: {instanceID: 14384}
     - Class: 114
-      Script: {instanceID: 14396}
+      Script: {instanceID: 14398}
     - Class: 114
-      Script: {instanceID: 14576}
+      Script: {instanceID: 14578}
     - Class: 114
-      Script: {instanceID: 14694}
+      Script: {instanceID: 14696}
     - Class: 114
-      Script: {instanceID: 14734}
+      Script: {instanceID: 14736}
     - Class: 114
-      Script: {instanceID: 15108}
+      Script: {instanceID: 15110}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1049,6 +1049,12 @@ ScriptsOnlyBuild:
     className: TitleScreenFadeIn
   - hash:
       serializedVersion: 2
+      Hash: 89d8762ade667f091eeec6af8651588d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Enemy
+  - hash:
+      serializedVersion: 2
       Hash: c1f5356fcd27668ddc25078e27f9828d
     assemblyName: Unity.InputSystem.dll
     namespaceName: UnityEngine.InputSystem.UI
@@ -1265,7 +1271,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: 21b078bfba7a15e3d9cf8696fae4c206
+      Hash: 68ca8dbdfa2a712c380020f2343df3bc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1587,12 +1593,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: QuantumTek.QuantumDialogue.Demo
     className: QD_ChoiceButton
-  - hash:
-      serializedVersion: 2
-      Hash: b78106f81e1ca4e16690c7a91c7fcaba
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Enemy
   platform: 19
   scenePathNames:
   - Assets/Scenes/Title.unity

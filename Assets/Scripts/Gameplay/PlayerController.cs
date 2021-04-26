@@ -47,10 +47,13 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 stickInput;
     public float verticalVelocity;
-    public Vector3 horizontalVelocity;
+    public Vector2 horizontalVelocity;
     [Space(5)]
 
     [Header("Jump, Falling Physics")]
+    public Vector3 hitNormal;
+    public float slideFriction;
+
     public bool isGrounded;
     public bool isJumping;
 
@@ -99,6 +102,10 @@ public class PlayerController : MonoBehaviour
     public List<Transform> groundChecks;
     public float groundSnapForce;
     public float groundSnapDistance = 1f;
+
+    public bool ignoreCheckGround;
+    public int ignoreCheckGroundFrames = 3;
+    int ignoreCheckGroundTimer = 0;
 
     public float maxFallSpeed;
     public float groundDistance;
@@ -169,6 +176,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         interactDelaySeconds += Time.deltaTime;
+        if(ignoreCheckGround){
+            ignoreCheckGroundTimer += 1;
+        }
 
         stickInput = controls.Player.Move.ReadValue<Vector2>();
         triedJump = controls.Player.Jump.ReadValueAsObject() != null;
@@ -177,10 +187,21 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isWalking", false);
         }
 
-        HorizontalMovement();
+        hitNormal = new Vector3(0, 0, 0);
+
         VerticalMovement();
+        HorizontalMovement();
         GroundMovement();
         CameraMovement();
+
+        if(ignoreCheckGround){
+            isGrounded = false;
+            if(ignoreCheckGroundTimer > ignoreCheckGroundFrames){
+                ignoreCheckGround = false;
+            }
+        } else {
+            isGrounded = hitNormal.sqrMagnitude != 0 && Vector3.Angle(Vector3.up, hitNormal) <= cc.slopeLimit;
+        }
 
         PlayerAudio();
     }
@@ -193,7 +214,9 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            isLaunching = false;
+            if(!ignoreCheckGround){
+                isLaunching = false;
+            }
 
             if(!lastGroundInitialized || groundTransform != lastGroundTransform){
                 lastGroundTransform = groundTransform;
@@ -231,6 +254,7 @@ public class PlayerController : MonoBehaviour
 
         if(!isLaunching){
             horizontalVelocity = Translate();
+
             Transform ground = getGround();
             if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
                 slowDownTime += Time.deltaTime;
@@ -244,19 +268,23 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        Vector3 moveHorizontal = new Vector3(horizontalVelocity.x,
+                                             0f,
+                                             horizontalVelocity.y);
+
+        moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
+        moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
+
         // Move character controller
-        cc.Move(horizontalVelocity * launchSpeedModifier);
+        cc.Move(moveHorizontal * launchSpeedModifier);
     }
 
     void VerticalMovement(){
-        isGrounded = isLaunching ? getGround() != null : checkGround();
-
         if(!isGrounded || isLaunching)
         {
             anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
             footstepClip = null;
-            Fall();
         }
         else
         {
@@ -267,7 +295,10 @@ public class PlayerController : MonoBehaviour
             jumpElapsedTime = 0f;
 
             isJumping = false;
-            isLaunching = false;
+        }
+
+        if(!ignoreCheckGround){
+            Fall();
         }
 
         Jump(triedJump);
@@ -278,7 +309,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Ground snap stuff
-        if(horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
+        if(!ignoreCheckGround && horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
             verticalVelocity += cc.height / 2 * groundSnapForce * Time.deltaTime;
         }
 
@@ -316,7 +347,7 @@ public class PlayerController : MonoBehaviour
         {
             numGrounded += Physics.CheckSphere(groundCheck.position,
                                                groundDistance,
-                                               CONSTANTS.groundMask) ? 1 : 0;
+                                               CONSTANTS.GROUND_MASK) ? 1 : 0;
         }
         return numGrounded > 1;
     }
@@ -327,7 +358,7 @@ public class PlayerController : MonoBehaviour
                            Vector3.down,
                            out hit,
                            cc.height / 2 * groundSnapDistance,
-                           CONSTANTS.groundMask)){
+                           CONSTANTS.GROUND_MASK)){
             return hit.transform;
         }
         return null;
@@ -343,7 +374,7 @@ public class PlayerController : MonoBehaviour
                            Vector3.down,
                            out hit,
                            cc.height / 2 * groundSnapDistance,
-                           CONSTANTS.groundMask)){
+                           CONSTANTS.GROUND_MASK)){
             if(hit.normal != Vector3.up){
                 return true;
             }
@@ -362,11 +393,11 @@ public class PlayerController : MonoBehaviour
                            transform.forward,
                            out objectHit,
                            7f)){
-            Debug.Log("Lol");
+            Debug.Log("Ledge grab hit");
         }
     }
 
-    Vector3 Translate(){
+    Vector2 Translate(){
         float hInput, vInput;
         Vector3 horizontal, vertical;
 
@@ -416,7 +447,8 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
 
-        return moveDirection.normalized * Time.deltaTime * walkSpeed;
+        Vector3 output = moveDirection.normalized * Time.deltaTime * walkSpeed;
+        return new Vector2(output.x, output.z);
     }
 
     void Jump(bool jumpButtonPressed){
@@ -442,15 +474,23 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Launch(Vector3 velocity){
+        ignoreCheckGround = true;
+        ignoreCheckGroundTimer = 0;
         isLaunching = true;
+
         horizontalVelocity = new Vector2(velocity.x, velocity.z);
         verticalVelocity = velocity.y;
     }
 
     void OnControllerColliderHit(ControllerColliderHit collision){
-        if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
-           verticalVelocity > 0f){
-            verticalVelocity = 0f;
+        hitNormal = collision.normal;
+        if(!ignoreCheckGround){
+            if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
+               verticalVelocity > 0f){
+                verticalVelocity = 0f;
+            } else if(isLaunching && gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
+                isLaunching = false;
+            }
         }
     }
 

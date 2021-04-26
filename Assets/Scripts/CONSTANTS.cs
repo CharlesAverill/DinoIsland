@@ -12,7 +12,7 @@ public class CONSTANTS : MonoBehaviour
     public const int SLOW_DOWN_LAYER = 13;
     public const int ENEMY_LAYER = 15;
 
-    public const int groundMask = (1 << GROUND_LAYER) |
+    public const int GROUND_MASK = (1 << GROUND_LAYER) |
                                   (1 << PUSHABLE_LAYER) |
                                   (1 << NPC_LAYER) |
                                   (1 << ENEMY_LAYER);

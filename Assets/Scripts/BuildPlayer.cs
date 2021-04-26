@@ -25,7 +25,7 @@ public class BuildPlayer : EditorWindow {
 
     [MenuItem("Tools/BuildPlayer")]
     private static void OpenBuilder() {
-        buildPath = Application.dataPath.Substring(0, Application.dataPath.Length - 6) + "Builds/";
+        buildPath = Application.dataPath.Substring(0, Application.dataPath.Length - 6) + "/";
         new BuildPlayer().Show();
     }
 

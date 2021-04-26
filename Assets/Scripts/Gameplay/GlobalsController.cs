@@ -124,4 +124,8 @@ public class GlobalsController : MonoBehaviour {
         audioSource.pitch = 1;
     }
 
+    public float transformDotProduct(Transform a, Transform b){
+        return Vector3.Dot(a.forward, (b.position - a.position).normalized);
+    }
+
 }

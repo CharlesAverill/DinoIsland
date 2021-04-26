@@ -17,10 +17,18 @@ public class Enemy : MonoBehaviour
     [Space(5)]
 
     [Header("Enemy AI")]
+    public float attackWait;
+    public float attackWaitTimer;
     public bool isAttacking;
     public float distanceToTarget;
     Transform target;
     NavMeshAgent agent;
+    [Space(5)]
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip moveClip;
+    public AudioClip attackClip;
     [Space(5)]
 
     Animator anim;
@@ -31,11 +39,15 @@ public class Enemy : MonoBehaviour
         target = GlobalsController.Instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+
+        attackWaitTimer = attackWait;
     }
 
     // Update is called once per frame
     void Update()
     {
+        attackWaitTimer += Time.deltaTime;
+
         if(isAttacking && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
             isAttacking = false;
         }
@@ -46,25 +58,41 @@ public class Enemy : MonoBehaviour
     void MoveAnimate(){
         distanceToTarget = Vector3.Distance(target.position, transform.position);
 
-        if(distanceToTarget <= lookRadius){
+        if(distanceToTarget <= lookRadius && attackWaitTimer > attackWait){
             agent.SetDestination(target.position);
 
             FaceTarget();
 
-            if(distanceToTarget > agent.stoppingDistance){ // Walk towards target
+            if(distanceToTarget > agent.stoppingDistance + 2f){ // Walk towards target
+                if(audioSource.clip != moveClip && !audioSource.isPlaying){
+                    audioSource.Stop();
+                    audioSource.clip = moveClip;
+                    audioSource.Play();
+                } else if(!audioSource.isPlaying){
+                    audioSource.Play();
+                }
                 anim.SetBool("isWalking", true);
             }
-            else if(!isAttacking && distanceToTarget <= agent.stoppingDistance + .2f){ // Attack if close enough
+            else if(!isAttacking &&
+                    distanceToTarget <= agent.stoppingDistance + 2f &&
+                    attackWaitTimer > attackWait){ // Attack if close enough
                 agent.SetDestination(transform.position);
 
                 if(launchTarget){
-                    launchVector = (target.position - transform.position).normalized * launchSpeed;
-                    launchVector.y = Mathf.Max(launchVector.x, launchVector.z);
+                    launchVector = transform.TransformVector(Vector3.forward * launchSpeed);
+                    launchVector.y = Mathf.Max(Mathf.Abs(launchVector.x),
+                                               Mathf.Abs(launchVector.z)) * 2f;
+
                     GlobalsController.Instance.player.Launch(launchVector);
                 }
 
+                audioSource.Stop();
+                audioSource.clip = attackClip;
+                audioSource.Play();
+
                 anim.SetTrigger("Attack");
                 isAttacking = true;
+                attackWaitTimer = 0f;
             }
         } else { // Idle
             agent.SetDestination(transform.position);
@@ -83,6 +111,10 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + launchVector * launchSpeed);
+        Gizmos.DrawLine(transform.position, transform.position + launchVector);
+        if(target != null){
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(target.position, target.position + target.InverseTransformVector(launchVector));
+        }
     }
 }
