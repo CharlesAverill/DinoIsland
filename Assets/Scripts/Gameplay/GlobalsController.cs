@@ -83,7 +83,11 @@ public class GlobalsController : MonoBehaviour {
         dialogueHandler = null;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        try{
+            player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        } catch {
+            Debug.Log("There is no Player object in this Scene");
+        }
     }
 
     public void LoadScene(string SceneName){
