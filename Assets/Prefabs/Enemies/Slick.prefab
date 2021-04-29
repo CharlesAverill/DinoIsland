@@ -429,6 +429,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   lookRadius: 60
+  wander: 1
+  wanderDistance: 50
+  wanderTimer: 0
   launchTarget: 1
   launchSpeed: 5.5
   launchVector: {x: 0, y: 0, z: 0}
@@ -452,7 +455,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 10
+  m_AngularSpeed: 70
   m_StoppingDistance: 4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

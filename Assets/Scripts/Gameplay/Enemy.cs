@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     public int health;
     public float lookRadius;
 
+    public bool wander;
+    public float wanderDistance;
+    public float wanderTimer;
+
     public bool launchTarget;
     public float launchSpeed;
     public Vector3 launchVector;
@@ -51,6 +55,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         attackWaitTimer += Time.deltaTime;
+        wanderTimer += Time.deltaTime;
 
         if(isAttacking && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
             isAttacking = false;
@@ -76,7 +81,22 @@ public class Enemy : MonoBehaviour
                 Attack();
             }
         } else {
-            Idle();
+            if(wander){
+                if(wanderTimer > 3f && agent.remainingDistance < 4f){
+                    agent.SetDestination(getRandomNavMeshPosition());
+                    Walk();
+
+                    Debug.Log("Walking to " + agent.destination);
+                } else if(agent.remainingDistance >= 4.2f){
+                    Debug.Log(agent.remainingDistance);
+                    wanderTimer = 0f;
+                    Walk();
+                } else {
+                    Idle();
+                }
+            } else {
+                Idle();
+            }
         }
     }
 
@@ -134,11 +154,20 @@ public class Enemy : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other){
-        Debug.Log(GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_LAYER));
-        if(agent.enabled == false && GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_MASK)){
+        if(!agent.enabled && GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_MASK)){
             rb.isKinematic = true;
             rb.useGravity = false;
             agent.enabled = true;
         }
+    }
+
+    Vector3 getRandomNavMeshPosition(){
+        Vector3 randomDirection = Random.insideUnitSphere * wanderDistance;
+        randomDirection += transform.position;
+
+        NavMeshHit navHit;
+        NavMesh.SamplePosition(randomDirection, out navHit, wanderDistance, NavMesh.AllAreas);
+
+        return navHit.position;
     }
 }

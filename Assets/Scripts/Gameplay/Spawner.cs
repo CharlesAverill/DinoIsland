@@ -7,34 +7,41 @@ public class Spawner : MonoBehaviour
 
     public Vector3 spawnLocation;
     public GameObject[] prefabs;
+
     public int maxSpawns;
-    public int currentSpawns;
     public int currentSpawnIndex;
 
-    int frameCount;
+    List<GameObject> spawns;
+    float spawnTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentSpawns = 0;
         currentSpawnIndex = -1;
+
+        spawns = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(frameCount % 60 == 0 && currentSpawns < maxSpawns){
+        if(spawnTimer > .1f){
+            spawns.RemoveAll(item => item == null);
+        }
+
+        if(spawnTimer > 4f && spawns.Count < maxSpawns){
             currentSpawnIndex += 1;
             if(currentSpawnIndex >= prefabs.Length){
                 currentSpawnIndex = 0;
             }
 
-            Instantiate(prefabs[currentSpawnIndex],
-                        transform.position + spawnLocation,
-                        Quaternion.identity);
+            spawns.Add(Instantiate(prefabs[currentSpawnIndex],
+                                   transform.position + spawnLocation,
+                                   Quaternion.identity));
 
-            currentSpawns += 1;
+            spawnTimer = 0f;
         }
-        frameCount += 1;
+
+        spawnTimer += Time.deltaTime;
     }
 }
