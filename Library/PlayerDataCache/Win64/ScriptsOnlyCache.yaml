@@ -11,19 +11,14 @@ ScriptsOnlyBuild:
     - LoadingScreenIconHandler
     - NPC
     - PlayerController
+    - QuantumTek.EncryptedSave.ES_Save
     - QuantumTek.QuantumDialogue.QD_Dialogue
     - QuantumTek.QuantumDialogue.QD_DialogueHandler
     - QuantumTek.QuantumUI.QUI_Bar
-    - QuantumTek.QuantumUI.QUI_ElementAnimationPreset
-    - QuantumTek.QuantumUI.QUI_ElementAnimator
     - QuantumTek.QuantumUI.QUI_ElementAudio
     - QuantumTek.QuantumUI.QUI_Menu
-    - QuantumTek.QuantumUI.QUI_OptionList
-    - QuantumTek.QuantumUI.QUI_SceneTransition
-    - QuantumTek.QuantumUI.QUI_SwitchToggle
-    - QuantumTek.QuantumUI.QUI_Tab
-    - QuantumTek.QuantumUI.QUI_TabGroup
-    - QuantumTek.QuantumUI.QUI_TabWindow
+    - SettingsMenu
+    - TerrainAlign
     - TitleScreenCameraOrbit
     - TitleScreenFadeIn
     Cinemachine.dll:
@@ -49,7 +44,6 @@ ScriptsOnlyBuild:
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
-    - TMPro.TMP_Dropdown
     - TMPro.TMP_FontAsset
     - TMPro.TMP_Settings
     - TMPro.TMP_SpriteAsset
@@ -72,10 +66,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.Mask
-    - UnityEngine.UI.ScrollRect
-    - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Slider
-    - UnityEngine.UI.Toggle
   sceneClasses:
     Assets/Scenes/BeachHouse.unity:
     - Class: 1
@@ -182,6 +173,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14998}
     - Class: 114
       Script: {instanceID: 15024}
+    - Class: 114
+      Script: {instanceID: 187420}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 134
@@ -294,8 +287,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 49
       Script: {instanceID: 0}
-    - Class: 74
-      Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 82
@@ -303,10 +294,6 @@ ScriptsOnlyBuild:
     - Class: 83
       Script: {instanceID: 0}
     - Class: 89
-      Script: {instanceID: 0}
-    - Class: 91
-      Script: {instanceID: 0}
-    - Class: 95
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -317,21 +304,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11332}
     - Class: 114
-      Script: {instanceID: 11334}
-    - Class: 114
       Script: {instanceID: 11336}
     - Class: 114
-      Script: {instanceID: 11338}
-    - Class: 114
-      Script: {instanceID: 11340}
-    - Class: 114
       Script: {instanceID: 11342}
-    - Class: 114
-      Script: {instanceID: 11358}
-    - Class: 114
-      Script: {instanceID: 11454}
-    - Class: 114
-      Script: {instanceID: 11712}
     - Class: 114
       Script: {instanceID: 12420}
     - Class: 114
@@ -343,27 +318,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12746}
     - Class: 114
-      Script: {instanceID: 12922}
-    - Class: 114
-      Script: {instanceID: 13108}
-    - Class: 114
-      Script: {instanceID: 13118}
-    - Class: 114
       Script: {instanceID: 13294}
     - Class: 114
       Script: {instanceID: 13656}
     - Class: 114
       Script: {instanceID: 13664}
     - Class: 114
-      Script: {instanceID: 13696}
-    - Class: 114
       Script: {instanceID: 13852}
     - Class: 114
       Script: {instanceID: 13874}
     - Class: 114
       Script: {instanceID: 13908}
-    - Class: 114
-      Script: {instanceID: 14022}
     - Class: 114
       Script: {instanceID: 14196}
     - Class: 114
@@ -373,15 +338,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14384}
     - Class: 114
-      Script: {instanceID: 14398}
-    - Class: 114
-      Script: {instanceID: 14578}
-    - Class: 114
       Script: {instanceID: 14696}
     - Class: 114
       Script: {instanceID: 14736}
     - Class: 114
-      Script: {instanceID: 15110}
+      Script: {instanceID: 412710}
+    - Class: 114
+      Script: {instanceID: 667100}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -923,12 +886,6 @@ ScriptsOnlyBuild:
     className: PlayerInputEditor
   - hash:
       serializedVersion: 2
-      Hash: f6f1cec1bfa40f2501c6e261319cb705
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: FPSController
-  - hash:
-      serializedVersion: 2
       Hash: aaf9fcdddbc82b9995bf0fe9f4c42fc1
     assemblyName: Assembly-CSharp.dll
     namespaceName: QuantumTek.QuantumUI
@@ -1253,7 +1210,7 @@ ScriptsOnlyBuild:
     className: NestedDB
   - hash:
       serializedVersion: 2
-      Hash: dfad225197d9f9509e37c22cab2fe5d0
+      Hash: 5689b0215380390b95ceec1f3e995604
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GlobalsController
@@ -1593,6 +1550,36 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: QuantumTek.QuantumDialogue.Demo
     className: QD_ChoiceButton
+  - hash:
+      serializedVersion: 2
+      Hash: cf3c886759d97d33db42f1b133a96c4b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TerrainAlign
+  - hash:
+      serializedVersion: 2
+      Hash: 095bae5f451d6844c36a080d4a831d92
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SettingsMenu
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_GetEncryptionKey
+  - hash:
+      serializedVersion: 2
+      Hash: d71ad936ea9a80b2a81cecc3c99f051a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_Demo
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_Save
   platform: 19
   scenePathNames:
   - Assets/Scenes/Title.unity

@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
         gc = GlobalsController.Instance;
         gc.player = this;
 
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 

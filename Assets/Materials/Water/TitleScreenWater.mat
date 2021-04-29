@@ -53,7 +53,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 7cb380670786aeb88bd5e77338ab9f16, type: 3}
-        m_Scale: {x: 100, y: 100}
+        m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -104,20 +104,20 @@ Material:
     - _TimeUMult: 79
     - _TimeVMult: 50
     - _UDepth: 10
-    - _UMovement: 1.26
-    - _UScaler: 0.279
+    - _UMovement: 2.23
+    - _UScaler: 0.052
     - _UVSec: 0
     - _VDepth: 10
     - _VMovement: 1.67
-    - _VScaler: 0.22
+    - _VScaler: 0.084
     - _WaterSineAmount: 5.78
-    - _WaveAmp: 0.05
+    - _WaveAmp: 0.645
     - _WaveOffset: 0
     - _WaveSpeed: 1.2
     - _ZWrite: 1
     m_Colors:
     - _BlendColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BlendColour: {r: 0.77162695, g: 0.80278206, b: 0.9622642, a: 1}
+    - _BlendColour: {r: 0.8867924, g: 0.90566033, b: 1, a: 1}
     - _Color: {r: 0, g: 1, b: 0.6275861, a: 0.734}
     - _Colour: {r: 1, g: 1, b: 1, a: 0.609}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0.441}

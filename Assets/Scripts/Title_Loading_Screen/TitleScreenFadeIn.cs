@@ -23,8 +23,12 @@ public class TitleScreenFadeIn : MonoBehaviour
     {
         timer = 0;
         fadeText.color = new Color32(255, 255, 255, 0);
+
         IslandObject.SetActive(false);
         MainMenuObject.SetActive(false);
+        fadeScreen.gameObject.SetActive(true);
+        fadeText.gameObject.SetActive(true);
+        
         StartCoroutine(FadeTextIn());
     }
 

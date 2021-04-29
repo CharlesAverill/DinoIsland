@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using QuantumTek.EncryptedSave;
 using QuantumTek.QuantumDialogue;
 using QuantumTek.QuantumUI;
 using TMPro;
@@ -16,6 +18,7 @@ public class GlobalsController : MonoBehaviour {
 
     public PlayerController player;
     public Camera mainCamera;
+    public AudioListener listener;
 
     public AudioSource audioSource;
 
@@ -31,6 +34,11 @@ public class GlobalsController : MonoBehaviour {
     public bool loadingNextScene;
 
     public string sceneToLoad;
+
+    public Dictionary<string, dynamic> saveData  = new Dictionary<string, dynamic>(){
+       {"SAVEDATA_initialized-save", true},
+       {"SETTINGS_master-volume", 1f}
+    };
 
     private void Awake()
     {
@@ -48,11 +56,39 @@ public class GlobalsController : MonoBehaviour {
         // Call OnSceneLoaded when Scenes are loaded
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        //Screen.SetResolution(640, 480, false);
+        if(!ES_Save.Exists("SAVEDATA_initialized-save")){
+            SaveData();
+        } else {
+            LoadSaveData();
+        }
+    }
+
+    void SaveData(){
+        foreach(KeyValuePair<string, dynamic> entry in saveData)
+        {
+            Debug.Log("Saving " + entry.Key + " as " + entry.Value);
+            ES_Save.Save(entry.Value, entry.Key);
+        }
+    }
+
+    void LoadSaveData(){
+        saveData["SETTINGS_master-volume"] = ES_Save.Load<float>("SETTINGS_master-volume");
+    }
+
+    void DeleteSaveData(){
+        foreach(KeyValuePair<string, dynamic> entry in saveData)
+        {
+            ES_Save.DeleteData(entry.Key);
+        }
     }
 
     public void Quit(){
-        Application.Quit();
+        SaveData();
+#if UNITY_EDITOR
+         UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
@@ -82,6 +118,9 @@ public class GlobalsController : MonoBehaviour {
 
         dialogueHandler = null;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+
+        listener = GameObject.FindObjectOfType<AudioListener>();
+        AudioListener.volume = saveData["SETTINGS_master-volume"];
 
         try{
             player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
@@ -127,9 +166,4 @@ public class GlobalsController : MonoBehaviour {
         audioSource.time = 0f;
         audioSource.pitch = 1;
     }
-
-    public float transformDotProduct(Transform a, Transform b){
-        return Vector3.Dot(a.forward, (b.position - a.position).normalized);
-    }
-
 }
