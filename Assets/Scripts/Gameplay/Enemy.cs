@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     [Space(5)]
 
     Animator anim;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +40,11 @@ public class Enemy : MonoBehaviour
         target = GlobalsController.Instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
 
         attackWaitTimer = attackWait;
+
+        agent.enabled = false;
     }
 
     // Update is called once per frame
@@ -52,7 +56,9 @@ public class Enemy : MonoBehaviour
             isAttacking = false;
         }
 
-        MoveAnimate();
+        if(agent.enabled){
+            MoveAnimate();
+        }
     }
 
     void MoveAnimate(){
@@ -63,48 +69,57 @@ public class Enemy : MonoBehaviour
 
             FaceTarget();
 
-            if(distanceToTarget > agent.stoppingDistance + 2f){ // Walk towards target
-                if(audioSource.clip != moveClip && !audioSource.isPlaying){
-                    audioSource.Stop();
-                    audioSource.clip = moveClip;
-                    audioSource.Play();
-                } else if(!audioSource.isPlaying){
-                    audioSource.Play();
-                }
-                anim.SetBool("isWalking", true);
+            if(distanceToTarget > agent.stoppingDistance + 2f){
+                Walk();
             }
-            else if(!isAttacking &&
-                    distanceToTarget <= agent.stoppingDistance + 2f &&
-                    attackWaitTimer > attackWait){ // Attack if close enough
-                agent.SetDestination(transform.position);
-
-                if(launchTarget){
-                    launchVector = transform.TransformVector(Vector3.forward * launchSpeed);
-                    launchVector.y = Mathf.Max(Mathf.Abs(launchVector.x),
-                                               Mathf.Abs(launchVector.z)) * 2f;
-
-                    GlobalsController.Instance.player.Launch(launchVector);
-                }
-
-                audioSource.Stop();
-                audioSource.clip = attackClip;
-                audioSource.Play();
-
-                anim.SetTrigger("Attack");
-                isAttacking = true;
-                attackWaitTimer = 0f;
+            else if(!isAttacking && distanceToTarget <= agent.stoppingDistance + 2f && attackWaitTimer > attackWait){
+                Attack();
             }
-        } else { // Idle
-            agent.SetDestination(transform.position);
-            anim.SetBool("isWalking", false);
+        } else {
+            Idle();
         }
+    }
+
+    void Walk(){
+        anim.SetBool("isWalking", true);
+
+        if(audioSource.clip != moveClip && !audioSource.isPlaying){
+            audioSource.Stop();
+            audioSource.clip = moveClip;
+            audioSource.Play();
+        } else if(!audioSource.isPlaying){
+            audioSource.Play();
+        }
+    }
+
+    void Attack(){
+        if(launchTarget){
+            launchVector = transform.TransformVector(Vector3.forward * launchSpeed);
+            launchVector.y = Mathf.Max(Mathf.Abs(launchVector.x),
+                                       Mathf.Abs(launchVector.z)) * 2f;
+
+            GlobalsController.Instance.player.Launch(launchVector);
+        }
+
+        audioSource.Stop();
+        audioSource.clip = attackClip;
+        audioSource.Play();
+
+        anim.SetTrigger("Attack");
+        isAttacking = true;
+        attackWaitTimer = 0f;
+    }
+
+    void Idle(){
+        agent.SetDestination(transform.position);
+        anim.SetBool("isWalking", false);
     }
 
     void FaceTarget ()
 	{
 		Vector3 direction = (target.position - transform.position).normalized;
 		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+		transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
 	}
 
     void OnDrawGizmosSelected(){
@@ -115,6 +130,15 @@ public class Enemy : MonoBehaviour
         if(target != null){
             Gizmos.color = Color.green;
             Gizmos.DrawLine(target.position, target.position + target.InverseTransformVector(launchVector));
+        }
+    }
+
+    void OnCollisionEnter(Collision other){
+        Debug.Log(GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_LAYER));
+        if(agent.enabled == false && GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_MASK)){
+            rb.isKinematic = true;
+            rb.useGravity = false;
+            agent.enabled = true;
         }
     }
 }

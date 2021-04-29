@@ -18,6 +18,7 @@ ScriptsOnlyBuild:
     - QuantumTek.QuantumUI.QUI_ElementAudio
     - QuantumTek.QuantumUI.QUI_Menu
     - SettingsMenu
+    - Spawner
     - TerrainAlign
     - TitleScreenCameraOrbit
     - TitleScreenFadeIn
@@ -126,55 +127,57 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11948}
     - Class: 114
-      Script: {instanceID: 12250}
+      Script: {instanceID: 12252}
     - Class: 114
-      Script: {instanceID: 12300}
+      Script: {instanceID: 12302}
     - Class: 114
-      Script: {instanceID: 12712}
+      Script: {instanceID: 12714}
     - Class: 114
-      Script: {instanceID: 12746}
+      Script: {instanceID: 12748}
     - Class: 114
-      Script: {instanceID: 12934}
+      Script: {instanceID: 12812}
     - Class: 114
-      Script: {instanceID: 13048}
+      Script: {instanceID: 12938}
     - Class: 114
-      Script: {instanceID: 13220}
+      Script: {instanceID: 13052}
     - Class: 114
-      Script: {instanceID: 13310}
+      Script: {instanceID: 13224}
     - Class: 114
-      Script: {instanceID: 13566}
+      Script: {instanceID: 13314}
     - Class: 114
-      Script: {instanceID: 13664}
+      Script: {instanceID: 13570}
     - Class: 114
-      Script: {instanceID: 13852}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 13908}
+      Script: {instanceID: 13856}
     - Class: 114
-      Script: {instanceID: 13978}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 13982}
+      Script: {instanceID: 13984}
     - Class: 114
-      Script: {instanceID: 14162}
+      Script: {instanceID: 13988}
     - Class: 114
-      Script: {instanceID: 14196}
+      Script: {instanceID: 14168}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14202}
     - Class: 114
-      Script: {instanceID: 14266}
+      Script: {instanceID: 14212}
     - Class: 114
-      Script: {instanceID: 14384}
+      Script: {instanceID: 14272}
     - Class: 114
-      Script: {instanceID: 14398}
+      Script: {instanceID: 14390}
     - Class: 114
-      Script: {instanceID: 14496}
+      Script: {instanceID: 14404}
     - Class: 114
-      Script: {instanceID: 14736}
+      Script: {instanceID: 14504}
     - Class: 114
-      Script: {instanceID: 14998}
+      Script: {instanceID: 14744}
     - Class: 114
-      Script: {instanceID: 15024}
+      Script: {instanceID: 15008}
     - Class: 114
-      Script: {instanceID: 187420}
+      Script: {instanceID: 15034}
+    - Class: 114
+      Script: {instanceID: 29620}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 134
@@ -237,19 +240,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11342}
     - Class: 114
-      Script: {instanceID: 12352}
+      Script: {instanceID: 12354}
     - Class: 114
-      Script: {instanceID: 12420}
+      Script: {instanceID: 12422}
     - Class: 114
-      Script: {instanceID: 12548}
+      Script: {instanceID: 12550}
     - Class: 114
-      Script: {instanceID: 12746}
+      Script: {instanceID: 12748}
     - Class: 114
-      Script: {instanceID: 13664}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14212}
     - Class: 114
-      Script: {instanceID: 14384}
+      Script: {instanceID: 14390}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -308,43 +311,43 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11342}
     - Class: 114
-      Script: {instanceID: 12420}
+      Script: {instanceID: 12422}
     - Class: 114
-      Script: {instanceID: 12484}
+      Script: {instanceID: 12486}
     - Class: 114
-      Script: {instanceID: 12548}
+      Script: {instanceID: 12550}
     - Class: 114
-      Script: {instanceID: 12614}
+      Script: {instanceID: 12616}
     - Class: 114
-      Script: {instanceID: 12746}
+      Script: {instanceID: 12748}
     - Class: 114
-      Script: {instanceID: 13294}
+      Script: {instanceID: 13298}
     - Class: 114
-      Script: {instanceID: 13656}
+      Script: {instanceID: 13660}
     - Class: 114
-      Script: {instanceID: 13664}
+      Script: {instanceID: 13668}
     - Class: 114
-      Script: {instanceID: 13852}
+      Script: {instanceID: 13856}
     - Class: 114
-      Script: {instanceID: 13874}
+      Script: {instanceID: 13878}
     - Class: 114
-      Script: {instanceID: 13908}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 14196}
+      Script: {instanceID: 14202}
     - Class: 114
-      Script: {instanceID: 14206}
+      Script: {instanceID: 14212}
     - Class: 114
-      Script: {instanceID: 14266}
+      Script: {instanceID: 14272}
     - Class: 114
-      Script: {instanceID: 14384}
+      Script: {instanceID: 14390}
     - Class: 114
-      Script: {instanceID: 14696}
+      Script: {instanceID: 14420}
     - Class: 114
-      Script: {instanceID: 14736}
+      Script: {instanceID: 14704}
     - Class: 114
-      Script: {instanceID: 412710}
+      Script: {instanceID: 14744}
     - Class: 114
-      Script: {instanceID: 667100}
+      Script: {instanceID: 14908}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -572,6 +575,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.ProBuilder.dll
     namespaceName: UnityEngine.ProBuilder
     className: PolyShape
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_GetEncryptionKey
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -860,6 +869,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.InputSystem.dll
     namespaceName: UnityEngine.InputSystem
     className: InputSettings
+  - hash:
+      serializedVersion: 2
+      Hash: cf3c886759d97d33db42f1b133a96c4b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TerrainAlign
   - hash:
       serializedVersion: 2
       Hash: cd0ecdca0166232906c6f2df9dddc3d3
@@ -1222,6 +1237,12 @@ ScriptsOnlyBuild:
     className: CinemachineTouchInputMapper
   - hash:
       serializedVersion: 2
+      Hash: d71ad936ea9a80b2a81cecc3c99f051a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_Demo
+  - hash:
+      serializedVersion: 2
       Hash: df76de5fb2b27007d514fdb38b91cf89
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
@@ -1324,6 +1345,12 @@ ScriptsOnlyBuild:
     className: QUI_Bar
   - hash:
       serializedVersion: 2
+      Hash: 095bae5f451d6844c36a080d4a831d92
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SettingsMenu
+  - hash:
+      serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
@@ -1418,6 +1445,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_ColorGradient
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuantumTek.EncryptedSave
+    className: ES_Save
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1552,34 +1585,10 @@ ScriptsOnlyBuild:
     className: QD_ChoiceButton
   - hash:
       serializedVersion: 2
-      Hash: cf3c886759d97d33db42f1b133a96c4b
+      Hash: 0b8fd5ad1cb3c8625d85a94f3bfde9b7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: TerrainAlign
-  - hash:
-      serializedVersion: 2
-      Hash: 095bae5f451d6844c36a080d4a831d92
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SettingsMenu
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: QuantumTek.EncryptedSave
-    className: ES_GetEncryptionKey
-  - hash:
-      serializedVersion: 2
-      Hash: d71ad936ea9a80b2a81cecc3c99f051a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: QuantumTek.EncryptedSave
-    className: ES_Demo
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: QuantumTek.EncryptedSave
-    className: ES_Save
+    className: Spawner
   platform: 19
   scenePathNames:
   - Assets/Scenes/Title.unity
