@@ -8,3 +8,4 @@ Freesound -
 	footstep-concrete.wav by swuing
 	Cartoon Wobble by Breviceps
 	hamel_marie_2012_13_son3.wav by univ_lyon3
+	Metal 06.wav by Debsound

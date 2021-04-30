@@ -1021,7 +1021,7 @@ ScriptsOnlyBuild:
     className: TitleScreenFadeIn
   - hash:
       serializedVersion: 2
-      Hash: 7e1c0989a78fec143ec75c8f1ee8396e
+      Hash: c59338a2f171513a54f1be55a28c032f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Enemy
@@ -1249,7 +1249,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: 68ca8dbdfa2a712c380020f2343df3bc
+      Hash: d5acb6793aa50f639e650eba3aac396e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController

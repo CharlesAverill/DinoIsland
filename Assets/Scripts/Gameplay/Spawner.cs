@@ -14,12 +14,16 @@ public class Spawner : MonoBehaviour
     List<GameObject> spawns;
     float spawnTimer;
 
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         currentSpawnIndex = -1;
 
         spawns = new List<GameObject>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -40,6 +44,8 @@ public class Spawner : MonoBehaviour
                                    Quaternion.identity));
 
             spawnTimer = 0f;
+
+            audioSource.Play();
         }
 
         spawnTimer += Time.deltaTime;

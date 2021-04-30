@@ -18,6 +18,11 @@ public class Enemy : MonoBehaviour
     public bool launchTarget;
     public float launchSpeed;
     public Vector3 launchVector;
+
+    public GameObject hurtBox;
+
+    public float deathRotateSpeed = 500f;
+    bool isDying;
     [Space(5)]
 
     [Header("Enemy AI")]
@@ -33,6 +38,7 @@ public class Enemy : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip moveClip;
     public AudioClip attackClip;
+    public AudioClip deathClip;
     [Space(5)]
 
     Animator anim;
@@ -49,6 +55,7 @@ public class Enemy : MonoBehaviour
         attackWaitTimer = attackWait;
 
         agent.enabled = false;
+        hurtBox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,19 +73,43 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void Kill(){
+        if(!isDying){
+            agent.enabled = false;
+            StartCoroutine(killHelper());
+        }
+        isDying = true;
+    }
+
+    IEnumerator killHelper(){
+        audioSource.Stop();
+        audioSource.clip = deathClip;
+        audioSource.Play();
+
+        while(audioSource.isPlaying){
+            transform.Rotate(0, Time.deltaTime * deathRotateSpeed, 0);
+            transform.localScale -= transform.localScale / 30f;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
     void MoveAnimate(){
         distanceToTarget = Vector3.Distance(target.position, transform.position);
 
-        if(distanceToTarget <= lookRadius && attackWaitTimer > attackWait){
-            agent.SetDestination(target.position);
+        if(distanceToTarget <= lookRadius){
+            if(attackWaitTimer > attackWait){
+                agent.SetDestination(target.position);
 
-            FaceTarget();
+                FaceTarget();
 
-            if(distanceToTarget > agent.stoppingDistance + 2f){
-                Walk();
-            }
-            else if(!isAttacking && distanceToTarget <= agent.stoppingDistance + 2f && attackWaitTimer > attackWait){
-                Attack();
+                if(distanceToTarget > agent.stoppingDistance + 2f){
+                    Walk();
+                }
+                else if(!isAttacking && distanceToTarget <= agent.stoppingDistance + 2f){
+                    Attack();
+                }
             }
         } else {
             if(wander){
@@ -88,7 +119,6 @@ public class Enemy : MonoBehaviour
 
                     Debug.Log("Walking to " + agent.destination);
                 } else if(agent.remainingDistance >= 4.2f){
-                    Debug.Log(agent.remainingDistance);
                     wanderTimer = 0f;
                     Walk();
                 } else {
@@ -157,7 +187,9 @@ public class Enemy : MonoBehaviour
         if(!agent.enabled && GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_MASK)){
             rb.isKinematic = true;
             rb.useGravity = false;
+            
             agent.enabled = true;
+            hurtBox.SetActive(true);
         }
     }
 

@@ -1115,6 +1115,7 @@ MonoBehaviour:
   slideFriction: 0.3
   isGrounded: 0
   isJumping: 0
+  isFalling: 0
   jumpHeight: 50
   highJumpMultiplier: 0.015
   fallSpeed: 12
@@ -1124,11 +1125,11 @@ MonoBehaviour:
   rotateSpeed: 7.5
   pushPower: 2
   groundChecks:
-  - {fileID: 52212604332921178}
-  - {fileID: 52212604752978008}
-  - {fileID: 52212604143751576}
-  - {fileID: 52212604751644334}
-  - {fileID: 52212603163362672}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   groundSnapForce: -1000
   groundSnapDistance: 1.6
   ignoreCheckGround: 0

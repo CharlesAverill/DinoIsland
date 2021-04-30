@@ -53,9 +53,11 @@ public class PlayerController : MonoBehaviour
     [Header("Jump, Falling Physics")]
     public Vector3 hitNormal;
     public float slideFriction;
+    float hitAngle;
 
     public bool isGrounded;
     public bool isJumping;
+    public bool isFalling;
 
     public float jumpHeight;
     public float highJumpMultiplier;
@@ -189,6 +191,7 @@ public class PlayerController : MonoBehaviour
         }
 
         hitNormal = new Vector3(0, 0, 0);
+        hitAngle = 0f;
 
         VerticalMovement();
         HorizontalMovement();
@@ -201,7 +204,7 @@ public class PlayerController : MonoBehaviour
                 ignoreCheckGround = false;
             }
         } else {
-            isGrounded = hitNormal.sqrMagnitude != 0 && Vector3.Angle(Vector3.up, hitNormal) <= cc.slopeLimit;
+            isGrounded = hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
         }
 
         PlayerAudio();
@@ -273,8 +276,10 @@ public class PlayerController : MonoBehaviour
                                              0f,
                                              horizontalVelocity.y);
 
-        moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
-        moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
+        if(hitAngle >= cc.slopeLimit){
+            moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
+            moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
+        }
 
         // Move character controller
         cc.Move(moveHorizontal * launchSpeedModifier);
@@ -303,6 +308,10 @@ public class PlayerController : MonoBehaviour
         }
 
         Jump(triedJump);
+
+        if(isJumping && verticalVelocity < 0){
+            isFalling = true;
+        }
 
         if(verticalVelocity < maxFallSpeed)
         {
@@ -485,6 +494,7 @@ public class PlayerController : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit collision){
         hitNormal = collision.normal;
+        hitAngle = Vector3.Angle(Vector3.up, hitNormal);
         if(!ignoreCheckGround){
             if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
                verticalVelocity > 0f){
@@ -492,6 +502,19 @@ public class PlayerController : MonoBehaviour
             } else if(isLaunching && gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
                 isLaunching = false;
             }
+        }
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(isFalling && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){
+            other.transform.root.gameObject.GetComponent<Enemy>().Kill();
+
+            jumpElapsedTime = 0f;
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+
+            isJumping = true;
+            heldJumpInAir = true;
+            isGrounded = false;
         }
     }
 
