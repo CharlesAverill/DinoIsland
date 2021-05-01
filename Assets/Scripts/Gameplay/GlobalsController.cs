@@ -99,10 +99,14 @@ public class GlobalsController : MonoBehaviour {
             Unpause();
             return;
         }
+
         AudioListener.pause = true;
         isPaused = true;
         Time.timeScale = 0f;
         pauseMenu.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void Unpause(){
@@ -112,6 +116,9 @@ public class GlobalsController : MonoBehaviour {
         pauseMenu.SetActive(false);
 
         player.justUnpausedGroundCheck = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
