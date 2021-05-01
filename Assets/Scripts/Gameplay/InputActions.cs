@@ -24,7 +24,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""771a9254-4a20-408f-a207-08254a329ec1"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Look"",
@@ -80,7 +80,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""1cb92dd4-8644-4813-b5b8-fa48aa1163fd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap""
                 },
                 {
                     ""name"": ""Jump"",
@@ -96,7 +96,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""7c3d5745-226f-470b-a075-3c51a106962e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap""
                 },
                 {
                     ""name"": ""Character_Decrement"",
@@ -104,7 +104,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""c8a20bd6-908e-4977-ac1d-30efc973c060"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap""
                 }
             ],
             ""bindings"": [

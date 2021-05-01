@@ -24,7 +24,22 @@ ModelImporter:
   - first:
       74: 3092390095516863727
     second: KnightCharacterMesh.001|Run.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Armor Color
+    second: {fileID: 2100000, guid: 05816c1c9ed5bd7c988a129496d4488a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeMouthColor
+    second: {fileID: 2100000, guid: 9e39e064cd778a2fcbacffab8c050f1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Highlights
+    second: {fileID: 2100000, guid: 46ae7b84178356abaad4dd6382ec0981, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

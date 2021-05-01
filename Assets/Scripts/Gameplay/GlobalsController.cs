@@ -30,6 +30,9 @@ public class GlobalsController : MonoBehaviour {
 
     QD_DialogueHandler dialogueHandler;
 
+    public GameObject pauseMenu;
+    public bool isPaused;
+
     public bool loadingTheLoadingScreen;
     public bool loadingNextScene;
 
@@ -91,6 +94,26 @@ public class GlobalsController : MonoBehaviour {
 #endif
     }
 
+    public void Pause(){
+        if(Time.timeScale != 1f){
+            Unpause();
+            return;
+        }
+        AudioListener.pause = true;
+        isPaused = true;
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+    }
+
+    public void Unpause(){
+        AudioListener.pause = false;
+        isPaused = false;
+        Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
+
+        player.justUnpausedGroundCheck = true;
+    }
+
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
         if(loadingNextScene){ // Successfully loaded new Scene
             loadingTheLoadingScreen = false;
@@ -118,6 +141,13 @@ public class GlobalsController : MonoBehaviour {
 
         dialogueHandler = null;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+
+        try{
+            pauseMenu = GameObject.FindWithTag("PauseMenu");
+            pauseMenu.SetActive(false);
+        } catch {
+            Debug.Log("There is no Pause Menu object in this Scene");
+        }
 
         listener = GameObject.FindObjectOfType<AudioListener>();
         AudioListener.volume = saveData["SETTINGS_master-volume"];

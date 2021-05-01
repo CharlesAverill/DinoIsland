@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public CharacterStats currentStats;
     public CharacterStats[] characterStats;
     int currentStatIndex;
+    public float characterSwapWaitTime = 1f;
+    float characterSwapTimer;
     [Space(5)]
 
     [Header("Player Input")]
@@ -95,6 +97,8 @@ public class PlayerController : MonoBehaviour
     int ignoreCheckGroundTimer = 0;
 
     public bool isLaunching;
+
+    public bool justUnpausedGroundCheck;
     [Space(5)]
 
     [Header("NPC Interaction")]
@@ -118,17 +122,18 @@ public class PlayerController : MonoBehaviour
     //Slowdown platforms
     float slowDownTime;
 
+    private ButtonState previousPauseButtonState;
+
     void Awake(){
         controls = new InputActions();
 
-        controls.Player.Pause.started += _ => Pause();
-        controls.Player.Interact.started += _ => Interact();
-        controls.Player.CameraMode_Increment.started += _ => IncrementCameraMode();
-        controls.Player.CameraMode_FreeLook.started += _ => SetCameraMode(0);
-        controls.Player.CameraMode_FromBehind.started += _ => SetCameraMode(1);
+        controls.Player.Interact.performed += _ => Interact();
+        controls.Player.CameraMode_Increment.performed += _ => IncrementCameraMode();
+        controls.Player.CameraMode_FreeLook.performed += _ => SetCameraMode(0);
+        controls.Player.CameraMode_FromBehind.performed += _ => SetCameraMode(1);
 
-        controls.Player.Character_Increment.started += _ => SetCharacter(currentStatIndex + 1);
-        controls.Player.Character_Decrement.started += _ => SetCharacter(currentStatIndex - 1);
+        controls.Player.Character_Increment.performed += _ => SetCharacter(currentStatIndex + 1);
+        controls.Player.Character_Decrement.performed += _ => SetCharacter(currentStatIndex - 1);
 
         controls.Enable();
     }
@@ -168,10 +173,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        interactDelaySeconds += Time.deltaTime;
-        if(ignoreCheckGround){
-            ignoreCheckGroundTimer += 1;
+        if(controls.Player.Pause.ReadValue<float>() != 0f){
+            if(previousPauseButtonState == ButtonState.Released){
+                previousPauseButtonState = ButtonState.Held;
+                gc.Pause();
+
+                ignoreCheckGround = true;
+                ignoreCheckGroundTimer = 0;
+            }
+        } else {
+            previousPauseButtonState = ButtonState.Released;
         }
+
+        interactDelaySeconds += Time.deltaTime;
+        characterSwapTimer += Time.deltaTime;
 
         stickInput = controls.Player.Move.ReadValue<Vector2>();
         triedJump = controls.Player.Jump.ReadValueAsObject() != null;
@@ -188,13 +203,16 @@ public class PlayerController : MonoBehaviour
         GroundMovement();
         CameraMovement();
 
-        if(ignoreCheckGround){
-            isGrounded = false;
-            if(ignoreCheckGroundTimer > ignoreCheckGroundFrames){
-                ignoreCheckGround = false;
+        if(!gc.isPaused){
+            if(ignoreCheckGround){
+                ignoreCheckGroundTimer += 1;
+                isGrounded = false;
+                if(ignoreCheckGroundTimer > ignoreCheckGroundFrames){
+                    ignoreCheckGround = false;
+                }
+            } else {
+                isGrounded = hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
             }
-        } else {
-            isGrounded = hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
         }
 
         PlayerAudio();
@@ -211,6 +229,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void SetCharacter(int newIndex){
+        if(characterSwapTimer < characterSwapWaitTime){
+            return;
+        }
+
+        characterSwapTimer = 0f;
+
         if(newIndex < 0){
             newIndex = characterStats.Length - 1;
         } else if(newIndex >= characterStats.Length){
@@ -220,6 +244,15 @@ public class PlayerController : MonoBehaviour
         currentStatIndex = newIndex;
         currentStats = characterStats[currentStatIndex];
         DisableCharactersExcept(currentStatIndex);
+
+        // Fix footstep not changing bug
+        Transform groundTransform = getGround();
+
+        if(groundTransform == null){
+            return;
+        }
+
+        currentStats.SetFootstepClip(groundTransform);
     }
 
     void GroundMovement(){
@@ -295,9 +328,13 @@ public class PlayerController : MonoBehaviour
     void VerticalMovement(){
         if(!isGrounded || isLaunching)
         {
-            currentStats.anim.SetBool("isFalling", true);
-            cc.stepOffset = 0f;
-            currentStats.footstepClip = null;
+            if(!justUnpausedGroundCheck){
+                currentStats.anim.SetBool("isFalling", true);
+                cc.stepOffset = 0f;
+                currentStats.footstepClip = null;
+            } else {
+                justUnpausedGroundCheck = false;
+            }
         }
         else
         {
@@ -562,10 +599,5 @@ public class PlayerController : MonoBehaviour
             camModeIndex = 0;
         }
         camMode = camModes[camModeIndex];
-    }
-
-    void Pause(){
-        Debug.Log("Quitting application");
-        gc.Quit();
     }
 }

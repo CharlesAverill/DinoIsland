@@ -9,8 +9,10 @@ ScriptsOnlyBuild:
     - GlobalsController
     - Ground
     - IntroLoop
+    - KillPlane
     - LoadingScreenIconHandler
     - NPC
+    - PauseMenu
     - PlayerController
     - QuantumTek.EncryptedSave.ES_Save
     - QuantumTek.QuantumDialogue.QD_Dialogue
@@ -122,6 +124,8 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
+      Script: {instanceID: 11330}
+    - Class: 114
       Script: {instanceID: 11336}
     - Class: 114
       Script: {instanceID: 11340}
@@ -133,6 +137,12 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12252}
     - Class: 114
       Script: {instanceID: 12302}
+    - Class: 114
+      Script: {instanceID: 12422}
+    - Class: 114
+      Script: {instanceID: 12486}
+    - Class: 114
+      Script: {instanceID: 12550}
     - Class: 114
       Script: {instanceID: 12714}
     - Class: 114
@@ -183,6 +193,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 29620}
     - Class: 114
       Script: {instanceID: 287226}
+    - Class: 114
+      Script: {instanceID: 373524}
+    - Class: 114
+      Script: {instanceID: 448994}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 134
@@ -1224,7 +1238,7 @@ ScriptsOnlyBuild:
     className: NestedDB
   - hash:
       serializedVersion: 2
-      Hash: 5689b0215380390b95ceec1f3e995604
+      Hash: c79501369e53bb991b4957f93c87a4e0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GlobalsController
@@ -1248,7 +1262,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: e73a7a6d412c4e967cfe2c6c7dd8e986
+      Hash: 35b43e55b7b0b0e23ef8c613f178f849
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1582,6 +1596,18 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CharacterStats
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KillPlane
+  - hash:
+      serializedVersion: 2
+      Hash: 629d92b08715256aa53ae1b0f88aabe8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PauseMenu
   platform: 24
   scenePathNames:
   - Assets/Scenes/Title.unity
