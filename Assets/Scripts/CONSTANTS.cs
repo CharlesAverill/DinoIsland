@@ -16,7 +16,7 @@ public class CONSTANTS : MonoBehaviour
     public const int GROUND_MASK = (1 << GROUND_LAYER) |
                                   (1 << PUSHABLE_LAYER) |
                                   (1 << NPC_LAYER) |
-                                  (1 << ENEMY_LAYER);
+                                  (1 << SLOW_DOWN_LAYER);
 
     public const float DIALOGUE_INPUT_DELAY = .25f;
 

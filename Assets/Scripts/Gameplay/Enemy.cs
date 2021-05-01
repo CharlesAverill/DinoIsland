@@ -116,8 +116,6 @@ public class Enemy : MonoBehaviour
                 if(wanderTimer > 3f && agent.remainingDistance < 4f){
                     agent.SetDestination(getRandomNavMeshPosition());
                     Walk();
-
-                    Debug.Log("Walking to " + agent.destination);
                 } else if(agent.remainingDistance >= 4.2f){
                     wanderTimer = 0f;
                     Walk();
@@ -187,7 +185,7 @@ public class Enemy : MonoBehaviour
         if(!agent.enabled && GlobalsController.Instance.layerInMask(other.gameObject.layer, CONSTANTS.GROUND_MASK)){
             rb.isKinematic = true;
             rb.useGravity = false;
-            
+
             agent.enabled = true;
             hurtBox.SetActive(true);
         }

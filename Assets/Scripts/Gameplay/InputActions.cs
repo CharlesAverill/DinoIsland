@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/InputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Gameplay/InputActions.inputactions'
 
 using System;
 using System.Collections;
@@ -86,6 +86,22 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""44596423-de1d-4c87-8212-16ab560797fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Character_Increment"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c3d5745-226f-470b-a075-3c51a106962e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Character_Decrement"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8a20bd6-908e-4977-ac1d-30efc973c060"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -408,6 +424,50 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ca4bcb8-7d62-4f0b-8061-79d46ce48351"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Character_Increment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d70a75c4-df62-4a28-bde6-75d6230168d8"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Character_Increment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c81fc3f6-f29b-4407-8cd5-b24c652877be"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Character_Decrement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff3c1718-889d-41cc-a140-f90b740dac9a"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Character_Decrement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -994,6 +1054,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Player_CameraMode_FreeLook = m_Player.FindAction("CameraMode_FreeLook", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Character_Increment = m_Player.FindAction("Character_Increment", throwIfNotFound: true);
+        m_Player_Character_Decrement = m_Player.FindAction("Character_Decrement", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1064,6 +1126,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_CameraMode_FreeLook;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Character_Increment;
+    private readonly InputAction m_Player_Character_Decrement;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1077,6 +1141,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @CameraMode_FreeLook => m_Wrapper.m_Player_CameraMode_FreeLook;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Character_Increment => m_Wrapper.m_Player_Character_Increment;
+        public InputAction @Character_Decrement => m_Wrapper.m_Player_Character_Decrement;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1113,6 +1179,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Character_Increment.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Increment;
+                @Character_Increment.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Increment;
+                @Character_Increment.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Increment;
+                @Character_Decrement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Decrement;
+                @Character_Decrement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Decrement;
+                @Character_Decrement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCharacter_Decrement;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1144,6 +1216,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Character_Increment.started += instance.OnCharacter_Increment;
+                @Character_Increment.performed += instance.OnCharacter_Increment;
+                @Character_Increment.canceled += instance.OnCharacter_Increment;
+                @Character_Decrement.started += instance.OnCharacter_Decrement;
+                @Character_Decrement.performed += instance.OnCharacter_Decrement;
+                @Character_Decrement.canceled += instance.OnCharacter_Decrement;
             }
         }
     }
@@ -1309,6 +1387,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnCameraMode_FreeLook(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnCharacter_Increment(InputAction.CallbackContext context);
+        void OnCharacter_Decrement(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

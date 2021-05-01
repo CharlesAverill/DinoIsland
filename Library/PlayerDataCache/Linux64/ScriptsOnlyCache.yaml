@@ -4,6 +4,7 @@ ScriptsOnlyBuild:
     - QuantumTek.QuantumDialogue.Editor.QD_DialogueEditor
     Assembly-CSharp.dll:
     - BuildPlayer
+    - CharacterStats
     - Enemy
     - GlobalsController
     - Ground
@@ -53,8 +54,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -178,6 +181,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 15034}
     - Class: 114
       Script: {instanceID: 29620}
+    - Class: 114
+      Script: {instanceID: 287226}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 134
@@ -817,12 +822,6 @@ ScriptsOnlyBuild:
     className: CinemachineFramingTransposer
   - hash:
       serializedVersion: 2
-      Hash: 138960a6e9a1f3f6a8e4806c68ed92ea
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LargeTerrain
-  - hash:
-      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -1249,7 +1248,7 @@ ScriptsOnlyBuild:
     className: CinemachineVirtualCamera
   - hash:
       serializedVersion: 2
-      Hash: d5acb6793aa50f639e650eba3aac396e
+      Hash: e73a7a6d412c4e967cfe2c6c7dd8e986
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1423,18 +1422,6 @@ ScriptsOnlyBuild:
     className: PolybrushMesh
   - hash:
       serializedVersion: 2
-      Hash: b6d808a04c2fbce0789a815ec83d0339
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: RuntimeExample
-  - hash:
-      serializedVersion: 2
-      Hash: 5dd9619de23313559d1f73af09b0a8a2
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TerrainGenerator
-  - hash:
-      serializedVersion: 2
       Hash: 8cd1cbba27f3cb1717254f668e9e0d5a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -1589,6 +1576,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Spawner
+  - hash:
+      serializedVersion: 2
+      Hash: 54a26b558e4d49ca92bf1f13c6e1e08c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CharacterStats
   platform: 24
   scenePathNames:
   - Assets/Scenes/Title.unity

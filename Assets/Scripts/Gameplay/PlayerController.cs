@@ -23,20 +23,24 @@ public class PlayerController : MonoBehaviour
     // Globals
     private GlobalsController gc;
 
-    [Header("Camera and Animation")]
+    [Header("Camera")]
     public Transform mainCamera;
     public CinemachineFreeLook freeLook;
     public CameraMode camMode;
 
     private float turnSmoothVelocity;
 
-    public Animator anim;
-
     private List<CameraMode> camModes = new List<CameraMode>(){
         CameraMode.FreeLook,
         CameraMode.FromBehind
     };
     private int camModeIndex;
+    [Space(5)]
+
+    [Header("Character Stats")]
+    public CharacterStats currentStats;
+    public CharacterStats[] characterStats;
+    int currentStatIndex;
     [Space(5)]
 
     [Header("Player Input")]
@@ -52,17 +56,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump, Falling Physics")]
     public Vector3 hitNormal;
-    public float slideFriction;
     float hitAngle;
 
     public bool isGrounded;
     public bool isJumping;
     public bool isFalling;
-
-    public float jumpHeight;
-    public float highJumpMultiplier;
-    public float fallSpeed;
-    public float jumpTimer;
     private bool triedJump;
 
     private float jumpElapsedTime;
@@ -86,31 +84,15 @@ public class PlayerController : MonoBehaviour
         {
             return !isGrounded &&
                    heldJumpInAir &&
-                   jumpElapsedTime <= jumpTimer;
+                   jumpElapsedTime <= currentStats.jumpTimer;
         }
     }
     [Space(5)]
 
-    [Header("Translation Physics")]
-    public float walkSpeed;
-    public float turnSmoothTime;
-    public float rotateSpeed;
-
-    public float pushPower;
-    private float slowDownTime;
-    [Space(5)]
-
     [Header("Gravitational Physics")]
-    public List<Transform> groundChecks;
-    public float groundSnapForce;
-    public float groundSnapDistance = 1f;
-
     public bool ignoreCheckGround;
     public int ignoreCheckGroundFrames = 3;
     int ignoreCheckGroundTimer = 0;
-
-    public float maxFallSpeed;
-    public float groundDistance;
 
     public bool isLaunching;
     [Space(5)]
@@ -126,8 +108,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource playerAudioSource;
-    public AudioClip footstepClip;
-    public AudioClip defaultFootstepClip;
     [Space(5)]
 
     // Handles moving platforms
@@ -135,14 +115,20 @@ public class PlayerController : MonoBehaviour
     private Transform lastGroundTransform;
     private Vector3 lastGroundPosition;
 
+    //Slowdown platforms
+    float slowDownTime;
+
     void Awake(){
         controls = new InputActions();
 
-        controls.Player.Pause.performed += _ => Pause();
-        controls.Player.Interact.performed += _ => Interact();
-        controls.Player.CameraMode_Increment.performed += _ => IncrementCameraMode();
-        controls.Player.CameraMode_FreeLook.performed += _ => SetCameraMode(0);
-        controls.Player.CameraMode_FromBehind.performed += _ => SetCameraMode(1);
+        controls.Player.Pause.started += _ => Pause();
+        controls.Player.Interact.started += _ => Interact();
+        controls.Player.CameraMode_Increment.started += _ => IncrementCameraMode();
+        controls.Player.CameraMode_FreeLook.started += _ => SetCameraMode(0);
+        controls.Player.CameraMode_FromBehind.started += _ => SetCameraMode(1);
+
+        controls.Player.Character_Increment.started += _ => SetCharacter(currentStatIndex + 1);
+        controls.Player.Character_Decrement.started += _ => SetCharacter(currentStatIndex - 1);
 
         controls.Enable();
     }
@@ -157,6 +143,10 @@ public class PlayerController : MonoBehaviour
         verticalVelocity = 0f;
 
         interactDelaySeconds = 0f;
+
+        currentStatIndex = 0;
+        currentStats = characterStats[0];
+        DisableCharactersExcept(0);
 
         camModeIndex = camModes.IndexOf(camMode);
 
@@ -187,7 +177,7 @@ public class PlayerController : MonoBehaviour
         triedJump = controls.Player.Jump.ReadValueAsObject() != null;
 
         if(!isGrounded || lockMovement || stickInput == Vector2.zero){
-            anim.SetBool("isWalking", false);
+            currentStats.anim.SetBool("isWalking", false);
         }
 
         hitNormal = new Vector3(0, 0, 0);
@@ -210,6 +200,28 @@ public class PlayerController : MonoBehaviour
         PlayerAudio();
     }
 
+    void DisableCharactersExcept(int exclude){
+        for(int i = 0; i < characterStats.Length; i++){
+            if(i == exclude){
+                characterStats[i].gameObject.SetActive(true);
+            } else {
+                characterStats[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void SetCharacter(int newIndex){
+        if(newIndex < 0){
+            newIndex = characterStats.Length - 1;
+        } else if(newIndex >= characterStats.Length){
+            newIndex = 0;
+        }
+
+        currentStatIndex = newIndex;
+        currentStats = characterStats[currentStatIndex];
+        DisableCharactersExcept(currentStatIndex);
+    }
+
     void GroundMovement(){
         if(isGrounded){
             Transform groundTransform = getGround();
@@ -226,9 +238,10 @@ public class PlayerController : MonoBehaviour
                 lastGroundTransform = groundTransform;
                 lastGroundPosition = groundTransform.position;
                 lastGroundInitialized = true;
-                SetFootstepClip(groundTransform);
-            } else if(footstepClip == null){
-                SetFootstepClip(groundTransform);
+
+                currentStats.SetFootstepClip(groundTransform);
+            } else if(currentStats.footstepClip == null){
+                currentStats.SetFootstepClip(groundTransform);
             }
 
             Vector3 deltaGroundPosition = groundTransform.position - lastGroundPosition;
@@ -241,13 +254,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void SetFootstepClip(Transform groundTransform){
-        try {
-            footstepClip = groundTransform.parent.GetComponent<Ground>().footstepClip;
-        } catch {
-            footstepClip = defaultFootstepClip;
-        }
-    }
+
 
     void HorizontalMovement(){
         if(lockMovement){
@@ -268,7 +275,7 @@ public class PlayerController : MonoBehaviour
             }
 
             if(horizontalVelocity.magnitude > 0f){
-                anim.SetBool("isWalking", true);
+                currentStats.anim.SetBool("isWalking", true);
             }
         }
 
@@ -277,8 +284,8 @@ public class PlayerController : MonoBehaviour
                                              horizontalVelocity.y);
 
         if(hitAngle >= cc.slopeLimit){
-            moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
-            moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
+            moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - currentStats.slideFriction);
+            moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - currentStats.slideFriction);
         }
 
         // Move character controller
@@ -288,13 +295,13 @@ public class PlayerController : MonoBehaviour
     void VerticalMovement(){
         if(!isGrounded || isLaunching)
         {
-            anim.SetBool("isFalling", true);
+            currentStats.anim.SetBool("isFalling", true);
             cc.stepOffset = 0f;
-            footstepClip = null;
+            currentStats.footstepClip = null;
         }
         else
         {
-            anim.SetBool("isFalling", false);
+            currentStats.anim.SetBool("isFalling", false);
             cc.stepOffset = tempStepOffset;
 
             verticalVelocity = 0f;
@@ -313,14 +320,14 @@ public class PlayerController : MonoBehaviour
             isFalling = true;
         }
 
-        if(verticalVelocity < maxFallSpeed)
+        if(verticalVelocity < currentStats.maxFallSpeed)
         {
-            verticalVelocity = maxFallSpeed;
+            verticalVelocity = currentStats.maxFallSpeed;
         }
 
         // Ground snap stuff
         if(!ignoreCheckGround && horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
-            verticalVelocity += cc.height / 2 * groundSnapForce * Time.deltaTime;
+            verticalVelocity += cc.height / 2 * currentStats.groundSnapForce * Time.deltaTime;
         }
 
         cc.Move(new Vector3(0f, verticalVelocity * Time.deltaTime, 0f));
@@ -335,7 +342,7 @@ public class PlayerController : MonoBehaviour
 
             Vector3 newAngle = new Vector3(
                 currentAngle.x,
-                Mathf.LerpAngle(currentAngle.y, targetAngle.y, Time.deltaTime * rotateSpeed),
+                Mathf.LerpAngle(currentAngle.y, targetAngle.y, Time.deltaTime * currentStats.rotateSpeed),
                 currentAngle.z
             );
 
@@ -346,20 +353,9 @@ public class PlayerController : MonoBehaviour
     void PlayerAudio(){
         // Walking
         if(isGrounded && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
-            playerAudioSource.clip = footstepClip;
+            playerAudioSource.clip = currentStats.footstepClip;
             playerAudioSource.Play();
         }
-    }
-
-    bool checkGround(){
-        int numGrounded = 0;
-        foreach(Transform groundCheck in groundChecks)
-        {
-            numGrounded += Physics.CheckSphere(groundCheck.position,
-                                               groundDistance,
-                                               CONSTANTS.GROUND_MASK) ? 1 : 0;
-        }
-        return numGrounded > 1;
     }
 
     Transform getGround(){
@@ -367,7 +363,7 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(transform.position,
                            Vector3.down,
                            out hit,
-                           cc.height / 2 * groundSnapDistance,
+                           cc.height / 2 * currentStats.groundSnapDistance,
                            CONSTANTS.GROUND_MASK)){
             return hit.transform;
         }
@@ -383,7 +379,7 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(transform.position,
                            Vector3.down,
                            out hit,
-                           cc.height / 2 * groundSnapDistance,
+                           cc.height / 2 * currentStats.groundSnapDistance,
                            CONSTANTS.GROUND_MASK)){
             if(hit.normal != Vector3.up){
                 return true;
@@ -394,7 +390,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Fall(){
-        verticalVelocity += Physics.gravity.y * Time.deltaTime * fallSpeed;
+        verticalVelocity += Physics.gravity.y * Time.deltaTime * currentStats.fallSpeed;
     }
 
     void LedgeGrab(){
@@ -436,7 +432,7 @@ public class PlayerController : MonoBehaviour
 
         if(camMode == CameraMode.FreeLook && horizontal.magnitude > 0.1f && moveDirection.magnitude < 0.1f)
         {
-            transform.RotateAround(transform.position, transform.up, rotateSpeed);
+            transform.RotateAround(transform.position, transform.up, currentStats.rotateSpeed);
         }
 
         if(moveDirection.magnitude > 0.1f)
@@ -446,7 +442,7 @@ public class PlayerController : MonoBehaviour
             targetAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y,
                                                 targetAngle,
                                                 ref turnSmoothVelocity,
-                                                turnSmoothTime);
+                                                currentStats.turnSmoothTime);
 
             if(camMode == CameraMode.FromBehind)
             {
@@ -457,23 +453,26 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
         }
 
-        Vector3 output = moveDirection.normalized * Time.deltaTime * walkSpeed;
+        Vector3 output = moveDirection.normalized * Time.deltaTime * currentStats.walkSpeed;
         return new Vector2(output.x, output.z);
     }
 
     void Jump(bool jumpButtonPressed){
+        if(!currentStats.canJump){
+            return;
+        }
         if (jumpButtonPressed)
         {
             if(CanJump)
             {
-                verticalVelocity += Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y);
 
                 isJumping = true;
                 heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
-                verticalVelocity += jumpHeight * highJumpMultiplier;
+                verticalVelocity += currentStats.jumpHeight * currentStats.highJumpMultiplier;
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
@@ -510,7 +509,7 @@ public class PlayerController : MonoBehaviour
             other.transform.root.gameObject.GetComponent<Enemy>().Kill();
 
             jumpElapsedTime = 0f;
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+            verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y);
 
             isJumping = true;
             heldJumpInAir = true;
@@ -545,7 +544,7 @@ public class PlayerController : MonoBehaviour
                     interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
                     interactingWith.Activate();
 
-                    anim.SetBool("isWalking", false);
+                    currentStats.anim.SetBool("isWalking", false);
                 }
             }
         }
