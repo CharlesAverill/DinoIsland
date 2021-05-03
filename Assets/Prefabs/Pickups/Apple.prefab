@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 2267539243072797953}
   - component: {fileID: 2267539243072797955}
   - component: {fileID: 2267539243072797952}
-  m_Layer: 18
+  m_Layer: 0
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
