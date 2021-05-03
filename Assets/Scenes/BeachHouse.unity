@@ -12204,7 +12204,7 @@ MonoBehaviour:
   canJump: 1
   slideFriction: 0.3
   jumpHeight: 60
-  highJumpMultiplier: 0.015
+  highJumpMultiplier: 0.04
   fallSpeed: 12
   jumpTimer: 0.35
   walkSpeed: 25
@@ -49595,7 +49595,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4134654696262523957}
-  m_LocalRotation: {x: -0.0000000010471143, y: 0.9981751, z: -0.06038622, w: -0.000000017308638}
+  m_LocalRotation: {x: 0.0000000010471143, y: 0.9981751, z: -0.06038622, w: 0.000000017308638}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

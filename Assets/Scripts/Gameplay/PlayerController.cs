@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
         controls.Disable();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if(controls.Player.Pause.ReadValue<float>() != 0f){
             if(previousPauseButtonState == ButtonState.Released){
@@ -502,14 +502,14 @@ public class PlayerController : MonoBehaviour
         {
             if(CanJump)
             {
-                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y);
+                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -150f * Physics.gravity.y * Time.deltaTime);
 
                 isJumping = true;
                 heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
-                verticalVelocity += currentStats.jumpHeight * currentStats.highJumpMultiplier;
+                verticalVelocity += currentStats.jumpHeight * 20f * currentStats.highJumpMultiplier * Time.deltaTime;
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
