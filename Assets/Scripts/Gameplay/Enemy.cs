@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject hurtBox;
 
-    public float deathRotateSpeed = 500f;
+    public float deathRotateSpeed = 5f;
     bool isDying;
     [Space(5)]
 
@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
         audioSource.Play();
 
         while(audioSource.isPlaying){
-            transform.Rotate(0, Time.deltaTime * deathRotateSpeed, 0);
+            transform.Rotate(0, Time.deltaTime * 100f * deathRotateSpeed, 0);
             transform.localScale -= transform.localScale / 30f;
             yield return null;
         }

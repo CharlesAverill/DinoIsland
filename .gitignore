@@ -1,8 +1,7 @@
-Temp/*
-Library/*
+Temp
+Library
 Logs/*
 Packages/*
-Builds/Windows/*
-Builds/Linux/*
-Builds/Mac/*
-Library/*
+Builds/Windows/
+Builds/Linux/
+Builds/Mac/

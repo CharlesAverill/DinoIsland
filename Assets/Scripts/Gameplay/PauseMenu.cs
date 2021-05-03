@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -13,14 +14,17 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         GlobalsController gc = GlobalsController.Instance;
+        gc.pauseMenu = gameObject;
 
         resume.onClick.AddListener(gc.Unpause);
         quit.onClick.AddListener(gc.Quit);
+
+        gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+    void OnEnable(){
+        //EventSystem.current.SetSelectedGameObject(resume.gameObject);
+        resume.Select();
+        resume.OnSelect(null);
     }
 }

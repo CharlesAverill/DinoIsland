@@ -92,17 +92,25 @@ public class BuildPlayer : EditorWindow {
         buildLin = EditorGUILayout.Toggle("Build Linux", buildLin);
 
         if (GUILayout.Button("Build")) {
+            bool stopBuilds = false;
             if(buildWin){
                 BuildReport winReport = BuildPipeline.BuildPlayer(getBuildOptions(BuildVersion.Windows));
-                BuildSummary winSummary = winReport.summary;
+                if(winReport.summary.result == BuildResult.Failed){
+                    stopBuilds = true;
+                }
             }
-            if(buildMac){
+            if(!stopBuilds && buildMac){
                 BuildReport macReport = BuildPipeline.BuildPlayer(getBuildOptions(BuildVersion.OSX));
-                BuildSummary macSummary = macReport.summary;
+                if(macReport.summary.result == BuildResult.Failed){
+                    stopBuilds = true;
+                }
             }
-            if(buildLin){
+            if(!stopBuilds && buildLin){
                 BuildReport linReport = BuildPipeline.BuildPlayer(getBuildOptions(BuildVersion.Linux));
-                BuildSummary linSummary = linReport.summary;
+            }
+
+            if(stopBuilds){
+                Debug.Log("Build Failed");
             }
         }
 

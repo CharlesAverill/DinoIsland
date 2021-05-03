@@ -36,11 +36,14 @@ public class GlobalsController : MonoBehaviour {
     public bool loadingTheLoadingScreen;
     public bool loadingNextScene;
 
+    public int currentPickups;
+
     public string sceneToLoad;
 
-    public Dictionary<string, dynamic> saveData  = new Dictionary<string, dynamic>(){
+    public Dictionary<string, dynamic> saveData = new Dictionary<string, dynamic>(){
        {"SAVEDATA_initialized-save", true},
-       {"SETTINGS_master-volume", 1f}
+       {"SETTINGS_master-volume", 1f},
+       {"PLAYER_total-pickups", 0}
     };
 
     private void Awake()
@@ -76,6 +79,7 @@ public class GlobalsController : MonoBehaviour {
 
     void LoadSaveData(){
         saveData["SETTINGS_master-volume"] = ES_Save.Load<float>("SETTINGS_master-volume");
+        saveData["PLAYER_total-pickups"] = ES_Save.Load<int>("PLAYER_total-pickups");
     }
 
     void DeleteSaveData(){
@@ -149,13 +153,6 @@ public class GlobalsController : MonoBehaviour {
         dialogueHandler = null;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
-        try{
-            pauseMenu = GameObject.FindWithTag("PauseMenu");
-            pauseMenu.SetActive(false);
-        } catch {
-            Debug.Log("There is no Pause Menu object in this Scene");
-        }
-
         listener = GameObject.FindObjectOfType<AudioListener>();
         AudioListener.volume = saveData["SETTINGS_master-volume"];
 
@@ -202,5 +199,11 @@ public class GlobalsController : MonoBehaviour {
 
         audioSource.time = 0f;
         audioSource.pitch = 1;
+    }
+
+    public void addPickups(int deltaPickups){
+        currentPickups += deltaPickups;
+        saveData["PLAYER_total-pickups"] = saveData["PLAYER_total-pickups"] + deltaPickups;
+        Debug.Log(saveData["PLAYER_total-pickups"]);
     }
 }

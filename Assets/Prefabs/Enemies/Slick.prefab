@@ -491,7 +491,7 @@ MonoBehaviour:
   launchSpeed: 5.5
   launchVector: {x: 0, y: 0, z: 0}
   hurtBox: {fileID: 3495195065847805830}
-  deathRotateSpeed: 500
+  deathRotateSpeed: 5
   attackWait: 1
   attackWaitTimer: 0
   isAttacking: 0

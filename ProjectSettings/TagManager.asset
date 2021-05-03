@@ -29,8 +29,8 @@ TagManager:
   - LedgeGrab
   - Enemy
   - Hurtbox
-  - 
-  - 
+  - PostProcessing
+  - Pickups
   - 
   - 
   - 

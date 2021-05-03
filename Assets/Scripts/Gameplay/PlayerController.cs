@@ -531,6 +531,7 @@ public class PlayerController : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit collision){
         hitNormal = collision.normal;
         hitAngle = Vector3.Angle(Vector3.up, hitNormal);
+
         if(!ignoreCheckGround){
             if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
                verticalVelocity > 0f){
@@ -542,7 +543,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other){
-        if(isFalling && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){
+        if(other.gameObject.layer == CONSTANTS.PICKUPS_LAYER){ // Pickups
+            Pickup pickup = other.gameObject.GetComponent<Pickup>();
+            gc.addPickups(pickup.value);
+            pickup.Interact();
+        } else if(isFalling && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){ // Jumping on enemies
             other.transform.root.gameObject.GetComponent<Enemy>().Kill();
 
             jumpElapsedTime = 0f;
