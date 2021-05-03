@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
         controls.Disable();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(controls.Player.Pause.ReadValue<float>() != 0f){
             if(previousPauseButtonState == ButtonState.Released){
