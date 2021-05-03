@@ -363,7 +363,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Ground snap stuff
-        if(!ignoreCheckGround && horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
+        if(!ignoreCheckGround && !isJumping && horizontalVelocity.magnitude + verticalVelocity != 0 && onSlope()){
             verticalVelocity += cc.height / 2 * currentStats.groundSnapForce * Time.deltaTime;
         }
 
@@ -502,14 +502,14 @@ public class PlayerController : MonoBehaviour
         {
             if(CanJump)
             {
-                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -150f * Physics.gravity.y * Time.deltaTime);
+                verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed);
 
                 isJumping = true;
                 heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
-                verticalVelocity += currentStats.jumpHeight * 20f * currentStats.highJumpMultiplier * Time.deltaTime;
+                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed) * currentStats.highJumpMultiplier;
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
@@ -551,7 +551,7 @@ public class PlayerController : MonoBehaviour
             other.transform.root.gameObject.GetComponent<Enemy>().Kill();
 
             jumpElapsedTime = 0f;
-            verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y);
+            verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed);
 
             isJumping = true;
             heldJumpInAir = true;

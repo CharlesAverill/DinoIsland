@@ -7,7 +7,7 @@ public class CharacterStats : MonoBehaviour
 {
     [Header("Jump, Falling Physics")]
     public bool canJump;
-    
+
     public float slideFriction;
 
     public float jumpHeight;
