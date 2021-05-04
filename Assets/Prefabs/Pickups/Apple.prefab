@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3a3727700d529a4b1c6da4765b828a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 1
+  value: 7
   rotateSpeed: 1
   hoverMagnitude: 1
   hoverFrequency: 3.5
