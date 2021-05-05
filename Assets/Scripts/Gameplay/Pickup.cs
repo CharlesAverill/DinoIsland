@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(MeshRenderer))]
 public class Pickup : MonoBehaviour
 {
 
@@ -13,9 +12,10 @@ public class Pickup : MonoBehaviour
     public float hoverMagnitude = 0.5f;
     public float hoverFrequency = 1f;
 
+    public MeshRenderer meshRenderer;
+    public Projector shadowProjector;
     public ParticleSystem pickupParticles;
 
-    MeshRenderer meshRenderer;
     AudioSource audioSource;
     float initialHeight;
 
@@ -25,8 +25,15 @@ public class Pickup : MonoBehaviour
     void Start()
     {
         initialHeight = transform.position.y;
-        meshRenderer = GetComponent<MeshRenderer>();
         audioSource = GetComponent<AudioSource>();
+
+        if(meshRenderer == null){
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+        }
+        if(shadowProjector == null){
+            shadowProjector = GetComponentInChildren<Projector>();
+        }
+
         pickupParticles.Stop();
     }
 
@@ -50,7 +57,8 @@ public class Pickup : MonoBehaviour
 
     IEnumerator interactHelper(){
         meshRenderer.enabled = false;
-        
+        shadowProjector.enabled = false;
+
         pickupParticles.Play();
         audioSource.Play();
 

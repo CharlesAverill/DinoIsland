@@ -389,7 +389,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerAudio(){
         // Walking
-        if(isGrounded && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
+        if(isGrounded && !isInteracting && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
             playerAudioSource.clip = currentStats.footstepClip;
             playerAudioSource.Play();
         }
@@ -559,9 +559,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void InvertXAxisOnControlChange(){
-        bool invert = playerInput.currentControlScheme == "Gamepad";
-        freeLook.m_XAxis.m_InvertInput = invert;
+    void OnControlChange(){
+        /*
+        X Axis inverted on gamepad
+        X Axis max speed is 2x on gamepad
+        */
+        bool usingGamepad = playerInput.currentControlScheme == "Gamepad";
+        if(usingGamepad){
+            freeLook.m_XAxis.m_InvertInput = true;
+            freeLook.m_XAxis.m_MaxSpeed = 220f;
+        } else {
+            freeLook.m_XAxis.m_InvertInput = false;
+            freeLook.m_XAxis.m_MaxSpeed = 170f;
+        }
     }
 
     void Interact(){
@@ -573,10 +583,11 @@ public class PlayerController : MonoBehaviour
             interactDelaySeconds = 0f;
 
             RaycastHit objectHit;
-            if(isGrounded && Physics.Raycast(transform.position,
+            if(isGrounded && Physics.SphereCast(transform.position,
+                                             7f,
                                              transform.forward,
                                              out objectHit,
-                                             7f))
+                                             10f))
             {
                 if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
                    || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER)
