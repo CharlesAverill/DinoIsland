@@ -86,6 +86,14 @@ public class Enemy : MonoBehaviour
         audioSource.clip = deathClip;
         audioSource.Play();
 
+        hurtBox.SetActive(false);
+
+        try{
+            GetComponent<Collider>().enabled = false;
+        } catch {
+            Debug.Log("Killed enemy without root-level collider");
+        }
+
         while(audioSource.isPlaying){
             transform.Rotate(0, Time.deltaTime * 100f * deathRotateSpeed, 0);
             transform.localScale -= transform.localScale / 30f;

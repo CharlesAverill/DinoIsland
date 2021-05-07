@@ -317,8 +317,26 @@ public class PlayerController : MonoBehaviour
                                              horizontalVelocity.y);
 
         if(hitAngle >= cc.slopeLimit){
-            moveHorizontal.x += (1f - hitNormal.y) * hitNormal.x * (1f - currentStats.slideFriction);
-            moveHorizontal.z += (1f - hitNormal.y) * hitNormal.z * (1f - currentStats.slideFriction);
+            moveHorizontal.x = (1f - hitNormal.y) * hitNormal.x * (1f - currentStats.slideFriction);
+            moveHorizontal.z = (1f - hitNormal.y) * hitNormal.z * (1f - currentStats.slideFriction);
+
+            moveHorizontal = moveHorizontal.normalized / 2f;
+
+            /*
+            RaycastHit hit;
+            if(Physics.Raycast(transform.position + moveHorizontal / 10f,
+                               Vector3.down,
+                               out hit,
+                               cc.height / 2 * currentStats.groundSnapDistance,
+                               CONSTANTS.GROUND_MASK)){
+                if(hit.point.y < transform.position.y){
+                    moveHorizontal.x = horizontalVelocity.x;
+                    moveHorizontal.z = horizontalVelocity.y;
+
+                    Debug.Log(transform.position + " " + hit.point);
+                }
+            }
+            */
         }
 
         // Move character controller
@@ -523,15 +541,17 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnControllerColliderHit(ControllerColliderHit collision){
-        hitNormal = collision.normal;
-        hitAngle = Vector3.Angle(Vector3.up, hitNormal);
+        if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
+            hitNormal = collision.normal;
+            hitAngle = Vector3.Angle(Vector3.up, hitNormal);
 
-        if(!ignoreCheckGround){
-            if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
-               verticalVelocity > 0f){
-                verticalVelocity = 0f;
-            } else if(isLaunching && gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
-                isLaunching = false;
+            if(!ignoreCheckGround){
+                if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
+                   verticalVelocity > 0f){
+                    verticalVelocity = 0f;
+                } else if(isLaunching && gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
+                    isLaunching = false;
+                }
             }
         }
     }
@@ -541,7 +561,7 @@ public class PlayerController : MonoBehaviour
             Pickup pickup = other.gameObject.GetComponent<Pickup>();
             gc.addPickups(pickup.value);
             pickup.Interact();
-        } else if(isFalling && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){ // Jumping on enemies
+        } else if((isGrounded || isFalling) && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){ // Jumping on enemies
             other.transform.root.gameObject.GetComponent<Enemy>().Kill();
 
             jumpElapsedTime = 0f;
