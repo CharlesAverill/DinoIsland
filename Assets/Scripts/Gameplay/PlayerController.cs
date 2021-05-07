@@ -178,8 +178,7 @@ public class PlayerController : MonoBehaviour
                 previousPauseButtonState = ButtonState.Held;
                 gc.Pause();
 
-                ignoreCheckGround = true;
-                ignoreCheckGroundTimer = 0;
+                justUnpausedGroundCheck = true;
             }
         } else {
             previousPauseButtonState = ButtonState.Released;
@@ -211,7 +210,8 @@ public class PlayerController : MonoBehaviour
                     ignoreCheckGround = false;
                 }
             } else {
-                isGrounded = hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
+                isGrounded = justUnpausedGroundCheck || hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
+                justUnpausedGroundCheck = false;
             }
         }
 
@@ -328,13 +328,9 @@ public class PlayerController : MonoBehaviour
     void VerticalMovement(){
         if(!isGrounded || isLaunching)
         {
-            if(!justUnpausedGroundCheck){
-                currentStats.anim.SetBool("isFalling", true);
-                cc.stepOffset = 0f;
-                currentStats.footstepClip = null;
-            } else {
-                justUnpausedGroundCheck = false;
-            }
+            currentStats.anim.SetBool("isFalling", true);
+            cc.stepOffset = 0f;
+            currentStats.footstepClip = null;
         }
         else
         {
@@ -353,9 +349,7 @@ public class PlayerController : MonoBehaviour
 
         Jump(triedJump);
 
-        if(isJumping && verticalVelocity < 0){
-            isFalling = true;
-        }
+        isFalling = isJumping && verticalVelocity < 0;
 
         if(verticalVelocity < currentStats.maxFallSpeed)
         {
