@@ -19,6 +19,7 @@ public class GlobalsController : MonoBehaviour {
     public PlayerController player;
     public Camera mainCamera;
     public AudioListener listener;
+    public HUDHandler hudHandler;
 
     public AudioSource audioSource;
 
@@ -161,6 +162,12 @@ public class GlobalsController : MonoBehaviour {
         } catch {
             Debug.Log("There is no Player object in this Scene");
         }
+
+        try{
+            hudHandler = GameObject.FindWithTag("HUD").GetComponent<HUDHandler>();
+        } catch {
+            Debug.Log("There is no HUD object in this Scene");
+        }
     }
 
     public void LoadScene(string SceneName){
@@ -204,6 +211,9 @@ public class GlobalsController : MonoBehaviour {
     public void addPickups(int deltaPickups){
         currentPickups += deltaPickups;
         saveData["PLAYER_total-pickups"] = saveData["PLAYER_total-pickups"] + deltaPickups;
-        Debug.Log(saveData["PLAYER_total-pickups"]);
+
+        if(hudHandler != null){
+            hudHandler.updatePickups(currentPickups);
+        }
     }
 }

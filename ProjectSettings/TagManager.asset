@@ -11,6 +11,8 @@ TagManager:
   - SpeakerIcon
   - DialogueText
   - PauseMenu
+  - Fire
+  - HUD
   layers:
   - Default
   - TransparentFX
