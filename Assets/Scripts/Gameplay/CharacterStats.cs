@@ -5,6 +5,20 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
+    [Header("Health and Damage")]
+    public int health;
+    public int maxHealth;
+    public float healthPercentage {
+        get {
+            return (float)(health) / (float)maxHealth;
+        }
+        set {
+            return;
+        }
+    }
+    public float damage;
+    [Space(5)]
+
     [Header("Jump, Falling Physics")]
     public bool canJump;
 
@@ -38,6 +52,10 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Animation")]
     public Animator anim;
+
+    public void Start(){
+        health = maxHealth;
+    }
 
     public void SetFootstepClip(Transform groundTransform){
         try {

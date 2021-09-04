@@ -40,8 +40,12 @@ public class PlayerController : MonoBehaviour
     [Header("Character Stats")]
     public CharacterStats currentStats;
     public CharacterStats[] characterStats;
+
     int currentStatIndex;
     public float characterSwapWaitTime = 1f;
+
+    int numDead;
+
     float characterSwapTimer;
     [Space(5)]
 
@@ -152,6 +156,7 @@ public class PlayerController : MonoBehaviour
         currentStatIndex = 0;
         currentStats = characterStats[0];
         DisableCharactersExcept(0);
+        numDead = 0;
 
         camModeIndex = camModes.IndexOf(camMode);
 
@@ -228,8 +233,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void SetCharacter(int newIndex){
-        if(characterSwapTimer < characterSwapWaitTime){
+    void SetCharacter(int newIndex, bool ignoreSwapTime=false){
+        if(numDead == characterStats.Length){
+            Debug.Log("Game Over!");
+            UnityEditor.EditorApplication.isPlaying = false;
+            return;
+        }
+
+        if(!ignoreSwapTime && characterSwapTimer < characterSwapWaitTime){
             return;
         }
 
@@ -239,6 +250,15 @@ public class PlayerController : MonoBehaviour
             newIndex = characterStats.Length - 1;
         } else if(newIndex >= characterStats.Length){
             newIndex = 0;
+        }
+
+        while(characterStats[newIndex].health == 0){
+            newIndex++;
+            if(newIndex < 0){
+                newIndex = characterStats.Length - 1;
+            } else if(newIndex >= characterStats.Length){
+                newIndex = 0;
+            }
         }
 
         currentStatIndex = newIndex;
@@ -253,6 +273,8 @@ public class PlayerController : MonoBehaviour
         }
 
         currentStats.SetFootstepClip(groundTransform);
+
+        gc.hudHandler.updateHealth(currentStats.healthPercentage);
     }
 
     void GroundMovement(){
@@ -286,8 +308,6 @@ public class PlayerController : MonoBehaviour
             lastGroundInitialized = false;
         }
     }
-
-
 
     void HorizontalMovement(){
         if(lockMovement){
@@ -538,6 +558,22 @@ public class PlayerController : MonoBehaviour
 
         horizontalVelocity = new Vector2(velocity.x, velocity.z);
         verticalVelocity = velocity.y;
+    }
+
+    public void Hurt(int damage){
+        updateHealth(damage);
+    }
+
+    void updateHealth(int damage){
+        currentStats.health -= damage;
+
+        gc.hudHandler.updateHealth(currentStats.healthPercentage);
+
+        if(currentStats.health <= 0){
+            numDead++;
+            SetCharacter(currentStatIndex + 1, true);
+            Debug.Log("Dead!");
+        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit collision){

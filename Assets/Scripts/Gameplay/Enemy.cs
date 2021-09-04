@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     public float wanderDistance;
     public float wanderTimer;
 
+    public int damage;
+
     public bool launchTarget;
     public float launchSpeed;
     public Vector3 launchVector;
@@ -155,6 +157,7 @@ public class Enemy : MonoBehaviour
                                        Mathf.Abs(launchVector.z)) * 2f;
 
             GlobalsController.Instance.player.Launch(launchVector);
+            GlobalsController.Instance.player.Hurt(damage);
         }
 
         audioSource.Stop();

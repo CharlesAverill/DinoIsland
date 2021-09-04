@@ -366,8 +366,8 @@ AudioSource:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5216147
-      value: 0.66698503
+      time: 0.85630095
+      value: 0.6429372
       inSlope: -0.9499939
       outSlope: -0.9499939
       tangentMode: 0
@@ -488,6 +488,7 @@ MonoBehaviour:
   wander: 1
   wanderDistance: 50
   wanderTimer: 0
+  damage: 1
   launchTarget: 1
   launchSpeed: 5.5
   launchVector: {x: 0, y: 0, z: 0}
@@ -710,3 +711,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66dbed6c230118ffb725eb516403ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upVector: {x: 90, y: 0, z: 0}
