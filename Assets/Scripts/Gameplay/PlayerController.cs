@@ -236,7 +236,9 @@ public class PlayerController : MonoBehaviour
     void SetCharacter(int newIndex, bool ignoreSwapTime=false){
         if(numDead == characterStats.Length){
             Debug.Log("Game Over!");
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
+#endif
             return;
         }
 
