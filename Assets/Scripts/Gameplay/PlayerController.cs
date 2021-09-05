@@ -238,6 +238,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Game Over!");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
+#else
+            gc.Quit();
 #endif
             return;
         }
