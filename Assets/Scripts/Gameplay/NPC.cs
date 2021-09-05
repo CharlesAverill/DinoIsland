@@ -35,7 +35,6 @@ public class NPC : MonoBehaviour
         }
 
         if(rotateToPlayer){
-            Debug.Log("Rotating");
             Vector3 destination = new Vector3(
                 gc.player.transform.position.x,
                 transform.position.y,

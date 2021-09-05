@@ -628,26 +628,26 @@ public class PlayerController : MonoBehaviour
         if(isInteracting && interactingWith != null && interactingWith.isTalking){
             interactingWith.Next();
         }
-        else if(!lockMovement && interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY)
+        else if(!lockMovement && interactDelaySeconds > CONSTANTS.DIALOGUE_INPUT_DELAY && isGrounded)
         {
             interactDelaySeconds = 0f;
 
-            RaycastHit objectHit;
-            if(isGrounded && Physics.SphereCast(transform.position,
-                                             7f,
-                                             transform.forward,
-                                             out objectHit,
-                                             10f))
-            {
-                if(objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
-                   || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER)
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7f);
+
+            foreach(Collider objectHit in hitColliders){
+                if((objectHit.transform.gameObject.layer == CONSTANTS.NPC_LAYER
+                   || objectHit.transform.gameObject.layer == CONSTANTS.INTERACT_LAYER) && // Layer check
+                   Vector3.Angle(transform.forward, objectHit.transform.position - transform.position) < 45f) // Angle check
                 {
                     isInteracting = true;
 
                     interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
+                    Debug.Log(objectHit.transform.gameObject.name);
                     interactingWith.Activate();
 
                     currentStats.anim.SetBool("isWalking", false);
+
+                    break;
                 }
             }
         }

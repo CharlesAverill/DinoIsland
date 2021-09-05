@@ -1,27 +1,37 @@
 fileFormatVersion: 2
-guid: ce1769e505242f0cdb82fcc4b576d6f2
+guid: 50f30f352d945e7d6a1326a64aecfefb
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: -623603649343465320
-    second: DoorOpen
+    second: Bill|Idle
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: ff201c9f26f28e905952a506c6549c5e, type: 2}
+      name: Beak
+    second: {fileID: 2100000, guid: 1757a83ed8eae3220b2f9f4c5cacdcab, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Planks
-    second: {fileID: 2100000, guid: af71e3b0933630e1ba56ce6307564bd1, type: 2}
+      name: Eye
+    second: {fileID: 2100000, guid: 01f167e3f84befe96b3247f65ac22110, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Shingles
-    second: {fileID: 2100000, guid: c3f43d41f50e41f719fbe008044aefe0, type: 2}
+      name: Feathers_Blue
+    second: {fileID: 2100000, guid: 4dec3612268840090a4c0d892f6ff4ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Feathers_Pink
+    second: {fileID: 2100000, guid: ca7c7a09b790d950bb7893dc773a2e60, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: ca7c7a09b790d950bb7893dc773a2e60, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -50,18 +60,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DoorOpen
+      name: Bill|Idle
       takeName: Scene
       internalID: 0
       firstFrame: 1
-      lastFrame: 10
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -77,7 +87,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -88,8 +98,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -108,8 +118,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 60
-    normalImportMode: 0
+    normalSmoothAngle: 180
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0

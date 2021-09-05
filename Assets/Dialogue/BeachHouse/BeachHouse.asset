@@ -16,10 +16,16 @@ MonoBehaviour:
   - ID: 0
     Name: BeachHouse_SwimmyPlesiosaur
     FirstMessage: 2
+  - ID: 4
+    Name: BeachHouse_Bill
+    FirstMessage: 6
   Speakers:
   - ID: 1
     Name: Swimmy Plesiousaur
     Icon: {fileID: 21300000, guid: 08770305b120d2f309171f0d3773ae7d, type: 3}
+  - ID: 5
+    Name: Bill
+    Icon: {fileID: 21300000, guid: 9c99bf309f366163197e4cb70dc70cd3, type: 3}
   Messages:
   - ID: 2
     Speaker: 1
@@ -27,5 +33,19 @@ MonoBehaviour:
     PreviousMessage: -1
     NextMessage: -1
     MessageText: Some day, I'll take you all across the island!
+    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
+  - ID: 6
+    Speaker: 5
+    SpeakerName: Bill
+    PreviousMessage: -1
+    NextMessage: 8
+    MessageText: Hey there, I'm Bill!
+    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
+  - ID: 8
+    Speaker: 5
+    SpeakerName: Bill
+    PreviousMessage: 6
+    NextMessage: -1
+    MessageText: I can't wait to talk more to you in the full game!
     Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
   Choices: []
