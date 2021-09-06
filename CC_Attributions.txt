@@ -10,4 +10,5 @@ Freesound -
 	hamel_marie_2012_13_son3.wav by univ_lyon3
 	Metal 06.wav by Debsound
 	Item_05.wav by timmy_h123
+	Health Pickup by KeshaFilm
 Contains assets from CC0Textures.com, licensed under CC0 1.0 Universal.

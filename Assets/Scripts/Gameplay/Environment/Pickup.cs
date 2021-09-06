@@ -2,39 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class Pickup : MonoBehaviour
 {
 
+    public enum PickupType {
+        Fruit,
+        Health
+    }
+
+    [Header("Stats")]
+    public PickupType type;
     public int value = 1;
+
+    bool canInteract = true;
+    [Space(5)]
+
+    [Header("Visual")]
     public float rotateSpeed = 1f;
 
     public float hoverMagnitude = 0.5f;
     public float hoverFrequency = 1f;
+    float initialHeight;
 
     public MeshRenderer meshRenderer;
     public Projector shadowProjector;
+
+    public bool useParticles;
+#if UNITY_EDITOR
+    [ConditionalHide("useParticles", true)]
+#endif
     public ParticleSystem pickupParticles;
+    [Space(5)]
 
-    AudioSource audioSource;
-    float initialHeight;
+    [Header("Audio")]
+    public bool playSoundOnInteract;
+#if UNITY_EDITOR
+    [ConditionalHide("playSoundOnInteract", true)]
+#endif
+    public AudioSource audioSource;
+    [Space(5)]
 
-    bool canInteract = true;
+    GlobalsController gc;
 
     // Start is called before the first frame update
     void Start()
     {
+        gc = GlobalsController.Instance;
+
         initialHeight = transform.position.y;
-        audioSource = GetComponent<AudioSource>();
 
-        if(meshRenderer == null){
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if(useParticles){
+            pickupParticles.Stop();
         }
-        if(shadowProjector == null){
-            shadowProjector = GetComponentInChildren<Projector>();
-        }
-
-        pickupParticles.Stop();
     }
 
     // Update is called once per frame
@@ -50,6 +69,16 @@ public class Pickup : MonoBehaviour
 
     public void Interact(){
         if(canInteract){
+            switch(type){
+                case PickupType.Fruit:
+                    gc.addPickups(value);
+                    break;
+                case PickupType.Health:
+                    if(gc.player.currentStats.health > 0){
+                        gc.player.Heal(value);
+                    }
+                    break;
+            }
             StartCoroutine(interactHelper());
             canInteract = false;
         }
@@ -59,10 +88,15 @@ public class Pickup : MonoBehaviour
         meshRenderer.enabled = false;
         shadowProjector.enabled = false;
 
-        pickupParticles.Play();
-        audioSource.Play();
+        if(playSoundOnInteract){
+            Debug.Log("Playing");
+            audioSource.Play();
+        }
+        if(useParticles){
+            pickupParticles.Play();
+        }
 
-        while(pickupParticles.isEmitting){
+        while((useParticles && pickupParticles.isEmitting) || (playSoundOnInteract && audioSource.isPlaying)){
             yield return null;
         }
 

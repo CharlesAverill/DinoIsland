@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 0
@@ -4811,13 +4811,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3a3727700d529a4b1c6da4765b828a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   value: 5
   rotateSpeed: 1
   hoverMagnitude: 1
   hoverFrequency: 3.5
   meshRenderer: {fileID: 8342715204547952915}
-  shadowProjector: {fileID: 0}
+  shadowProjector: {fileID: 4552038956144542174}
+  useParticles: 1
   pickupParticles: {fileID: 7207680144108144150}
+  playSoundOnInteract: 1
+  audioSource: {fileID: 7550209144469020871}
 --- !u!33 &6062883102097946073
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5052,6 +5056,12 @@ PrefabInstance:
 --- !u!4 &4552038956144542175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1381057871841155493, guid: a67937473d6912450ae3e87428087e90,
+    type: 3}
+  m_PrefabInstance: {fileID: 3172389568404330618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!119 &4552038956144542174 stripped
+Projector:
+  m_CorrespondingSourceObject: {fileID: 1381057871841155492, guid: a67937473d6912450ae3e87428087e90,
     type: 3}
   m_PrefabInstance: {fileID: 3172389568404330618}
   m_PrefabAsset: {fileID: 0}

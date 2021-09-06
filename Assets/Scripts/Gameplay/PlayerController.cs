@@ -244,7 +244,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(!ignoreSwapTime && characterSwapTimer < characterSwapWaitTime){
+        if((!ignoreSwapTime && characterSwapTimer < characterSwapWaitTime) ||
+            isLaunching){
             return;
         }
 
@@ -269,6 +270,8 @@ public class PlayerController : MonoBehaviour
         currentStats = characterStats[currentStatIndex];
         DisableCharactersExcept(currentStatIndex);
 
+        gc.hudHandler.updateHealth(currentStats.healthPercentage);
+
         // Fix footstep not changing bug
         Transform groundTransform = getGround();
 
@@ -277,8 +280,6 @@ public class PlayerController : MonoBehaviour
         }
 
         currentStats.SetFootstepClip(groundTransform);
-
-        gc.hudHandler.updateHealth(currentStats.healthPercentage);
     }
 
     void GroundMovement(){
@@ -565,11 +566,15 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Hurt(int damage){
-        updateHealth(damage);
+        updateHealth(-damage);
     }
 
-    void updateHealth(int damage){
-        currentStats.health -= damage;
+    public void Heal(int health){
+        updateHealth(health);
+    }
+
+    void updateHealth(int delta){
+        currentStats.health += delta;
 
         gc.hudHandler.updateHealth(currentStats.healthPercentage);
 
@@ -598,9 +603,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(other.gameObject.layer == CONSTANTS.PICKUPS_LAYER){ // Pickups
-            Pickup pickup = other.gameObject.GetComponent<Pickup>();
-            gc.addPickups(pickup.value);
-            pickup.Interact();
+            other.gameObject.GetComponent<Pickup>().Interact();
         } else if((isGrounded || isFalling) && other.gameObject.layer == CONSTANTS.HURTBOX_LAYER){ // Jumping on enemies
             other.transform.root.gameObject.GetComponent<Enemy>().Kill();
 

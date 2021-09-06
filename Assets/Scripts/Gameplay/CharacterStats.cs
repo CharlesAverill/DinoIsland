@@ -6,7 +6,15 @@ using UnityEngine;
 public class CharacterStats : MonoBehaviour
 {
     [Header("Health and Damage")]
-    public int health;
+    int _health;
+    public int health {
+        get {
+            return _health;
+        }
+        set {
+            _health = Mathf.Min(value, maxHealth);
+        }
+    }
     public int maxHealth;
     public float healthPercentage {
         get {
