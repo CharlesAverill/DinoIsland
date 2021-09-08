@@ -136,8 +136,8 @@ public class PlayerController : MonoBehaviour
         controls.Player.CameraMode_FreeLook.performed += _ => SetCameraMode(0);
         controls.Player.CameraMode_FromBehind.performed += _ => SetCameraMode(1);
 
-        controls.Player.Character_Increment.performed += _ => SetCharacter(currentStatIndex + 1);
-        controls.Player.Character_Decrement.performed += _ => SetCharacter(currentStatIndex - 1);
+        controls.Player.Character_Increment.performed += _ => SetCharacter(currentStatIndex + 1, false);
+        controls.Player.Character_Decrement.performed += _ => SetCharacter(currentStatIndex - 1, false);
 
         controls.Enable();
     }
@@ -166,6 +166,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 #endif
+
+        characterSwapTimer = characterSwapWaitTime;
     }
 
     void OnEnable(){
@@ -233,19 +235,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void SetCharacter(int newIndex, bool ignoreSwapTime=false){
-        if(numDead == characterStats.Length){
-            Debug.Log("Game Over!");
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            gc.Quit();
-#endif
-            return;
+    void SetCharacter(int newIndex, bool forceSet){
+        if(forceSet){
+            for(int i = 0; i < characterStats.Length; i++){
+                if(characterStats[i].health > 0){
+                    newIndex = i;
+                    break;
+                }
+            }
         }
 
-        if((!ignoreSwapTime && characterSwapTimer < characterSwapWaitTime) ||
-            isLaunching){
+        if(!forceSet && (characterSwapTimer < characterSwapWaitTime || isLaunching)){
             return;
         }
 
@@ -257,8 +257,9 @@ public class PlayerController : MonoBehaviour
             newIndex = 0;
         }
 
-        while(characterStats[newIndex].health == 0){
+        while(characterStats[newIndex].health <= 0){
             newIndex++;
+
             if(newIndex < 0){
                 newIndex = characterStats.Length - 1;
             } else if(newIndex >= characterStats.Length){
@@ -580,6 +581,11 @@ public class PlayerController : MonoBehaviour
 
         if(currentStats.health <= 0){
             numDead++;
+            if(numDead == characterStats.Length){
+                Debug.Log("Game Over!");
+                gc.Quit();
+                return;
+            }
             SetCharacter(currentStatIndex + 1, true);
             Debug.Log("Dead!");
         }
@@ -650,7 +656,6 @@ public class PlayerController : MonoBehaviour
                     isInteracting = true;
 
                     interactingWith = objectHit.transform.root.gameObject.GetComponent<NPC>();
-                    Debug.Log(objectHit.transform.gameObject.name);
                     interactingWith.Activate();
 
                     currentStats.anim.SetBool("isWalking", false);

@@ -89,7 +89,6 @@ public class Pickup : MonoBehaviour
         shadowProjector.enabled = false;
 
         if(playSoundOnInteract){
-            Debug.Log("Playing");
             audioSource.Play();
         }
         if(useParticles){

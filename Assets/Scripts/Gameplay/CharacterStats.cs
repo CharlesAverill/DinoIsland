@@ -61,8 +61,8 @@ public class CharacterStats : MonoBehaviour
     [Header("Animation")]
     public Animator anim;
 
-    public void Start(){
-        health = maxHealth;
+    public void Awake(){
+        _health = maxHealth;
     }
 
     public void SetFootstepClip(Transform groundTransform){
