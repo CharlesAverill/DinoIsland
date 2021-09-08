@@ -591,8 +591,9 @@ public class PlayerController : MonoBehaviour
             hitAngle = Vector3.Angle(Vector3.up, hitNormal);
 
             if(!ignoreCheckGround){
-                if(gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) &&
-                   verticalVelocity > 0f){
+                if((gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) ||
+                    gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)) &&
+                        verticalVelocity > 0f){
                     verticalVelocity = 0f;
                 } else if(isLaunching && gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)){
                     isLaunching = false;
