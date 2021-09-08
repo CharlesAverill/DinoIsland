@@ -30,8 +30,13 @@ public class Enemy : MonoBehaviour
     [Header("Enemy AI")]
     public float attackWait;
     public float attackWaitTimer;
+
     public bool isAttacking;
+
     public float distanceToTarget;
+
+    public bool playerInRange;
+
     Transform target;
     NavMeshAgent agent;
     [Space(5)]
@@ -117,7 +122,7 @@ public class Enemy : MonoBehaviour
                 if(distanceToTarget > agent.stoppingDistance + 2f){
                     Walk();
                 }
-                else if(!isAttacking && distanceToTarget <= agent.stoppingDistance + 2f){
+                else if(!isAttacking && playerInRange){
                     Attack();
                 }
             }
@@ -199,6 +204,18 @@ public class Enemy : MonoBehaviour
 
             agent.enabled = true;
             hurtBox.SetActive(true);
+        }
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "Player"){
+            playerInRange = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other){
+        if(other.gameObject.tag == "Player"){
+            playerInRange = false;
         }
     }
 

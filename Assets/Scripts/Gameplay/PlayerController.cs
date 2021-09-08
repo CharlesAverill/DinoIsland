@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
         currentStats = characterStats[currentStatIndex];
         DisableCharactersExcept(currentStatIndex);
 
-        gc.hudHandler.updateHealth(currentStats.healthPercentage);
+        gc.updateHealth(currentStats.healthPercentage);
 
         // Fix footstep not changing bug
         Transform groundTransform = getGround();

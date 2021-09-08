@@ -216,4 +216,10 @@ public class GlobalsController : MonoBehaviour {
             hudHandler.updatePickups(currentPickups);
         }
     }
+
+    public void updateHealth(float newPercentage){
+        if(hudHandler != null){
+            hudHandler.updateHealth(newPercentage);
+        }
+    }
 }
