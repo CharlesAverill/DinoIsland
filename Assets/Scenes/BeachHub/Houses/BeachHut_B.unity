@@ -1516,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: 3078347216369993516, guid: 0e702918f1a21b568b8619a21c31818a,
         type: 3}
       propertyPath: spawnPointName
-      value: BeachHut_A_SpawnPoint
+      value: BeachHut_B_SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 3078347216369993516, guid: 0e702918f1a21b568b8619a21c31818a,
         type: 3}

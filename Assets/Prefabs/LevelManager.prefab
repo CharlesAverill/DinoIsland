@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6359365379745393243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6359365379745393241}
+  - component: {fileID: 6359365379745393242}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6359365379745393241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359365379745393243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27.9189, y: 9.036147, z: 18.084072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6359365379745393242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359365379745393243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33e3af93d45e333486b465ca6de7cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 7336495943798330507, guid: 811d3c2f316de8a709e06fe10a4bacb6,
+    type: 3}
+  currentSceneName: 
+  toUnloadScenes: []
+  loadingScene: 0
+  singleSceneLoading: 
+  spawnPointName: 
+  screenWipeController: {fileID: 0}
+  maskColor: {r: 0, g: 0, b: 0, a: 1}
+  maskTextures:
+  - {fileID: 2800000, guid: 45ebb0bdc0ecfe44dbd034ee7370d465, type: 3}
+  - {fileID: 2800000, guid: 76034e2540566db48be8f5399fb0a84b, type: 3}
+  - {fileID: 2800000, guid: c4a97df3a21bf544f9f0955f57b40c7b, type: 3}
+  - {fileID: 2800000, guid: bbc6f30fa192eb642b9b5a4dfc0b9237, type: 3}
+  - {fileID: 2800000, guid: fab5f050b3e741e468bc512254a41e09, type: 3}
+  - {fileID: 2800000, guid: a702927fb53eb924a8f5327db82cb336, type: 3}
+  - {fileID: 2800000, guid: 1be2a5f03f0e7d54ab812de4ec53908c, type: 3}
+  - {fileID: 2800000, guid: efe55fbad511d9a429622f440ad1738c, type: 3}
+  - {fileID: 2800000, guid: 4caad59474a0253449f494c739c3b3ff, type: 3}
+  - {fileID: 2800000, guid: b49842fbc48619b4ea27d21038989d5d, type: 3}
+  - {fileID: 2800000, guid: adaec23ca1254cd4495756d6640db47e, type: 3}
+  - {fileID: 2800000, guid: 603ff77aa0c286440a283d15cb058010, type: 3}
+  maskTextureOverrideIndex: -1
+  maskInvert: 0
