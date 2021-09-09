@@ -43,6 +43,7 @@ public class LevelManager : MonoBehaviour
         additiveScenes = new Dictionary<string, AsyncOperation>();
     }
 
+    bool calledAwake;
     void Awake(){
         // Only want 1 LevelManager instance per scene
         if (_instance != null && _instance != this)
@@ -57,6 +58,8 @@ public class LevelManager : MonoBehaviour
 
         // Call OnSceneLoaded when Scenes are loaded
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        calledAwake = true;
     }
 
     // Update is called once per frame
@@ -71,6 +74,12 @@ public class LevelManager : MonoBehaviour
 
     public void LoadScene(string sceneName, string _spawnPointName="", bool showLoadingScreen=false, bool additive=false, bool unloadCurrentScene=true, bool screenWipe=true, bool invertScreenWipe=false){
         if(additive){
+            if(singleSceneLoading != ""){
+                SceneManager.UnloadSceneAsync(singleSceneLoading);
+            }
+            if(SceneManager.sceneCount > 1 && SceneManager.GetSceneByName(sceneName) != null){
+                return;
+            }
             if(additiveScenes.ContainsKey(sceneName)){
                 return;
             }
@@ -80,10 +89,12 @@ public class LevelManager : MonoBehaviour
             // Add to dictionary
             additiveScenes.Add(sceneName, op);
 
+            singleSceneLoading = sceneName;
+
             return;
         }
 
-        loadingScene = true;
+        //loadingScene = true;
 
         if(unloadCurrentScene){
             toUnloadScenes.Add(SceneManager.GetActiveScene().name);
@@ -96,8 +107,8 @@ public class LevelManager : MonoBehaviour
     }
 
     public void ActivateAdditiveScene(string sceneName, string _spawnPointName, bool doScreenWipe=true){
-        loadingScene = true;
         spawnPointName = _spawnPointName;
+        singleSceneLoading = "";
         StartCoroutine(loadSceneEnumerator(sceneName, true, doScreenWipe));
     }
 
@@ -106,12 +117,7 @@ public class LevelManager : MonoBehaviour
         if(additive){
             asyncLoadOperation = additiveScenes[sceneName];
             additiveScenes.Remove(sceneName);
-
-            asyncLoadOperation.allowSceneActivation = true;
-            while(!asyncLoadOperation.isDone){
-                yield return null;
-            }
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+            //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         } else {
             // Load scene, prevent from immediately activating
             asyncLoadOperation = SceneManager.LoadSceneAsync(sceneName);
@@ -132,8 +138,6 @@ public class LevelManager : MonoBehaviour
 
         // Allow activation
         asyncLoadOperation.allowSceneActivation = true;
-
-        loadingScene = false;
         yield return null;
     }
 
@@ -152,7 +156,8 @@ public class LevelManager : MonoBehaviour
         }
         screenWipeController.maskTexture = maskTexture;
 
-        // Screen Wipe
+        // Screen Wipe\
+        screenWipeController.maskValue = 0f;
         float step = 1f / 64f;
         for(int i = 0; i < 64; i++){
             screenWipeController.maskValue = step * i;
@@ -162,6 +167,7 @@ public class LevelManager : MonoBehaviour
 
         maskInvert = false;
         screenWipeController.enabled = false;
+        gc.player.lockMovement = false;
     }
 
     void OnEnable(){
@@ -169,21 +175,24 @@ public class LevelManager : MonoBehaviour
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+        if(_instance != this){
+            //_instance.OnSceneLoaded(scene, mode);
+            return;
+        }
+
+        Debug.Log("OnSceneLoaded: " + gameObject.name);
+
+        // Check for double loading
         if(loadingScene){
             return;
+        } else {
+            loadingScene = true;
         }
-        Debug.Log("Onsceneloaded");
-        // Check for double loading
-        if(gc != null && gc.player != null){
-            return;
-        }
+
+        Debug.Log("Not Double loading");
 
         // Find GlobalsController in case of catastrophic failure
         gc = GlobalsController.Instance;
-
-        if(mode == LoadSceneMode.Single){
-            singleSceneLoading = "";
-        }
 
         // Destroy any existing players
         if(gc.player != null){
@@ -191,16 +200,19 @@ public class LevelManager : MonoBehaviour
         }
 
         // Spawn player
+        Debug.Log("Finding spawn point: " + scene.name);
         Transform spawnPoint;
         if(spawnPointName != ""){
             spawnPoint = GameObject.Find(spawnPointName).transform;
         } else {
             spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
         }
+
         // Check for no spawn point
         if(spawnPoint == null){
             throw new Exception("Could not find a spawn point. Check if one exists and that the name is spelled correctly in the warp.");
         } else {
+            Debug.Log("Spawning at " + spawnPoint.name);
             GameObject player = (GameObject)Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
             player.transform.rotation = spawnPoint.rotation;
         }
@@ -214,10 +226,19 @@ public class LevelManager : MonoBehaviour
             maskInvert = true;
 
             screenWipeController = Camera.main.GetComponent<ScreenTransitionImageEffect>();
+            gc.player.lockMovement = true;
             StartCoroutine(screenWipeEnumerator());
         }
 
         spawnPointName = null;
+
+        loadingScene = false;
+    }
+
+    public void RemoveAdditiveScene(string sceneName){
+        toUnloadScenes.Add(sceneName);
+        additiveScenes.Remove(sceneName);
+        unloadScenes();
     }
 
     void unloadScenes(){

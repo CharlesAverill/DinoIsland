@@ -21,6 +21,7 @@ public class Door : MonoBehaviour
     [Header("Smart Loading")]
     public bool useSmartLoading;
     public float distanceRequiredForLoad;
+    public bool startedLoading;
     [Space(5)]
 
     float timeCount;
@@ -36,7 +37,8 @@ public class Door : MonoBehaviour
     {
         timeCount += Time.deltaTime;
         if(useSmartLoading && timeCount > 0.2f){
-            if(Vector3.Distance(transform.position, gc.player.transform.position) < distanceRequiredForLoad){
+            if(!startedLoading && Vector3.Distance(transform.position, gc.player.transform.position) < distanceRequiredForLoad){
+                startedLoading = true;
                 LevelManager.Instance.LoadScene(destinationScene, additive: true);
             }
             timeCount = 0f;
@@ -61,6 +63,13 @@ public class Door : MonoBehaviour
             } else {
                 LevelManager.Instance.LoadScene(destinationScene, spawnPointName);
             }
+        }
+    }
+
+    void OnTriggerExit(Collider other){
+        if(other.gameObject.tag == "Player" && useSmartLoading){
+            LevelManager.Instance.RemoveAdditiveScene(destinationScene);
+            startedLoading = false;
         }
     }
 }

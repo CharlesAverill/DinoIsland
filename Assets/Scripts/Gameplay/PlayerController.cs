@@ -455,7 +455,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerAudio(){
         // Walking
-        if(isGrounded && !isInteracting && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
+        if(isGrounded && !lockMovement && !isInteracting && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
             playerAudioSource.clip = currentStats.footstepClip;
             playerAudioSource.Play();
         }
