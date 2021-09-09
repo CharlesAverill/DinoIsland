@@ -20,6 +20,7 @@ public class StationaryCamera : MonoBehaviour
         gc = GlobalsController.Instance;
         target = gc.player.transform;
 
+        gc.player.mainCamera.GetComponent<Camera>().enabled = false;
         gc.player.mainCamera = transform;
     }
 

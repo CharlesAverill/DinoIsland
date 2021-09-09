@@ -20,6 +20,7 @@ public class KnightShield : MonoBehaviour
         }
 
         SceneManager.sceneLoaded += OnSceneLoad;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
         spawnShield();
     }
@@ -28,11 +29,17 @@ public class KnightShield : MonoBehaviour
         spawnShield();
     }
 
+    void OnSceneUnloaded(Scene current){
+        spawnedShield = null;
+    }
+
     void spawnShield(){
         Destroy(spawnedShield);
-        spawnedShield = (GameObject)Instantiate(shieldModels[prefabIndex], spawnParent.position, Quaternion.identity);
-        spawnedShield.transform.rotation = spawnParent.rotation;
-        spawnedShield.transform.parent = spawnParent;
+        if(spawnParent != null){
+            spawnedShield = (GameObject)Instantiate(shieldModels[prefabIndex], spawnParent.position, Quaternion.identity);
+            spawnedShield.transform.rotation = spawnParent.rotation;
+            spawnedShield.transform.parent = spawnParent;
+        }
     }
 
     // Update is called once per frame

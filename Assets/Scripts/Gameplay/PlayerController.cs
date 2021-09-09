@@ -60,8 +60,25 @@ public class PlayerController : MonoBehaviour
     public Vector2 horizontalVelocity;
     [Space(5)]
 
+    [Header("Input Overrides")]
+    bool _forceContinueSameDirection;
+
+    public Vector2 forceHorizontalVelocity;
+    public bool forceContinueSameDirection {
+        get {
+            return _forceContinueSameDirection;
+        }
+
+        set {
+            _forceContinueSameDirection = value;
+            forceHorizontalVelocity = value ? horizontalVelocity : Vector2.zero;
+        }
+    }
+    [Space(5)]
+
     [Header("Jump, Falling Physics")]
     public Vector3 hitNormal;
+    public float distanceToGround;
     float hitAngle;
 
     public bool isGrounded;
@@ -212,12 +229,15 @@ public class PlayerController : MonoBehaviour
         if(!gc.isPaused){
             if(ignoreCheckGround){
                 ignoreCheckGroundTimer += 1;
+                Debug.Log("Ignore check ground");
                 isGrounded = false;
                 if(ignoreCheckGroundTimer > ignoreCheckGroundFrames){
                     ignoreCheckGround = false;
                 }
             } else {
-                isGrounded = justUnpausedGroundCheck || hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit;
+                isGrounded = justUnpausedGroundCheck ||
+                             (hitNormal.sqrMagnitude != 0 && hitAngle <= cc.slopeLimit) ||
+                             (distanceToGround < 0.1f && hitNormal.sqrMagnitude != 0 && Mathf.Abs(hitAngle - 90f) < 2f);
                 justUnpausedGroundCheck = false;
             }
         }
@@ -323,7 +343,7 @@ public class PlayerController : MonoBehaviour
         float launchSpeedModifier = isLaunching ? Time.deltaTime : 1;
 
         if(!isLaunching){
-            horizontalVelocity = Translate();
+            horizontalVelocity = forceContinueSameDirection ? forceHorizontalVelocity : Translate();
 
             Transform ground = getGround();
             if(ground != null && ground.gameObject.layer == CONSTANTS.SLOW_DOWN_LAYER){
@@ -334,7 +354,10 @@ public class PlayerController : MonoBehaviour
             }
 
             if(horizontalVelocity.magnitude > 0f){
+                freeLook.m_RecenterToTargetHeading.m_enabled = false;
                 currentStats.anim.SetBool("isWalking", true);
+            } else if(!freeLook.m_RecenterToTargetHeading.m_enabled) {
+                StartCoroutine(reactivateCameraCenter());
             }
         }
 
@@ -367,6 +390,11 @@ public class PlayerController : MonoBehaviour
 
         // Move character controller
         cc.Move(moveHorizontal * launchSpeedModifier);
+    }
+
+    IEnumerator reactivateCameraCenter(){
+        yield return new WaitForSeconds(freeLook.m_RecenterToTargetHeading.m_WaitTime);
+        freeLook.m_RecenterToTargetHeading.m_enabled = true;
     }
 
     void VerticalMovement(){
@@ -596,8 +624,15 @@ public class PlayerController : MonoBehaviour
             hitNormal = collision.normal;
             hitAngle = Vector3.Angle(Vector3.up, hitNormal);
 
+            RaycastHit distanceCheckHit;
+            distanceToGround = 2f;
+            if(Physics.Raycast(transform.position, -transform.up, out distanceCheckHit, 2f, CONSTANTS.GROUND_MASK)){
+                distanceToGround = distanceCheckHit.distance;
+            }
+
             if(!ignoreCheckGround){
-                if((gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) ||
+                if(distanceToGround < 0.1f &&
+                    (gc.layerInMask(collision.gameObject.layer, CONSTANTS.CEILING_LAYER) ||
                     gc.layerInMask(collision.gameObject.layer, CONSTANTS.GROUND_MASK)) &&
                         verticalVelocity > 0f){
                     verticalVelocity = 0f;

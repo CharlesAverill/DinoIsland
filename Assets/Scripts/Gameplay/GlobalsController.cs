@@ -60,9 +60,6 @@ public class GlobalsController : MonoBehaviour {
         // Persist between scenes
         DontDestroyOnLoad (transform.gameObject);
 
-        // Call OnSceneLoaded when Scenes are loaded
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
         if(!ES_Save.Exists("SAVEDATA_initialized-save")){
             SaveData();
         } else {
@@ -126,18 +123,7 @@ public class GlobalsController : MonoBehaviour {
         Cursor.visible = false;
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-        if(loadingNextScene){ // Successfully loaded new Scene
-            loadingTheLoadingScreen = false;
-            loadingNextScene = false;
-            sceneToLoad = null;
-        }
-        else if(loadingTheLoadingScreen){ // Currently in Loading Scene
-            loadingTheLoadingScreen = false;
-            loadingNextScene = true;
-            StartCoroutine(LoadSceneHelper());
-        }
-
+    public void FindAll(){
         // Collect and deactivate Dialogue objects if they exist
         try{
             dialogueObject = GameObject.FindWithTag("DialogueObject");
@@ -152,7 +138,8 @@ public class GlobalsController : MonoBehaviour {
         }
 
         dialogueHandler = null;
-        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        mainCamera = Camera.main;
+        Debug.Log(mainCamera);
 
         listener = GameObject.FindObjectOfType<AudioListener>();
         AudioListener.volume = saveData["SETTINGS_master-volume"];
@@ -167,6 +154,19 @@ public class GlobalsController : MonoBehaviour {
             hudHandler = GameObject.FindWithTag("HUD").GetComponent<HUDHandler>();
         } catch {
             Debug.Log("There is no HUD object in this Scene");
+        }
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+        if(loadingNextScene){ // Successfully loaded new Scene
+            loadingTheLoadingScreen = false;
+            loadingNextScene = false;
+            sceneToLoad = null;
+        }
+        else if(loadingTheLoadingScreen){ // Currently in Loading Scene
+            loadingTheLoadingScreen = false;
+            loadingNextScene = true;
+            StartCoroutine(LoadSceneHelper());
         }
     }
 
