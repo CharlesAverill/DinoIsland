@@ -58,6 +58,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 stickInput;
     public float verticalVelocity;
     public Vector2 horizontalVelocity;
+
+    public bool invertX;
+    public bool invertY;
+
+    public float sensitivityX;
+    public float sensitivityY;
     [Space(5)]
 
     [Header("Input Overrides")]
@@ -197,6 +203,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(freeLook.gameObject.GetComponent<CinemachineInputProvider>().GetAxisValue(0));
         if(controls.Player.Pause.ReadValue<float>() != 0f){
             if(previousPauseButtonState == ButtonState.Released){
                 previousPauseButtonState = ButtonState.Held;
@@ -224,7 +231,7 @@ public class PlayerController : MonoBehaviour
         VerticalMovement();
         HorizontalMovement();
         GroundMovement();
-        CameraMovement();
+        //CameraMovement();
 
         if(!gc.isPaused){
             if(ignoreCheckGround){
@@ -658,19 +665,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnControlChange(){
+    public void OnControlChange(){
         /*
         X Axis inverted on gamepad
         X Axis max speed is 2x on gamepad
         */
-        bool usingGamepad = playerInput.currentControlScheme == "Gamepad";
-        if(usingGamepad){
-            freeLook.m_XAxis.m_InvertInput = true;
-            freeLook.m_XAxis.m_MaxSpeed = 220f;
-        } else {
-            freeLook.m_XAxis.m_InvertInput = false;
-            freeLook.m_XAxis.m_MaxSpeed = 170f;
-        }
+        freeLook.m_XAxis.m_MaxSpeed = sensitivityX;
+        freeLook.m_YAxis.m_MaxSpeed = sensitivityY;
+
+        freeLook.m_XAxis.m_InvertInput = invertX;
+        freeLook.m_YAxis.m_InvertInput = invertY;
     }
 
     void Interact(){

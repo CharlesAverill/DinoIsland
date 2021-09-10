@@ -34,9 +34,6 @@ public class GlobalsController : MonoBehaviour {
     public GameObject pauseMenu;
     public bool isPaused;
 
-    public bool loadingTheLoadingScreen;
-    public bool loadingNextScene;
-
     public int currentPickups;
 
     public string sceneToLoad;
@@ -44,6 +41,10 @@ public class GlobalsController : MonoBehaviour {
     public Dictionary<string, dynamic> saveData = new Dictionary<string, dynamic>(){
        {"SAVEDATA_initialized-save", true},
        {"SETTINGS_master-volume", 1f},
+       {"SETTINGS_sensitivity-x", 220f},
+       {"SETTINGS_sensitivity-y", 2f},
+       {"SETTINGS_invert-x", true},
+       {"SETTINGS_invert-y", false},
        {"PLAYER_total-pickups", 0}
     };
 
@@ -77,6 +78,10 @@ public class GlobalsController : MonoBehaviour {
 
     void LoadSaveData(){
         saveData["SETTINGS_master-volume"] = ES_Save.Load<float>("SETTINGS_master-volume");
+        saveData["SETTINGS_sensitivity-x"] = ES_Save.Load<float>("SETTINGS_sensitivity-x");
+        saveData["SETTINGS_sensitivity-y"] = ES_Save.Load<float>("SETTINGS_sensitivity-y");
+        saveData["SETTINGS_invert-x"] = ES_Save.Load<bool>("SETTINGS_invert-x");
+        saveData["SETTINGS_invert-y"] = ES_Save.Load<bool>("SETTINGS_invert-y");
         saveData["PLAYER_total-pickups"] = ES_Save.Load<int>("PLAYER_total-pickups");
     }
 
@@ -146,6 +151,11 @@ public class GlobalsController : MonoBehaviour {
 
         try{
             player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
+            player.invertX = saveData["SETTINGS_invert-x"];
+            player.invertY = saveData["SETTINGS_invert-y"];
+            player.sensitivityX = saveData["SETTINGS_sensitivity-x"];
+            player.sensitivityY = saveData["SETTINGS_sensitivity-y"];
         } catch {
             Debug.Log("There is no Player object in this Scene");
         }
@@ -157,29 +167,8 @@ public class GlobalsController : MonoBehaviour {
         }
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-        if(loadingNextScene){ // Successfully loaded new Scene
-            loadingTheLoadingScreen = false;
-            loadingNextScene = false;
-            sceneToLoad = null;
-        }
-        else if(loadingTheLoadingScreen){ // Currently in Loading Scene
-            loadingTheLoadingScreen = false;
-            loadingNextScene = true;
-            StartCoroutine(LoadSceneHelper());
-        }
-    }
-
-    public void LoadScene(string SceneName){
-        loadingTheLoadingScreen = true;
-        loadingNextScene = false;
-        sceneToLoad = SceneName;
-        SceneManager.LoadScene("Loading");
-    }
-
-    private IEnumerator LoadSceneHelper(){
-        yield return new WaitForSeconds(1f); // We always want to see the cute Dino
-        SceneManager.LoadSceneAsync(sceneToLoad);
+    public void LoadingScreenToScene(string sceneName){
+        LevelManager.Instance.LoadScene(sceneName, showLoadingScreen: true);
     }
 
     // Cache the dialogueHandler object

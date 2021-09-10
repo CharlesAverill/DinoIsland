@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
@@ -12,6 +13,8 @@ public class TitleScreenFadeIn : MonoBehaviour
 
     public GameObject IslandObject;
     public GameObject MainMenuObject;
+
+    public GameObject PlayButton;
 
     public float startFadeSeconds;
     public float endFadeSeconds;
@@ -28,7 +31,7 @@ public class TitleScreenFadeIn : MonoBehaviour
         MainMenuObject.SetActive(false);
         fadeScreen.gameObject.SetActive(true);
         fadeText.gameObject.SetActive(true);
-        
+
         StartCoroutine(FadeTextIn());
     }
 
@@ -40,6 +43,8 @@ public class TitleScreenFadeIn : MonoBehaviour
             IslandObject.SetActive(true);
             MainMenuObject.SetActive(true);
             StartCoroutine(FadeAllOut());
+
+            EventSystem.current.SetSelectedGameObject(PlayButton);
         }
     }
 

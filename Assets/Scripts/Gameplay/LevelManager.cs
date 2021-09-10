@@ -26,6 +26,12 @@ public class LevelManager : MonoBehaviour
     public string spawnPointName;
     [Space(5)]
 
+    [Header("Loading Screen")]
+    public bool usingLoadingScreen;
+    public bool loadingTheLoadingScreen;
+    public bool loadingNextScene;
+    [Space(5)]
+
     [Header("Screen Wipe")]
     public ScreenTransitionImageEffect screenWipeController;
 
@@ -43,7 +49,6 @@ public class LevelManager : MonoBehaviour
         additiveScenes = new Dictionary<string, AsyncOperation>();
     }
 
-    bool calledAwake;
     void Awake(){
         // Only want 1 LevelManager instance per scene
         if (_instance != null && _instance != this)
@@ -58,8 +63,6 @@ public class LevelManager : MonoBehaviour
 
         // Call OnSceneLoaded when Scenes are loaded
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        calledAwake = true;
     }
 
     // Update is called once per frame
@@ -73,6 +76,17 @@ public class LevelManager : MonoBehaviour
     }
 
     public void LoadScene(string sceneName, string _spawnPointName="", bool showLoadingScreen=false, bool additive=false, bool unloadCurrentScene=true, bool screenWipe=true, bool invertScreenWipe=false){
+        if(showLoadingScreen){
+            loadingTheLoadingScreen = true;
+            loadingNextScene = false;
+            usingLoadingScreen = true;
+
+            singleSceneLoading = sceneName;
+            SceneManager.LoadScene("Loading");
+
+            return;
+        }
+
         if(additive){
             if(singleSceneLoading != ""){
                 SceneManager.UnloadSceneAsync(singleSceneLoading);
@@ -145,7 +159,6 @@ public class LevelManager : MonoBehaviour
         screenWipeController.enabled = true;
         // Apply screen wipe settings
         screenWipeController.maskColor = maskColor;
-        screenWipeController.maskInvert = maskInvert;
 
         // Pick random screen wipe mask
         Texture2D maskTexture;
@@ -156,22 +169,31 @@ public class LevelManager : MonoBehaviour
         }
         screenWipeController.maskTexture = maskTexture;
 
-        // Screen Wipe\
-        screenWipeController.maskValue = 0f;
+        // Screen Wipe
+        screenWipeController.maskValue = maskInvert ? 1f : 0f;
         float step = 1f / 64f;
-        for(int i = 0; i < 64; i++){
-            screenWipeController.maskValue = step * i;
-            yield return new WaitForSeconds(step / 2f);
+        if(maskInvert){
+            for(int i = 63; i >=0; i--){
+                screenWipeController.maskValue -= step;
+                yield return new WaitForSeconds(step / 2f);
+            }
+        } else {
+            for(int i = 0; i < 64; i++){
+                screenWipeController.maskValue = step * i;
+                yield return new WaitForSeconds(step / 2f);
+            }
         }
-        screenWipeController.maskValue = 1f;
+        screenWipeController.maskValue = maskInvert ? 0f : 1f;
 
         maskInvert = false;
         screenWipeController.enabled = false;
         gc.player.lockMovement = false;
+        gc.player.OnControlChange();
     }
 
-    void OnEnable(){
-        //OnSceneLoaded(default(Scene), default(LoadSceneMode));
+    IEnumerator LoadSceneHelper(){
+        yield return new WaitForSeconds(1f); // We always want to see the cute Dino
+        SceneManager.LoadSceneAsync(singleSceneLoading);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode){
@@ -180,7 +202,20 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("OnSceneLoaded: " + gameObject.name);
+        if(usingLoadingScreen){
+            if(loadingNextScene){ // Successfully loaded new Scene
+                loadingTheLoadingScreen = false;
+                loadingNextScene = false;
+                singleSceneLoading = "";
+            }
+            else if(loadingTheLoadingScreen){ // Currently in Loading Scene
+                loadingTheLoadingScreen = false;
+                loadingNextScene = true;
+
+                StartCoroutine(LoadSceneHelper());
+                return;
+            }
+        }
 
         // Check for double loading
         if(loadingScene){
@@ -188,8 +223,6 @@ public class LevelManager : MonoBehaviour
         } else {
             loadingScene = true;
         }
-
-        Debug.Log("Not Double loading");
 
         // Find GlobalsController in case of catastrophic failure
         gc = GlobalsController.Instance;
@@ -200,19 +233,17 @@ public class LevelManager : MonoBehaviour
         }
 
         // Spawn player
-        Debug.Log("Finding spawn point: " + scene.name);
-        Transform spawnPoint;
-        if(spawnPointName != ""){
+        Transform spawnPoint = default(Transform);
+        if(spawnPointName != null && spawnPointName.Length > 0){
             spawnPoint = GameObject.Find(spawnPointName).transform;
-        } else {
+        } else try {
             spawnPoint = GameObject.FindWithTag("SpawnPoint").transform;
+        } catch(Exception) {
+            Debug.Log("No spawn point in this scene");
         }
 
         // Check for no spawn point
-        if(spawnPoint == null){
-            throw new Exception("Could not find a spawn point. Check if one exists and that the name is spelled correctly in the warp.");
-        } else {
-            Debug.Log("Spawning at " + spawnPoint.name);
+        if(spawnPoint != null) {
             GameObject player = (GameObject)Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
             player.transform.rotation = spawnPoint.rotation;
         }
@@ -225,9 +256,12 @@ public class LevelManager : MonoBehaviour
             maskTextureOverrideIndex = -1;
             maskInvert = true;
 
-            screenWipeController = Camera.main.GetComponent<ScreenTransitionImageEffect>();
-            gc.player.lockMovement = true;
-            StartCoroutine(screenWipeEnumerator());
+            if(gc.player != null){
+                gc.player.lockMovement = true;
+
+                screenWipeController = Camera.main.GetComponent<ScreenTransitionImageEffect>();
+                StartCoroutine(screenWipeEnumerator());
+            }
         }
 
         spawnPointName = null;

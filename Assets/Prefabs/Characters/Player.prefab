@@ -1065,7 +1065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnParent: {fileID: 7336495942766773453}
   shieldModels:
-  - {fileID: 919132149155446097, guid: 954bd45f7777528a4b43eb4ffefd03ec, type: 3}
+  - {fileID: 1990707029496805889, guid: eecb5ec8bec9b8b9aa666ba680851d7f, type: 3}
   - {fileID: 919132149155446097, guid: d272ce50eb61c9cebb5af27e36082881, type: 3}
   prefabIndex: 0
 --- !u!1 &7336495943613263880
@@ -1560,7 +1560,7 @@ CharacterController:
   m_Height: 5.35
   m_Radius: 0.66
   m_SlopeLimit: 25
-  m_StepOffset: 1.5
+  m_StepOffset: 0.75
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2.74, z: 0.15}
@@ -3104,7 +3104,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7336495944812042038}
-  m_LocalRotation: {x: 0.012269456, y: 0.000000026444184, z: 3.2448005e-10, w: -0.9999247}
+  m_LocalRotation: {x: 0.012269458, y: 0.000000026444255, z: 3.2448103e-10, w: -0.9999247}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
