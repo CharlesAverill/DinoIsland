@@ -15,9 +15,18 @@ public class PlatformerUtils : EditorWindow
     Vector3 tagOffsetVector;
     bool tagOffsetGroundCheck;
 
+    string setRotationTag;
+    Vector3 setRotationVector;
+    RotationType rotationType;
+
     [MenuItem("Tools/PlatformerUtils")]
     private static void OpenUtils() {
         new PlatformerUtils().Show();
+    }
+
+    public enum RotationType {
+        Global,
+        Local
     }
 
     void OnGUI() {
@@ -38,7 +47,7 @@ public class PlatformerUtils : EditorWindow
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Offset Objects with Tag", EditorStyles.boldLabel);
-        tagOffsetTag = EditorGUILayout.TagField("Tag for Offsetting:", tagOffsetTag);
+        tagOffsetTag = EditorGUILayout.TagField("Tag for Offsetting", tagOffsetTag);
         tagOffsetVector = EditorGUILayout.Vector3Field("Offset Vector", tagOffsetVector);
         tagOffsetGroundCheck = EditorGUILayout.Toggle("Check for Ground", tagOffsetGroundCheck);
 
@@ -46,6 +55,27 @@ public class PlatformerUtils : EditorWindow
             GameObject[] toOffset = GameObject.FindGameObjectsWithTag(tagOffsetTag);
             foreach(GameObject obj in toOffset){
                 OffsetObject(obj, tagOffsetVector, tagOffsetGroundCheck);
+            }
+        }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("Set Rotation by Tag", EditorStyles.boldLabel);
+        setRotationTag = EditorGUILayout.TagField("Tag for Rotation", setRotationTag);
+        setRotationVector = EditorGUILayout.Vector3Field("Rotation Vector", setRotationVector);
+        rotationType = (RotationType)EditorGUILayout.EnumPopup("Locality", rotationType);
+
+        if (GUILayout.Button("Rotate by Tag")) {
+            GameObject[] toOffset = GameObject.FindGameObjectsWithTag(setRotationTag);
+            foreach(GameObject obj in toOffset){
+                switch(rotationType){
+                    case RotationType.Global:
+                        obj.transform.eulerAngles = setRotationVector;
+                        break;
+                    case RotationType.Local:
+                        obj.transform.localRotation = Quaternion.Euler(setRotationVector.x, setRotationVector.y, setRotationVector.z);
+                        break;
+                }
             }
         }
 

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 52432dbdae239614b9d5d23b382317be, type: 3}
-  maskValue: 0
+  maskValue: 1
   maskColor: {r: 0, g: 0, b: 0, a: 1}
   maskTexture: {fileID: 2800000, guid: 45ebb0bdc0ecfe44dbd034ee7370d465, type: 3}
   maskInvert: 0

@@ -171,8 +171,10 @@ public class LevelManager : MonoBehaviour
 
         // Screen Wipe
         screenWipeController.maskValue = maskInvert ? 1f : 0f;
+
         float step = 1f / 64f;
         if(maskInvert){
+            yield return new WaitForSeconds(.25f);
             for(int i = 63; i >=0; i--){
                 screenWipeController.maskValue -= step;
                 yield return new WaitForSeconds(step / 2f);
@@ -180,7 +182,7 @@ public class LevelManager : MonoBehaviour
         } else {
             for(int i = 0; i < 64; i++){
                 screenWipeController.maskValue = step * i;
-                yield return new WaitForSeconds(step / 2f);
+                yield return new WaitForSeconds(step / 3f);
             }
         }
         screenWipeController.maskValue = maskInvert ? 0f : 1f;
