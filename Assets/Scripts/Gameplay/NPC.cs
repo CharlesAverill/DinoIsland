@@ -21,10 +21,13 @@ public class NPC : MonoBehaviour
     bool rotateToPlayer;
 
     GlobalsController gc;
+    UIController uic;
 
     void Start(){
         gc = GlobalsController.Instance;
-        handler = gc.getDialogueHandler();
+        uic = UIController.Instance;
+
+        handler = uic.getDialogueHandler();
     }
 
     // Update is called once per frame
@@ -70,7 +73,7 @@ public class NPC : MonoBehaviour
 
         isTalking = true;
 
-        gc.dialogueObject.SetActive(true);
+        uic.dialogueObject.SetActive(true);
         gc.player.lockMovement = true;
 
         if(rotateOnTalk){
@@ -83,9 +86,9 @@ public class NPC : MonoBehaviour
     private void SetText()
     {
         // Clear everything
-        gc.speakerName.SetText("");
-        gc.dialogueText.gameObject.SetActive(false);
-        gc.dialogueText.SetText("");
+        uic.speakerName.SetText("");
+        uic.dialogueText.gameObject.SetActive(false);
+        uic.dialogueText.SetText("");
 
         // If at the end, don't do anything
         if (ended)
@@ -96,18 +99,22 @@ public class NPC : MonoBehaviour
         {
             QD_Message message = handler.GetMessage();
 
-            gc.speakerName.SetText(message.SpeakerName);
-            gc.dialogueText.SetText(message.MessageText);
-            gc.dialogueText.gameObject.SetActive(true);
+            uic.speakerName.SetText(message.SpeakerName);
+            uic.dialogueText.SetText(message.MessageText);
+            uic.dialogueText.gameObject.SetActive(true);
 
             if(message.Clip != null){
                 gc.audioSource.Pause();
                 gc.audioSource.clip = message.Clip;
                 gc.audioSource.Play();
+            } else {
+                gc.audioSource.Pause();
+                gc.audioSource.clip = uic.nextMessageSound;
+                gc.audioSource.Play();
             }
 
             Sprite speakerSprite = handler.dialogue.GetSpeaker(npcName).Icon;
-            gc.speakerImage.sprite = speakerSprite;
+            uic.speakerImage.sprite = speakerSprite;
         }
     }
 
@@ -131,14 +138,16 @@ public class NPC : MonoBehaviour
                 isActivated = false;
                 ended = false;
 
-                StartCoroutine(gc.PlayReverseAudio());
+                gc.audioSource.Pause();
+                gc.audioSource.clip = uic.endConversationSound;
+                gc.audioSource.Play();
 
                 gc.player.isInteracting = false;
 
                 handler.SetConversation(conversationName); // Simple NPCs repeat dialogue
             }
 
-            gc.dialogueObject.SetActive(false);
+            uic.dialogueObject.SetActive(false);
             gc.player.lockMovement = false;
         }
     }

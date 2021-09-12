@@ -19,6 +19,9 @@ MonoBehaviour:
   - ID: 4
     Name: BeachHouse_Bill
     FirstMessage: 6
+  - ID: 10
+    Name: BeachHouse_LazyDino
+    FirstMessage: 11
   Speakers:
   - ID: 1
     Name: Swimmy Plesiousaur
@@ -26,6 +29,9 @@ MonoBehaviour:
   - ID: 5
     Name: Bill
     Icon: {fileID: 21300000, guid: 9c99bf309f366163197e4cb70dc70cd3, type: 3}
+  - ID: 9
+    Name: Lazy Dino
+    Icon: {fileID: 21300000, guid: 19e2ca271ba8af2f3b51411c7f7b8519, type: 3}
   Messages:
   - ID: 2
     Speaker: 1
@@ -33,19 +39,40 @@ MonoBehaviour:
     PreviousMessage: -1
     NextMessage: -1
     MessageText: Some day, I'll take you all across the island!
-    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
+    Clip: {fileID: 0}
   - ID: 6
     Speaker: 5
     SpeakerName: Bill
     PreviousMessage: -1
     NextMessage: 8
     MessageText: Hey there, I'm Bill!
-    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
+    Clip: {fileID: 0}
   - ID: 8
     Speaker: 5
     SpeakerName: Bill
     PreviousMessage: 6
     NextMessage: -1
     MessageText: I can't wait to talk more to you in the full game!
-    Clip: {fileID: 8300000, guid: 42c7b5d33b133b847b5997a1e307f1f2, type: 3}
+    Clip: {fileID: 0}
+  - ID: 11
+    Speaker: 9
+    SpeakerName: Lazy Dino
+    PreviousMessage: -1
+    NextMessage: 14
+    MessageText: I'm sleepy...
+    Clip: {fileID: 0}
+  - ID: 14
+    Speaker: 9
+    SpeakerName: Lazy Dino
+    PreviousMessage: 11
+    NextMessage: 16
+    MessageText: zzzzz
+    Clip: {fileID: 0}
+  - ID: 16
+    Speaker: 9
+    SpeakerName: Lazy Dino
+    PreviousMessage: 14
+    NextMessage: -1
+    MessageText: ... oh, sorry!
+    Clip: {fileID: 0}
   Choices: []

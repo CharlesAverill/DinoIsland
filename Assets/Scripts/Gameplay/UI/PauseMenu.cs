@@ -14,7 +14,8 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         GlobalsController gc = GlobalsController.Instance;
-        gc.pauseMenu = gameObject;
+        UIController uic = UIController.Instance;
+        uic.pauseMenu = gameObject;
 
         resume.onClick.AddListener(gc.Unpause);
         quit.onClick.AddListener(gc.Quit);

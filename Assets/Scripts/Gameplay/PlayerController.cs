@@ -15,13 +15,14 @@ public class PlayerController : MonoBehaviour
     }
 
     // Stores state of a given button
-    private enum ButtonState {
+    enum ButtonState {
         Released,
         Held
     };
 
     // Globals
-    private GlobalsController gc;
+    GlobalsController gc;
+    UIController uic;
 
     [Header("Camera")]
     public Transform mainCamera;
@@ -185,6 +186,9 @@ public class PlayerController : MonoBehaviour
 
         gc = GlobalsController.Instance;
         gc.player = this;
+
+        uic = UIController.Instance;
+
 #if !UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -203,7 +207,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(freeLook.gameObject.GetComponent<CinemachineInputProvider>().GetAxisValue(0));
         if(controls.Player.Pause.ReadValue<float>() != 0f){
             if(previousPauseButtonState == ButtonState.Released){
                 previousPauseButtonState = ButtonState.Held;
@@ -233,7 +236,7 @@ public class PlayerController : MonoBehaviour
         GroundMovement();
         //CameraMovement();
 
-        if(!gc.isPaused){
+        if(!uic.isPaused){
             if(ignoreCheckGround){
                 ignoreCheckGroundTimer += 1;
                 Debug.Log("Ignore check ground");
@@ -612,7 +615,7 @@ public class PlayerController : MonoBehaviour
     void updateHealth(int delta){
         currentStats.health += delta;
 
-        gc.hudHandler.updateHealth(currentStats.healthPercentage);
+        uic.hudHandler.updateHealth(currentStats.healthPercentage);
 
         if(currentStats.health <= 0){
             numDead++;

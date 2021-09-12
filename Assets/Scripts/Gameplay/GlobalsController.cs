@@ -3,11 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using QuantumTek.EncryptedSave;
-using QuantumTek.QuantumDialogue;
-using QuantumTek.QuantumUI;
-using TMPro;
 using RotaryHeart.Lib.SerializableDictionary;
 
 public class GlobalsController : MonoBehaviour {
@@ -19,20 +15,7 @@ public class GlobalsController : MonoBehaviour {
     public PlayerController player;
     public Camera mainCamera;
     public AudioListener listener;
-    public HUDHandler hudHandler;
-
     public AudioSource audioSource;
-
-    public GameObject dialogueObject;
-    public QUI_Bar dialogueBar;
-    public TMP_Text dialogueText;
-    public TMP_Text speakerName;
-    public Image speakerImage;
-
-    QD_DialogueHandler dialogueHandler;
-
-    public GameObject pauseMenu;
-    public bool isPaused;
 
     public int currentPickups;
 
@@ -47,6 +30,8 @@ public class GlobalsController : MonoBehaviour {
        {"SETTINGS_invert-y", false},
        {"PLAYER_total-pickups", 0}
     };
+
+    UIController uic;
 
     private void Awake()
     {
@@ -66,6 +51,10 @@ public class GlobalsController : MonoBehaviour {
         } else {
             LoadSaveData();
         }
+    }
+
+    void Start(){
+        uic = UIController.Instance;
     }
 
     void SaveData(){
@@ -108,9 +97,9 @@ public class GlobalsController : MonoBehaviour {
         }
 
         AudioListener.pause = true;
-        isPaused = true;
+        uic.isPaused = true;
         Time.timeScale = 0f;
-        pauseMenu.SetActive(true);
+        uic.pauseMenu.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -118,9 +107,9 @@ public class GlobalsController : MonoBehaviour {
 
     public void Unpause(){
         AudioListener.pause = false;
-        isPaused = false;
+        uic.isPaused = false;
         Time.timeScale = 1f;
-        pauseMenu.SetActive(false);
+        uic.pauseMenu.SetActive(false);
 
         player.justUnpausedGroundCheck = true;
 
@@ -129,22 +118,9 @@ public class GlobalsController : MonoBehaviour {
     }
 
     public void FindAll(){
-        // Collect and deactivate Dialogue objects if they exist
-        try{
-            dialogueObject = GameObject.FindWithTag("DialogueObject");
-            dialogueBar = GameObject.FindWithTag("DialogueBar").GetComponent<QUI_Bar>();
-            dialogueText = GameObject.FindWithTag("DialogueText").GetComponent<TMP_Text>();
-            speakerName = GameObject.FindWithTag("SpeakerName").GetComponent<TMP_Text>();
-            speakerImage = GameObject.FindWithTag("SpeakerIcon").GetComponent<Image>();
+        uic = UIController.Instance;
 
-            dialogueObject.SetActive(false);
-        } catch {
-            Debug.Log("There are no Dialogue objects in this Scene");
-        }
-
-        dialogueHandler = null;
         mainCamera = Camera.main;
-        Debug.Log(mainCamera);
 
         listener = GameObject.FindObjectOfType<AudioListener>();
         AudioListener.volume = saveData["SETTINGS_master-volume"];
@@ -159,24 +135,10 @@ public class GlobalsController : MonoBehaviour {
         } catch {
             Debug.Log("There is no Player object in this Scene");
         }
-
-        try{
-            hudHandler = GameObject.FindWithTag("HUD").GetComponent<HUDHandler>();
-        } catch {
-            Debug.Log("There is no HUD object in this Scene");
-        }
     }
 
     public void LoadingScreenToScene(string sceneName){
         LevelManager.Instance.LoadScene(sceneName, showLoadingScreen: true);
-    }
-
-    // Cache the dialogueHandler object
-    public QuantumTek.QuantumDialogue.QD_DialogueHandler getDialogueHandler(){
-        if(dialogueHandler == null){
-            dialogueHandler = GameObject.FindWithTag("DialogueHandler").GetComponent<QD_DialogueHandler>();
-        }
-        return dialogueHandler;
     }
 
     public bool layerInMask(int layer, int mask){
@@ -201,14 +163,14 @@ public class GlobalsController : MonoBehaviour {
         currentPickups += deltaPickups;
         saveData["PLAYER_total-pickups"] = saveData["PLAYER_total-pickups"] + deltaPickups;
 
-        if(hudHandler != null){
-            hudHandler.updatePickups(currentPickups);
+        if(uic.hudHandler != null){
+            uic.hudHandler.updatePickups(currentPickups);
         }
     }
 
     public void updateHealth(float newPercentage){
-        if(hudHandler != null){
-            hudHandler.updateHealth(newPercentage);
+        if(uic.hudHandler != null){
+            uic.hudHandler.updateHealth(newPercentage);
         }
     }
 }

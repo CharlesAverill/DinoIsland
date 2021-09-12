@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return _instance; } }
 
     GlobalsController gc;
+    UIController uic;
 
     [Header("Level Management")]
     public GameObject playerPrefab;
@@ -45,6 +46,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         gc = GlobalsController.Instance;
+        uic = UIController.Instance;
 
         additiveScenes = new Dictionary<string, AsyncOperation>();
     }
@@ -228,6 +230,7 @@ public class LevelManager : MonoBehaviour
 
         // Find GlobalsController in case of catastrophic failure
         gc = GlobalsController.Instance;
+        uic = UIController.Instance;
 
         // Destroy any existing players
         if(gc.player != null){
@@ -250,8 +253,10 @@ public class LevelManager : MonoBehaviour
             player.transform.rotation = spawnPoint.rotation;
         }
 
-        // Tell GlobalsController to find player, dialogue, camera, etc.
+        // Tell GlobalsController to find player, camera, etc.
         gc.FindAll();
+        // Reset Dialogue UI
+        uic.ResetDialogue();
 
         // Reset screen wipe stuff
         if(Camera.main != null){
