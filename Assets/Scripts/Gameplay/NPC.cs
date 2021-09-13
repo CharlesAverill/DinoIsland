@@ -73,23 +73,20 @@ public class NPC : MonoBehaviour
 
         isTalking = true;
 
-        uic.dialogueObject.SetActive(true);
         gc.player.lockMovement = true;
 
         if(rotateOnTalk){
             rotateToPlayer = true;
         }
 
+        // Clear everything
+        uic.ClearDialogue();
+
         SetText();
     }
 
     private void SetText()
     {
-        // Clear everything
-        uic.speakerName.SetText("");
-        uic.dialogueText.gameObject.SetActive(false);
-        uic.dialogueText.SetText("");
-
         // If at the end, don't do anything
         if (ended)
             return;
@@ -98,10 +95,6 @@ public class NPC : MonoBehaviour
         if (handler.currentMessageInfo.Type == QD_NodeType.Message)
         {
             QD_Message message = handler.GetMessage();
-
-            uic.speakerName.SetText(message.SpeakerName);
-            uic.dialogueText.SetText(message.MessageText);
-            uic.dialogueText.gameObject.SetActive(true);
 
             if(message.Clip != null){
                 gc.audioSource.Pause();
@@ -113,17 +106,21 @@ public class NPC : MonoBehaviour
                 gc.audioSource.Play();
             }
 
-            Sprite speakerSprite = handler.dialogue.GetSpeaker(npcName).Icon;
-            uic.speakerImage.sprite = speakerSprite;
+            uic.SetDialogue(message.SpeakerName, handler.dialogue.GetSpeaker(npcName).Icon, message.MessageText);
         }
     }
 
     public void Next(int choice = -1)
     {
-
         if (ended){
             return;
         }
+
+        if(uic.dialogueTextWriter.isWriting){
+            uic.dialogueTextWriter.SkipWriting();
+            return;
+        }
+
         // Go to the next message
         handler.NextMessage(choice);
         // Set the new text
@@ -147,7 +144,7 @@ public class NPC : MonoBehaviour
                 handler.SetConversation(conversationName); // Simple NPCs repeat dialogue
             }
 
-            uic.dialogueObject.SetActive(false);
+            uic.HideDialogue();
             gc.player.lockMovement = false;
         }
     }

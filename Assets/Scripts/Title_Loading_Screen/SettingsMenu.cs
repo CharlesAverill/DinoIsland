@@ -62,14 +62,11 @@ public class SettingsMenu : MonoBehaviour
         mainMenu.SetActive(false);
         settingsMenu.SetActive(true);
 
-        backButton.Select();
         Debug.Log(EventSystem.current.currentSelectedGameObject);
     }
 
     public void switchToMain(){
         mainMenu.SetActive(true);
         settingsMenu.SetActive(false);
-
-        playButton.Select();
     }
 }

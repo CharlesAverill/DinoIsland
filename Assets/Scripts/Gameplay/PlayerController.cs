@@ -226,6 +226,7 @@ public class PlayerController : MonoBehaviour
 
         if(!isGrounded || lockMovement || stickInput == Vector2.zero){
             currentStats.anim.SetBool("isWalking", false);
+            freeLook.m_RecenterToTargetHeading.m_enabled = false;
         }
 
         hitNormal = new Vector3(0, 0, 0);
@@ -239,7 +240,6 @@ public class PlayerController : MonoBehaviour
         if(!uic.isPaused){
             if(ignoreCheckGround){
                 ignoreCheckGroundTimer += 1;
-                Debug.Log("Ignore check ground");
                 isGrounded = false;
                 if(ignoreCheckGroundTimer > ignoreCheckGroundFrames){
                     ignoreCheckGround = false;
@@ -366,7 +366,7 @@ public class PlayerController : MonoBehaviour
             if(horizontalVelocity.magnitude > 0f){
                 freeLook.m_RecenterToTargetHeading.m_enabled = false;
                 currentStats.anim.SetBool("isWalking", true);
-            } else if(!freeLook.m_RecenterToTargetHeading.m_enabled) {
+            } else if(!lockMovement && !freeLook.m_RecenterToTargetHeading.m_enabled) {
                 StartCoroutine(reactivateCameraCenter());
             }
         }
@@ -404,7 +404,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator reactivateCameraCenter(){
         yield return new WaitForSeconds(freeLook.m_RecenterToTargetHeading.m_WaitTime);
-        freeLook.m_RecenterToTargetHeading.m_enabled = true;
+        if(!lockMovement){
+            freeLook.m_RecenterToTargetHeading.m_enabled = true;
+        }
     }
 
     void VerticalMovement(){

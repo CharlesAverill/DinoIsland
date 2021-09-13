@@ -255,8 +255,11 @@ public class LevelManager : MonoBehaviour
 
         // Tell GlobalsController to find player, camera, etc.
         gc.FindAll();
-        // Reset Dialogue UI
-        uic.ResetDialogue();
+
+        if(uic != null){
+            // Reset Dialogue UI
+            uic.ResetDialogue();
+        }
 
         // Reset screen wipe stuff
         if(Camera.main != null){

@@ -28,6 +28,7 @@ public class GlobalsController : MonoBehaviour {
        {"SETTINGS_sensitivity-y", 2f},
        {"SETTINGS_invert-x", true},
        {"SETTINGS_invert-y", false},
+       {"SETTINGS_text-speed", 30},
        {"PLAYER_total-pickups", 0}
     };
 
@@ -71,6 +72,7 @@ public class GlobalsController : MonoBehaviour {
         saveData["SETTINGS_sensitivity-y"] = ES_Save.Load<float>("SETTINGS_sensitivity-y");
         saveData["SETTINGS_invert-x"] = ES_Save.Load<bool>("SETTINGS_invert-x");
         saveData["SETTINGS_invert-y"] = ES_Save.Load<bool>("SETTINGS_invert-y");
+        saveData["SETTINGS_text-speed"] = ES_Save.Load<int>("SETTINGS_text-speed");
         saveData["PLAYER_total-pickups"] = ES_Save.Load<int>("PLAYER_total-pickups");
     }
 
@@ -171,6 +173,20 @@ public class GlobalsController : MonoBehaviour {
     public void updateHealth(float newPercentage){
         if(uic.hudHandler != null){
             uic.hudHandler.updateHealth(newPercentage);
+        }
+    }
+
+    public void updateTextSpeed(int newSpeed){
+        switch(newSpeed){
+            case 0:
+                saveData["SETTINGS_text-speed"] = 15;
+                break;
+            case 1:
+                saveData["SETTINGS_text-speed"] = 25;
+                break;
+            case 2:
+                saveData["SETTINGS_text-speed"] = 40;
+                break;
         }
     }
 }
