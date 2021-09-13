@@ -21,6 +21,8 @@ public class GlobalsController : MonoBehaviour {
 
     public string sceneToLoad;
 
+    public bool enemyFreeze;
+
     public Dictionary<string, dynamic> saveData = new Dictionary<string, dynamic>(){
        {"SAVEDATA_initialized-save", true},
        {"SETTINGS_master-volume", 1f},
@@ -137,6 +139,8 @@ public class GlobalsController : MonoBehaviour {
         } catch {
             Debug.Log("There is no Player object in this Scene");
         }
+
+        currentPickups = saveData["PLAYER_total-pickups"];
     }
 
     public void LoadingScreenToScene(string sceneName){
@@ -162,8 +166,8 @@ public class GlobalsController : MonoBehaviour {
     }
 
     public void addPickups(int deltaPickups){
-        currentPickups += deltaPickups;
-        saveData["PLAYER_total-pickups"] = saveData["PLAYER_total-pickups"] + deltaPickups;
+        currentPickups = Mathf.Min(9999, currentPickups + deltaPickups);
+        saveData["PLAYER_total-pickups"] = currentPickups;
 
         if(uic.hudHandler != null){
             uic.hudHandler.updatePickups(currentPickups);

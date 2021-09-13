@@ -51,6 +51,11 @@ public class Enemy : MonoBehaviour
     Animator anim;
     Rigidbody rb;
 
+    GlobalsController gc;
+
+    Vector3 pausedTargetPosition;
+    bool pausedTargetPositionSet;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,11 +68,25 @@ public class Enemy : MonoBehaviour
 
         agent.enabled = false;
         hurtBox.SetActive(false);
+
+        gc = GlobalsController.Instance;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(gc.enemyFreeze && agent.enabled){
+            if(!pausedTargetPositionSet){
+                pausedTargetPosition = agent.destination;
+                pausedTargetPositionSet = true;
+            }
+            agent.SetDestination(transform.position);
+            return;
+        } else if(pausedTargetPositionSet){
+            agent.SetDestination(pausedTargetPosition);
+            pausedTargetPositionSet = false;
+        }
+
         attackWaitTimer += Time.deltaTime;
         wanderTimer += Time.deltaTime;
 

@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
         VerticalMovement();
         HorizontalMovement();
         GroundMovement();
-        //CameraMovement();
+        CameraMovement();
 
         if(!uic.isPaused){
             if(ignoreCheckGround){
@@ -404,7 +404,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator reactivateCameraCenter(){
         yield return new WaitForSeconds(freeLook.m_RecenterToTargetHeading.m_WaitTime);
-        if(!lockMovement){
+        if(!lockMovement && !(camMode == CameraMode.FromBehind)){
             freeLook.m_RecenterToTargetHeading.m_enabled = true;
         }
     }
@@ -462,6 +462,8 @@ public class PlayerController : MonoBehaviour
             );
 
             transform.eulerAngles = newAngle;
+
+            freeLook.m_RecenterToTargetHeading.m_enabled = false;
         }
     }
 

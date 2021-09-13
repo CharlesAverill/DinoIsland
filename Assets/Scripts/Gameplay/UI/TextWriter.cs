@@ -54,14 +54,17 @@ public class TextWriter : MonoBehaviour
             if(timer <= 0){
                 // Display next character
                 timer = timePerCharacter;
-                textObject.text += writing[charIndex++];
+                charIndex++;
+
+                // Make rest of string invisible so no resize on line break
+                textObject.text = writing.Substring(0, charIndex);
+                textObject.text += "<color=#00000000>" + writing.Substring(charIndex) + "</color>";
 
                 gc.audioSource.time = 0;
                 gc.audioSource.Play();
 
                 if(charIndex >= writing.Length){
-                    // Reset
-                    writing = null;
+                    SkipWriting();
                 }
             }
         }
@@ -80,5 +83,9 @@ public class TextWriter : MonoBehaviour
     public void SkipWriting(){
         textObject.text = writing;
         writing = null;
+
+        gc.audioSource.Pause();
+        gc.audioSource.clip = uic.nextMessageSound;
+        gc.audioSource.Play();
     }
 }

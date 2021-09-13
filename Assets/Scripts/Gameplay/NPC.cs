@@ -74,6 +74,7 @@ public class NPC : MonoBehaviour
         isTalking = true;
 
         gc.player.lockMovement = true;
+        gc.enemyFreeze = true;
 
         if(rotateOnTalk){
             rotateToPlayer = true;
@@ -95,16 +96,6 @@ public class NPC : MonoBehaviour
         if (handler.currentMessageInfo.Type == QD_NodeType.Message)
         {
             QD_Message message = handler.GetMessage();
-
-            if(message.Clip != null){
-                gc.audioSource.Pause();
-                gc.audioSource.clip = message.Clip;
-                gc.audioSource.Play();
-            } else {
-                gc.audioSource.Pause();
-                gc.audioSource.clip = uic.nextMessageSound;
-                gc.audioSource.Play();
-            }
 
             uic.SetDialogue(message.SpeakerName, handler.dialogue.GetSpeaker(npcName).Icon, message.MessageText);
         }
@@ -140,6 +131,7 @@ public class NPC : MonoBehaviour
                 gc.audioSource.Play();
 
                 gc.player.isInteracting = false;
+                gc.enemyFreeze = false;
 
                 handler.SetConversation(conversationName); // Simple NPCs repeat dialogue
             }

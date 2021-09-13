@@ -140,6 +140,8 @@ public class LevelManager : MonoBehaviour
             asyncLoadOperation.allowSceneActivation = false;
         }
 
+        gc.enemyFreeze = true;
+
         // Check for screen wipe
         if(doScreenWipe && maskTextures.Length > 0){
             screenWipeController = Camera.main.GetComponent<ScreenTransitionImageEffect>();
@@ -193,6 +195,8 @@ public class LevelManager : MonoBehaviour
         screenWipeController.enabled = false;
         gc.player.lockMovement = false;
         gc.player.OnControlChange();
+
+        gc.enemyFreeze = false;
     }
 
     IEnumerator LoadSceneHelper(){
@@ -266,6 +270,7 @@ public class LevelManager : MonoBehaviour
             maskTextureOverrideIndex = -1;
             maskInvert = true;
 
+            gc.enemyFreeze = true;
             if(gc.player != null){
                 gc.player.lockMovement = true;
 
