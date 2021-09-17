@@ -150,6 +150,8 @@ public class GlobalsController : MonoBehaviour {
         player.invertY = saveData["SETTINGS_invert-y"];
         player.sensitivityX = saveData["SETTINGS_sensitivity-x"];
         player.sensitivityY = saveData["SETTINGS_sensitivity-y"];
+
+        player.OnControlChange();
     }
 
     public void LoadingScreenToScene(string sceneName){
