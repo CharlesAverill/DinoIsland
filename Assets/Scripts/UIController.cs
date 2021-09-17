@@ -29,6 +29,7 @@ public class UIController : MonoBehaviour
 
     public GameObject pauseMenu;
     public bool isPaused;
+    public bool inSettings;
 
     GlobalsController gc;
 
@@ -88,6 +89,12 @@ public class UIController : MonoBehaviour
 
     public void HideDialogue(){
         dialogueObject.SetActive(false);
+    }
+
+    public void HideAll(){
+        dialogueObject.SetActive(false);
+        pauseMenu.SetActive(false);
+        hudHandler.gameObject.SetActive(false);
     }
 
     public void setMasterVolume(float newVolume){

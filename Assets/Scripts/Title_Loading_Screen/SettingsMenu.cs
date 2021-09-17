@@ -31,7 +31,7 @@ public class SettingsMenu : MonoBehaviour
         gc = GlobalsController.Instance;
 
         mainMenu.SetActive(true);
-        settingsMenu.SetActive(false);
+        settingsMenu.SetActive(true);
 
         volumeSlider.value = gc.saveData["SETTINGS_master-volume"];
         sensitivityX.value = gc.saveData["SETTINGS_sensitivity-x"];
@@ -39,17 +39,45 @@ public class SettingsMenu : MonoBehaviour
         invertX.isOn = gc.saveData["SETTINGS_invert-x"];
         invertY.isOn = gc.saveData["SETTINGS_invert-y"];
         textSpeed.value = gc.saveData["SETTINGS_text-speed"];
+
+        settingsMenu.SetActive(false);
     }
 
     public void switchToSettings(){
         mainMenu.SetActive(false);
         settingsMenu.SetActive(true);
-
-        Debug.Log(EventSystem.current.currentSelectedGameObject);
     }
 
     public void switchToMain(){
         mainMenu.SetActive(true);
         settingsMenu.SetActive(false);
+    }
+
+    public void setMasterVolume(float newVolume){
+        gc.setMasterVolume(newVolume);
+    }
+
+    public void setSensitivityX(float newValue){
+        gc.setSensitivityX(newValue);
+    }
+
+    public void setSensitivityY(float newValue){
+        gc.setSensitivityY(newValue);
+    }
+
+    public void setInvertX(bool newValue){
+        gc.setInvertX(newValue);
+    }
+
+    public void setInvertY(bool newValue){
+        gc.setInvertY(newValue);
+    }
+
+    public void setTextSpeed(int newSpeed){
+        gc.setTextSpeed(newSpeed);
+    }
+
+    public void Quit(){
+        gc.Quit();
     }
 }

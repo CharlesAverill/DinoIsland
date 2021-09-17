@@ -8181,7 +8181,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 910477796}
+      objectReference: {fileID: 4822760587084181009}
+    - target: {fileID: 4822760586542536592, guid: 0e4de81111c9ac511b6bc8b971e27084,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: quitToMainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 4822760586800253225, guid: 0e4de81111c9ac511b6bc8b971e27084,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -8374,6 +8379,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e4de81111c9ac511b6bc8b971e27084, type: 3}
+--- !u!114 &4822760587084181009 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4822760586913696907, guid: 0e4de81111c9ac511b6bc8b971e27084,
+    type: 3}
+  m_PrefabInstance: {fileID: 4822760587084181008}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3190de66c83b312596b296d1d2d9352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4876765338400012426
 PrefabInstance:
   m_ObjectHideFlags: 0

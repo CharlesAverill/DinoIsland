@@ -29,24 +29,30 @@ public class PauseMenu : MonoBehaviour
     public TMP_Dropdown textSpeed;
 
     GlobalsController gc;
+    UIController uic;
 
     // Start is called before the first frame update
     void Start()
     {
         gc = GlobalsController.Instance;
-        UIController uic = UIController.Instance;
+        uic = UIController.Instance;
         uic.pauseMenu = gameObject;
 
         resume.onClick.AddListener(gc.Unpause);
         settings.onClick.AddListener(openSettingsMenu);
-        quit.onClick.AddListener(gc.Quit);
 
         settingsContainer.SetActive(false);
         gameObject.SetActive(false);
     }
 
     void OnEnable(){
-        //EventSystem.current.SetSelectedGameObject(resume.gameObject);
+        if(gc == null){
+            gc = GlobalsController.Instance;
+            uic = UIController.Instance;
+            uic.pauseMenu = gameObject;
+        }
+
+        exitSettingsMenu();
         resume.Select();
         resume.OnSelect(null);
     }
@@ -66,6 +72,8 @@ public class PauseMenu : MonoBehaviour
         invertX.isOn = gc.saveData["SETTINGS_invert-x"];
         invertY.isOn = gc.saveData["SETTINGS_invert-y"];
         textSpeed.value = gc.saveData["SETTINGS_text-speed"];
+
+        uic.inSettings = true;
     }
 
     public void exitSettingsMenu(){
@@ -76,5 +84,12 @@ public class PauseMenu : MonoBehaviour
         resume.gameObject.SetActive(true);
         settings.gameObject.SetActive(true);
         quit.gameObject.SetActive(true);
+
+        uic.inSettings = false;
+    }
+
+    public void quitToMainMenu(){
+        uic.HideAll();
+        gc.LoadingScreenToScene("Title");
     }
 }

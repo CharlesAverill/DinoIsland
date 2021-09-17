@@ -185,7 +185,9 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(.25f);
             for(int i = 0; i < 64; i++){
                 screenWipeController.maskValue = Mathf.Lerp(1, 0, step * i);
-                bgMusic.volume = Mathf.Lerp(maxVolume / 2f, maxVolume, step * i);
+                if(bgMusic != null){
+                    bgMusic.volume = Mathf.Lerp(maxVolume / 2f, maxVolume, step * i);
+                }
                 yield return new WaitForSeconds(step / 2f);
             }
         } else {
@@ -272,7 +274,11 @@ public class LevelManager : MonoBehaviour
             uic.ResetDialogue();
         }
 
-        bgMusic = GameObject.FindWithTag("Music").GetComponent<AudioSource>();
+        try {
+            bgMusic = GameObject.FindWithTag("Music").GetComponent<AudioSource>();
+        } catch {
+            Debug.Log("There is no background music in this scene");
+        }
 
         // Reset screen wipe stuff
         if(Camera.main != null){

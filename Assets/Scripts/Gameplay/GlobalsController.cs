@@ -119,7 +119,7 @@ public class GlobalsController : MonoBehaviour {
 
         player.justUnpausedGroundCheck = true;
 
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
@@ -142,6 +142,10 @@ public class GlobalsController : MonoBehaviour {
     }
 
     private void liveUpdatePlayerSettings(){
+        if(player == null){
+            return;
+        }
+
         player.invertX = saveData["SETTINGS_invert-x"];
         player.invertY = saveData["SETTINGS_invert-y"];
         player.sensitivityX = saveData["SETTINGS_sensitivity-x"];
@@ -149,6 +153,12 @@ public class GlobalsController : MonoBehaviour {
     }
 
     public void LoadingScreenToScene(string sceneName){
+        if(uic != null){
+            AudioListener.pause = false;
+            uic.isPaused = false;
+            uic.pauseMenu.SetActive(false);
+            Time.timeScale = 1f;
+        }
         LevelManager.Instance.LoadScene(sceneName, showLoadingScreen: true);
     }
 
@@ -229,7 +239,9 @@ public class GlobalsController : MonoBehaviour {
                 break;
         }
 
-        uic.dialogueTextWriter.writeSpeed = writeSpeed;
         saveData["SETTINGS_text-speed"] = newSpeed;
+        if(uic != null){
+            uic.dialogueTextWriter.writeSpeed = writeSpeed;
+        }
     }
 }
