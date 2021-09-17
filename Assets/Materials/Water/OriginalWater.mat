@@ -111,7 +111,7 @@ Material:
     - _VMovement: 0.13
     - _VScaler: 0.279
     - _WaterSineAmount: 5.78
-    - _WaveAmp: 1
+    - _WaveAmp: 0.193
     - _WaveOffset: 1.57
     - _WaveSpeed: 2.4
     - _ZWrite: 1

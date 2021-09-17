@@ -76,6 +76,8 @@ public class GlobalsController : MonoBehaviour {
         saveData["SETTINGS_invert-y"] = ES_Save.Load<bool>("SETTINGS_invert-y");
         saveData["SETTINGS_text-speed"] = ES_Save.Load<int>("SETTINGS_text-speed");
         saveData["PLAYER_total-pickups"] = ES_Save.Load<int>("PLAYER_total-pickups");
+
+        AudioListener.volume = saveData["SETTINGS_master-volume"];
     }
 
     void DeleteSaveData(){
@@ -131,16 +133,19 @@ public class GlobalsController : MonoBehaviour {
 
         try{
             player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-
-            player.invertX = saveData["SETTINGS_invert-x"];
-            player.invertY = saveData["SETTINGS_invert-y"];
-            player.sensitivityX = saveData["SETTINGS_sensitivity-x"];
-            player.sensitivityY = saveData["SETTINGS_sensitivity-y"];
+            liveUpdatePlayerSettings();
         } catch {
             Debug.Log("There is no Player object in this Scene");
         }
 
         currentPickups = saveData["PLAYER_total-pickups"];
+    }
+
+    private void liveUpdatePlayerSettings(){
+        player.invertX = saveData["SETTINGS_invert-x"];
+        player.invertY = saveData["SETTINGS_invert-y"];
+        player.sensitivityX = saveData["SETTINGS_sensitivity-x"];
+        player.sensitivityY = saveData["SETTINGS_sensitivity-y"];
     }
 
     public void LoadingScreenToScene(string sceneName){
@@ -180,17 +185,51 @@ public class GlobalsController : MonoBehaviour {
         }
     }
 
-    public void updateTextSpeed(int newSpeed){
+    public void setMasterVolume(float newVolume){
+        saveData["SETTINGS_master-volume"] = newVolume;
+        AudioListener.volume = newVolume;
+    }
+
+    public void setSensitivityX(float newValue){
+        saveData["SETTINGS_sensitivity-x"] = newValue;
+        liveUpdatePlayerSettings();
+    }
+
+    public void setSensitivityY(float newValue){
+        saveData["SETTINGS_sensitivity-y"] = newValue;
+        liveUpdatePlayerSettings();
+    }
+
+    public void setInvertX(bool newValue){
+        saveData["SETTINGS_invert-x"] = newValue;
+        liveUpdatePlayerSettings();
+    }
+
+    public void setInvertY(bool newValue){
+        saveData["SETTINGS_invert-y"] = newValue;
+        liveUpdatePlayerSettings();
+    }
+
+    public void setTextSpeed(int newSpeed=-1){
+        if(newSpeed == -1){
+            newSpeed = saveData["SETTINGS_text-speed"];
+        }
+
+        int writeSpeed = 25;
+
         switch(newSpeed){
             case 0:
-                saveData["SETTINGS_text-speed"] = 15;
+                writeSpeed = 15;
                 break;
             case 1:
-                saveData["SETTINGS_text-speed"] = 25;
+                writeSpeed = 25;
                 break;
             case 2:
-                saveData["SETTINGS_text-speed"] = 40;
+                writeSpeed = 40;
                 break;
         }
+
+        uic.dialogueTextWriter.writeSpeed = writeSpeed;
+        saveData["SETTINGS_text-speed"] = newSpeed;
     }
 }

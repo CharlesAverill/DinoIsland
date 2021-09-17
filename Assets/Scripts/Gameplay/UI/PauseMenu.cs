@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -7,19 +8,40 @@ using UnityEngine.EventSystems;
 public class PauseMenu : MonoBehaviour
 {
 
+    public GameObject background;
+    public GameObject title;
+    public GameObject settingsContainer;
+
     public Button resume;
+    public Button settings;
     public Button quit;
+
+    public Button backButton;
+
+    public Slider volumeSlider;
+
+    public Slider sensitivityX;
+    public Slider sensitivityY;
+
+    public Toggle invertX;
+    public Toggle invertY;
+
+    public TMP_Dropdown textSpeed;
+
+    GlobalsController gc;
 
     // Start is called before the first frame update
     void Start()
     {
-        GlobalsController gc = GlobalsController.Instance;
+        gc = GlobalsController.Instance;
         UIController uic = UIController.Instance;
         uic.pauseMenu = gameObject;
 
         resume.onClick.AddListener(gc.Unpause);
+        settings.onClick.AddListener(openSettingsMenu);
         quit.onClick.AddListener(gc.Quit);
 
+        settingsContainer.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -27,5 +49,32 @@ public class PauseMenu : MonoBehaviour
         //EventSystem.current.SetSelectedGameObject(resume.gameObject);
         resume.Select();
         resume.OnSelect(null);
+    }
+
+    public void openSettingsMenu(){
+        title.SetActive(false);
+        background.SetActive(false);
+        resume.gameObject.SetActive(false);
+        settings.gameObject.SetActive(false);
+        quit.gameObject.SetActive(false);
+
+        settingsContainer.SetActive(true);
+
+        volumeSlider.value = gc.saveData["SETTINGS_master-volume"];
+        sensitivityX.value = gc.saveData["SETTINGS_sensitivity-x"];
+        sensitivityY.value = gc.saveData["SETTINGS_sensitivity-y"];
+        invertX.isOn = gc.saveData["SETTINGS_invert-x"];
+        invertY.isOn = gc.saveData["SETTINGS_invert-y"];
+        textSpeed.value = gc.saveData["SETTINGS_text-speed"];
+    }
+
+    public void exitSettingsMenu(){
+        settingsContainer.SetActive(false);
+
+        title.SetActive(true);
+        background.SetActive(true);
+        resume.gameObject.SetActive(true);
+        settings.gameObject.SetActive(true);
+        quit.gameObject.SetActive(true);
     }
 }

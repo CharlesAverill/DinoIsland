@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,6 +22,8 @@ public class SettingsMenu : MonoBehaviour
     public Toggle invertX;
     public Toggle invertY;
 
+    public TMP_Dropdown textSpeed;
+
     GlobalsController gc;
 
     void Start()
@@ -35,27 +38,7 @@ public class SettingsMenu : MonoBehaviour
         sensitivityY.value = gc.saveData["SETTINGS_sensitivity-y"];
         invertX.isOn = gc.saveData["SETTINGS_invert-x"];
         invertY.isOn = gc.saveData["SETTINGS_invert-y"];
-    }
-
-    public void setMasterVolume(float newVolume){
-        gc.saveData["SETTINGS_master-volume"] = newVolume;
-        AudioListener.volume = newVolume;
-    }
-
-    public void setSensitivityX(float newValue){
-        gc.saveData["SETTINGS_sensitivity-x"] = newValue;
-    }
-
-    public void setSensitivityY(float newValue){
-        gc.saveData["SETTINGS_sensitivity-y"] = newValue;
-    }
-
-    public void setInvertX(bool newValue){
-        gc.saveData["SETTINGS_invert-x"] = newValue;
-    }
-
-    public void setInvertY(bool newValue){
-        gc.saveData["SETTINGS_invert-y"] = newValue;
+        textSpeed.value = gc.saveData["SETTINGS_text-speed"];
     }
 
     public void switchToSettings(){

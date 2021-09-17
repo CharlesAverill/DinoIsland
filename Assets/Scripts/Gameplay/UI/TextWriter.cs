@@ -32,8 +32,6 @@ public class TextWriter : MonoBehaviour
             textObject = gameObject.GetComponent<TMP_Text>();
         }
 
-        timePerCharacter = 1f / writeSpeed;
-
         writing = null;
         textObject.text = "";
         charIndex = 0;
@@ -43,7 +41,10 @@ public class TextWriter : MonoBehaviour
         if(gc == null || uic == null){
             gc = GlobalsController.Instance;
             uic = UIController.Instance;
+
+            gc.setTextSpeed();
         }
+        timePerCharacter = 1f / writeSpeed;
     }
 
     // Update is called once per frame

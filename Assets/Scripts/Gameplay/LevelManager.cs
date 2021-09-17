@@ -42,6 +42,8 @@ public class LevelManager : MonoBehaviour
     public int maskTextureOverrideIndex = -1;
     public bool maskInvert;
 
+    AudioSource bgMusic;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -175,21 +177,26 @@ public class LevelManager : MonoBehaviour
 
         // Screen Wipe
         screenWipeController.maskValue = maskInvert ? 1f : 0f;
+        float maxVolume = bgMusic.volume;
 
         float step = 1f / 64f;
         if(maskInvert){
+            bgMusic.volume /= 2f;
             yield return new WaitForSeconds(.25f);
-            for(int i = 63; i >=0; i--){
-                screenWipeController.maskValue -= step;
+            for(int i = 0; i < 64; i++){
+                screenWipeController.maskValue = Mathf.Lerp(1, 0, step * i);
+                bgMusic.volume = Mathf.Lerp(maxVolume / 2f, maxVolume, step * i);
                 yield return new WaitForSeconds(step / 2f);
             }
         } else {
             for(int i = 0; i < 64; i++){
-                screenWipeController.maskValue = step * i;
-                yield return new WaitForSeconds(step / 3f);
+                screenWipeController.maskValue = Mathf.Lerp(0, 1, step * i);
+                bgMusic.volume = Mathf.Lerp(maxVolume, maxVolume / 2f, step * i);
+                yield return new WaitForSeconds(step / 2f);
             }
         }
         screenWipeController.maskValue = maskInvert ? 0f : 1f;
+        //bgMusic.volume = maskInvert ? maxVolume : maxVolume / 2f;
 
         maskInvert = false;
         screenWipeController.enabled = false;
@@ -264,6 +271,8 @@ public class LevelManager : MonoBehaviour
             // Reset Dialogue UI
             uic.ResetDialogue();
         }
+
+        bgMusic = GameObject.FindWithTag("Music").GetComponent<AudioSource>();
 
         // Reset screen wipe stuff
         if(Camera.main != null){

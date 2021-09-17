@@ -60,7 +60,7 @@ public class UIController : MonoBehaviour
         gc = GlobalsController.Instance;
 
         dialogueHandler = null;
-        dialogueTextWriter.writeSpeed = gc.saveData["SETTINGS_text-speed"];
+        gc.setTextSpeed();
         dialogueObject.SetActive(false);
     }
 
@@ -88,5 +88,29 @@ public class UIController : MonoBehaviour
 
     public void HideDialogue(){
         dialogueObject.SetActive(false);
+    }
+
+    public void setMasterVolume(float newVolume){
+        gc.setMasterVolume(newVolume);
+    }
+
+    public void setSensitivityX(float newValue){
+        gc.setSensitivityX(newValue);
+    }
+
+    public void setSensitivityY(float newValue){
+        gc.setSensitivityY(newValue);
+    }
+
+    public void setInvertX(bool newValue){
+        gc.setInvertX(newValue);
+    }
+
+    public void setInvertY(bool newValue){
+        gc.setInvertY(newValue);
+    }
+
+    public void setTextSpeed(int newSpeed){
+        gc.setTextSpeed(newSpeed);
     }
 }
