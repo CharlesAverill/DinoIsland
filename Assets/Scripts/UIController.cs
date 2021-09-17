@@ -63,6 +63,10 @@ public class UIController : MonoBehaviour
         dialogueHandler = null;
         gc.setTextSpeed();
         dialogueObject.SetActive(false);
+
+        if(pauseMenu == null){
+            pauseMenu = GameObject.FindWithTag("PauseMenu");
+        }
     }
 
     // Cache the dialogueHandler object

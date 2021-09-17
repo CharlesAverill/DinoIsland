@@ -36,7 +36,7 @@ public class PauseMenu : MonoBehaviour
     {
         gc = GlobalsController.Instance;
         uic = UIController.Instance;
-        uic.pauseMenu = gameObject;
+        //uic.pauseMenu = gameObject;
 
         resume.onClick.AddListener(gc.Unpause);
         settings.onClick.AddListener(openSettingsMenu);
@@ -49,7 +49,7 @@ public class PauseMenu : MonoBehaviour
         if(gc == null){
             gc = GlobalsController.Instance;
             uic = UIController.Instance;
-            uic.pauseMenu = gameObject;
+            //uic.pauseMenu = gameObject;
         }
 
         exitSettingsMenu();

@@ -119,7 +119,7 @@ public class GlobalsController : MonoBehaviour {
 
         player.justUnpausedGroundCheck = true;
 
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
