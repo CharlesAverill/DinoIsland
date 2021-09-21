@@ -83,6 +83,10 @@ public class PlayerController : MonoBehaviour
     }
     [Space(5)]
 
+    [Header("Is Underwater")]
+    public bool isUnderwater;
+    [Space(5)]
+
     [Header("Jump, Falling Physics")]
     public Vector3 hitNormal;
     public float distanceToGround;
@@ -92,6 +96,8 @@ public class PlayerController : MonoBehaviour
     public bool isJumping;
     public bool isFalling;
     private bool triedJump;
+
+    public float fallSpeedMultiplier = 1f;
 
     private float jumpElapsedTime;
     private ButtonState previousJumpButtonState;
@@ -127,6 +133,8 @@ public class PlayerController : MonoBehaviour
     public bool isLaunching;
 
     public bool justUnpausedGroundCheck;
+
+    public Transform headTop;
     [Space(5)]
 
     [Header("NPC Interaction")]
@@ -297,6 +305,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        currentStats.anim.speed = 1f;
+
         currentStatIndex = newIndex;
         currentStats = characterStats[currentStatIndex];
         DisableCharactersExcept(currentStatIndex);
@@ -435,9 +445,9 @@ public class PlayerController : MonoBehaviour
 
         isFalling = isJumping && verticalVelocity < 0;
 
-        if(verticalVelocity < currentStats.maxFallSpeed)
+        if(verticalVelocity < currentStats.maxFallSpeed * fallSpeedMultiplier)
         {
-            verticalVelocity = currentStats.maxFallSpeed;
+            verticalVelocity = currentStats.maxFallSpeed * fallSpeedMultiplier;
         }
 
         // Ground snap stuff
@@ -469,7 +479,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerAudio(){
         // Walking
-        if(isGrounded && !lockMovement && !isInteracting && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
+        if(isGrounded && !isUnderwater && !lockMovement && !isInteracting && horizontalVelocity.magnitude > 0f && !playerAudioSource.isPlaying){
             playerAudioSource.clip = currentStats.footstepClip;
             playerAudioSource.Play();
         }
@@ -507,7 +517,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Fall(){
-        verticalVelocity += Physics.gravity.y * Time.deltaTime * currentStats.fallSpeed;
+        verticalVelocity += Physics.gravity.y * Time.deltaTime * currentStats.fallSpeed * (isFalling ? fallSpeedMultiplier : 1f);
     }
 
     void LedgeGrab(){
@@ -582,14 +592,14 @@ public class PlayerController : MonoBehaviour
         {
             if(CanJump)
             {
-                verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed);
+                verticalVelocity = Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed) * fallSpeedMultiplier;
 
                 isJumping = true;
                 heldJumpInAir = true;
             }
             else if(CanContinueJump)
             {
-                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed) * currentStats.highJumpMultiplier;
+                verticalVelocity += Mathf.Sqrt(currentStats.jumpHeight * -2f * Physics.gravity.y * currentStats.fallSpeed) * currentStats.highJumpMultiplier * fallSpeedMultiplier;
                 isJumping = true;
             }
             jumpElapsedTime += Time.deltaTime;
@@ -672,6 +682,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider other){
+        if(other.gameObject.layer == CONSTANTS.WATER_LAYER && headTop.position.y < other.gameObject.transform.position.y){
+            OnEnterWater();
+        }
+    }
+
+    void OnTriggerExit(Collider other){
+        if(other.gameObject.layer == CONSTANTS.WATER_LAYER){
+            OnExitWater();
+        }
+    }
+
     public void OnControlChange(){
         /*
         X Axis inverted on gamepad
@@ -682,6 +704,20 @@ public class PlayerController : MonoBehaviour
 
         freeLook.m_XAxis.m_InvertInput = invertX;
         freeLook.m_YAxis.m_InvertInput = invertY;
+    }
+
+    public void OnEnterWater(){
+        Debug.Log("Enter");
+        isUnderwater = true;
+        fallSpeedMultiplier = .7f;
+        currentStats.anim.speed = .5f;
+    }
+
+    public void OnExitWater(){
+        Debug.Log("Exit");
+        isUnderwater = false;
+        fallSpeedMultiplier = 1f;
+        currentStats.anim.speed = 1f;
     }
 
     void Interact(){

@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
     public int maskTextureOverrideIndex = -1;
     public bool maskInvert;
 
-    AudioSource bgMusic;
+    public AudioSource bgMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -272,6 +272,12 @@ public class LevelManager : MonoBehaviour
         if(uic != null){
             // Reset Dialogue UI
             uic.ResetDialogue();
+        }
+
+        if(SceneConfigs.Instance != null){
+            SceneConfigs.Instance.LoadConfigs();
+        } else {
+            Debug.Log("Sceneconfigs null");
         }
 
         try {

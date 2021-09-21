@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CONSTANTS : MonoBehaviour
 {
+    public const int WATER_LAYER = 4;
     public const int GROUND_LAYER = 8;
     public const int PUSHABLE_LAYER = 9;
     public const int NPC_LAYER = 10;
